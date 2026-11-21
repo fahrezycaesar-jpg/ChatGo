@@ -115,14 +115,20 @@ img{display:block;max-width:100%;}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-sm);}
 .tag{font-size:11px;line-height:1;}
 
+/* CSS untuk Select Mode Chat */
 .chat-item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:10px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .14s ease,background .16s,box-shadow .16s;}
 .chat-item:active{transform:scale(.988);background:#fbfdfc;box-shadow:0 1px 4px rgba(16,64,54,.06);}
+.chat-item.selected {border-color: var(--primary); background: var(--primary-soft);}
+.chat-checkbox { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ccc; display: none; flex-shrink: 0; }
+.select-mode-active .chat-checkbox { display: block; }
+.chat-item.selected .chat-checkbox { background: var(--primary); border-color: var(--primary); position:relative;}
+.chat-item.selected .chat-checkbox::after { content:"✓"; position:absolute; color:#fff; font-size:12px; font-weight:bold; top:-2px; left:4px;}
 .chat-item-body{flex:1;min-width:0;}
-.chat-item-top{display:flex;align-items:baseline;gap:8px;}
-.chat-item-name{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;}
-.chat-item-time{font-size:11px;color:var(--muted);flex-shrink:0;font-weight:600;}
-.chat-item-preview{display:flex;align-items:center;gap:8px;margin-top:3px;font-size:13px;color:var(--muted);}
-.chat-item-preview>span{flex:1;min-width:0;}
+.chat-top{display:flex;align-items:baseline;gap:8px;}
+.chat-name{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;}
+.chat-time{font-size:11px;color:var(--muted);flex-shrink:0;font-weight:600;}
+.chat-preview{display:flex;align-items:center;gap:8px;margin-top:3px;font-size:13px;color:var(--muted);}
+.chat-preview>span{flex:1;min-width:0;}
 
 .status-add{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;transition:background .16s;}
 .status-add:active{background:#fbfdfc;}
@@ -180,6 +186,10 @@ img{display:block;max-width:100%;}
 .fab{position:absolute;z-index:15;right:16px;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));width:56px;height:56px;display:grid;place-items:center;border-radius:50%;font-size:27px;font-weight:400;line-height:1;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:var(--shadow-lg);transition:transform .14s ease,box-shadow .18s;}
 .fab:active{transform:scale(.92);box-shadow:0 8px 18px rgba(10,124,102,.3);}
 
+/* Topbar Select Actions */
+.select-actions { display: flex; gap:10px; margin-top:15px; }
+.select-actions .btn { flex:1; padding:10px; font-size:13px; }
+
 #screen-chat{background:#e9efee;}
 .chat-topbar{position:relative;z-index:6;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 10px 12px;background:linear-gradient(150deg,#13c08d 0%,#0fa585 55%,#0a7c66 100%);color:#fff;box-shadow:0 6px 18px rgba(10,80,66,.22);}
 .chat-topbar-info{flex:1;min-width:0;}
@@ -190,9 +200,11 @@ img{display:block;max-width:100%;}
 .msg{display:flex;max-width:84%;}
 .msg.in{align-self:flex-start;justify-content:flex-start;}
 .msg.out{align-self:flex-end;justify-content:flex-end;}
+.msg.sys { align-self: center; justify-content: center; margin: 4px 0; max-width: 90%; }
 .bubble{position:relative;padding:9px 13px 8px;border-radius:17px;font-size:14.5px;line-height:1.45;word-break:break-word;box-shadow:0 2px 7px rgba(16,64,54,.09);cursor:pointer;}
 .msg.in .bubble{background:#fff;color:var(--text);border-top-left-radius:6px;}
 .msg.out .bubble{background:linear-gradient(135deg,var(--primary-2),#0a9e83);color:#fff;border-top-right-radius:6px;}
+.msg.sys .bubble{background:rgba(255,255,255,.7);color:#555;font-size:12px;font-style:italic;text-align:center;border-radius:10px; box-shadow:none; padding:5px 12px; cursor:default;}
 .bubble .meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:3px;font-size:10px;opacity:.75;white-space:nowrap;}
 .msg.out .bubble .meta{color:rgba(255,255,255,.9);}
 .checks{font-size:11px;letter-spacing:-1px;color:rgba(255,255,255,.65);}
@@ -252,12 +264,24 @@ img{display:block;max-width:100%;}
 
 /* CSS untuk Centang Biru */
 .tick-svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; fill: #1D9BF0; flex-shrink: 0; }
+
+/* Style Khusus Pengaturan Grup */
+.settings-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
+.settings-header .avatar { width: 70px; height: 70px; font-size: 24px; }
+.settings-group-title { font-size: 18px; font-weight: 800; margin: 0; text-align: center; }
+.member-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f1f6f4; }
+.member-item:last-child { border-bottom: none; }
+.member-info { flex: 1; min-width: 0; }
+.member-info strong { display: flex; align-items: center; gap: 4px; font-size: 14.5px; }
+.badge-admin { font-size: 10px; background: #e0f2fe; color: #0284c7; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+.badge-owner { font-size: 10px; background: #fef08a; color: #854d0e; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
 </style>
 </head>
 <body>
 
 <div class="app-shell" id="app-shell">
 
+  <!-- AUTH -->
   <section id="screen-auth" class="screen active">
     <div class="auth-scroll">
       <div class="auth-hero">
@@ -279,7 +303,6 @@ img{display:block;max-width:100%;}
           <div class="input-wrap"><input id="login-pass" type="password" placeholder="••••••" autocomplete="current-password" required></div>
         </label>
         <button type="submit" class="btn btn-primary" id="btn-login">Masuk</button>
-        <p class="auth-note">Belum punya akun? Ketuk tab <b>Daftar</b> di atas.</p>
       </form>
       <form id="form-register" class="auth-form hidden">
         <label class="field"><span>Nama Tampilan</span>
@@ -295,11 +318,11 @@ img{display:block;max-width:100%;}
           <div class="input-wrap"><input id="reg-pass" type="password" placeholder="Minimal 6 karakter" minlength="6" autocomplete="new-password" required></div>
         </label>
         <button type="submit" class="btn btn-primary" id="btn-register">Buat Akun</button>
-        <p class="auth-note">Dengan mendaftar, kamu menyetujui Ketentuan &amp; Kebijakan Privasi ChatGo.</p>
       </form>
     </div>
   </section>
 
+  <!-- HOME -->
   <section id="screen-home" class="screen hidden">
     <header class="topbar">
       <div class="topbar-row">
@@ -307,14 +330,26 @@ img{display:block;max-width:100%;}
           <p class="topbar-hello">Selamat datang,</p>
           <h1 class="topbar-title"><span id="topbar-name">—</span></h1>
         </div>
-        <div class="topbar-actions">
+        <div class="topbar-actions" id="topbar-actions">
+          <button type="button" class="icon-btn ghost-light" id="btn-select-mode" title="Pilih Chat">☑️</button>
           <button type="button" class="icon-btn ghost-light" id="btn-focus" title="Mode Fokus">🌙</button>
           <button type="button" class="icon-btn ghost-light" id="btn-logout" title="Keluar">⏻</button>
         </div>
       </div>
-      <div class="search-wrap">
-        <span class="search-ico">🔍</span>
-        <input id="search-input" type="text" placeholder="Cari chat atau username…" autocomplete="off">
+      
+      <!-- Search / Select Bar -->
+      <div id="search-container">
+        <div class="search-wrap">
+          <span class="search-ico">🔍</span>
+          <input id="search-input" type="text" placeholder="Cari chat atau username…" autocomplete="off">
+        </div>
+      </div>
+      <div id="select-container" class="hidden">
+        <div class="select-actions">
+          <button class="btn btn-soft" id="btn-select-all">Pilih Semua</button>
+          <button class="btn btn-danger" id="btn-hide-selected">Sembunyikan</button>
+          <button class="btn btn-soft" id="btn-cancel-select">Batal</button>
+        </div>
       </div>
     </header>
 
@@ -380,8 +415,6 @@ img{display:block;max-width:100%;}
             <span><span class="row-ico">⏻</span>Keluar Akun</span><span class="chev">›</span>
           </button>
         </div>
-
-        <p class="muted small center" style="padding:20px 0 6px">ChatGo v1.0 · Firebase + Cloudinary</p>
       </div>
     </main>
 
@@ -395,8 +428,9 @@ img{display:block;max-width:100%;}
     </nav>
   </section>
 
+  <!-- CHAT -->
   <section id="screen-chat" class="screen hidden">
-    <header class="chat-topbar">
+    <header class="chat-topbar" id="chat-header" style="cursor:pointer;">
       <button type="button" class="icon-btn ghost-light" id="chat-back">←</button>
       <div class="avatar sm" id="chat-avatar" style="--a:#12b886;--b:#0a7c66">?</div>
       <div class="chat-topbar-info">
@@ -456,7 +490,6 @@ const db = initializeFirestore(app, {
   useFetchStreams: false
 });
 
-/* ===== CLOUDINARY ===== */
 const CLOUDINARY_CLOUD_NAME = "dyytjk3ho";
 const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
@@ -465,39 +498,21 @@ async function uploadToCloudinary(file) {
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-
   let response;
-  try {
-    response = await fetch(url, { method: "POST", body: formData });
-  } catch (netErr) {
-    throw new Error("Koneksi gagal. Periksa internet Anda.");
-  }
-
-  if (!response.ok) {
-    let msg = "Gagal mengunggah";
-    try {
-      const errorData = await response.json();
-      msg = errorData.error?.message || msg;
-    } catch { msg = `Upload error (HTTP ${response.status})`; }
-    if (/preset/i.test(msg)) {
-      msg = "Upload preset Cloudinary tidak valid. Pastikan nama 'chatgo_preset' sama persis dan bertipe Unsigned.";
-    }
-    throw new Error(msg);
-  }
+  try { response = await fetch(url, { method: "POST", body: formData }); } catch (e) { throw new Error("Koneksi gagal."); }
+  if (!response.ok) { let m="Gagal"; try{ const d=await response.json(); m=d.error?.message||m; }catch{} throw new Error(m); }
   const data = await response.json();
-  if (!data.secure_url) throw new Error("Respons upload tidak valid");
   return data.secure_url;
 }
 
-/* ===== SVG CENTANG BIRU ===== */
 const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L14.5 5.5L18.5 4.5L19.5 8.5L23 11L20.5 14.5L21.5 18.5L17.5 19.5L15 23L11.5 20.5L7.5 21.5L6.5 17.5L3 15L5.5 11.5L4.5 7.5L8.5 6.5L11 3L12 2Z"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
 
-/* ===== STATE ===== */
 const STATE = {
   uid: null, me: null,
   chats: [], requests: [], statuses: [],
   currentChat: null, replyTo: null, timerSec: 0,
-  unsubChats: null, unsubMsgs: null, unsubRequests: null, unsubStatuses: null
+  unsubChats: null, unsubMsgs: null, unsubRequests: null, unsubStatuses: null,
+  isSelectMode: false, selectedChats: new Set()
 };
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -512,11 +527,8 @@ const fmtRel = ts => { if (!ts) return ''; const d = ts.toDate ? ts.toDate() : n
 
 let toastTimer;
 function toast(msg) {
-  const el = $('#toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+  const el = $('#toast'); el.textContent = msg; el.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
 }
 
 function showScreen(id) {
@@ -539,8 +551,7 @@ function setAvatarEl(el, name, photo, extraCls = '') {
   if (!el) return;
   el.className = 'avatar' + (extraCls ? ' ' + extraCls : '');
   const [a, b] = colorFor(name || '?');
-  el.style.setProperty('--a', a);
-  el.style.setProperty('--b', b);
+  el.style.setProperty('--a', a); el.style.setProperty('--b', b);
   if (photo) el.innerHTML = `<img src="${esc(photo)}" alt="">`;
   else el.innerHTML = esc(initialsFor(name));
 }
@@ -554,111 +565,47 @@ function showModal(html, onMount) {
   });
   if (onMount) onMount(root);
 }
-function closeModal() {
-  const root = $('#modal-root');
-  root.innerHTML = '';
-  root.classList.add('hidden');
-}
+function closeModal() { const root = $('#modal-root'); root.innerHTML = ''; root.classList.add('hidden'); }
 
-/* ============================================================
-   AUTH
-   ============================================================ */
+/* AUTH */
 async function registerUser(displayName, username, password) {
   const uname = username.toLowerCase().trim();
-  if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter (huruf kecil, angka, _)');
+  if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter');
   if (password.length < 6) throw new Error('Password minimal 6 karakter');
   if (!displayName.trim()) throw new Error('Nama tampilan wajib');
-
-  try {
-    const unameSnap = await getDoc(doc(db, 'usernames', uname));
-    if (unameSnap.exists()) throw new Error('Username sudah dipakai');
-  } catch (e) {
-    if (e.message === 'Username sudah dipakai') throw e;
-    throw new Error('Tidak dapat memeriksa username: ' + (e.code || e.message || 'cek koneksi'));
-  }
-
-  let cred;
-  try {
-    cred = await createUserWithEmailAndPassword(auth, emailFor(uname), password);
-  } catch (err) {
-    const code = err.code || '';
-    if (code === 'auth/email-already-in-use') throw new Error('Username sudah terdaftar. Coba login atau gunakan username lain.');
-    if (code === 'auth/operation-not-allowed') throw new Error('Login Email/Password belum diaktifkan di Firebase Console.');
-    if (code === 'auth/invalid-email') throw new Error('Format username tidak valid.');
-    if (code === 'auth/weak-password') throw new Error('Password terlalu lemah.');
-    throw new Error(err.message || 'Gagal membuat akun');
-  }
-
+  const unameSnap = await getDoc(doc(db, 'usernames', uname));
+  if (unameSnap.exists()) throw new Error('Username sudah dipakai');
+  const cred = await createUserWithEmailAndPassword(auth, emailFor(uname), password);
   const uid = cred.user.uid;
-
-  try {
-    await setDoc(doc(db, 'usernames', uname), { uid, createdAt: serverTimestamp() });
-    await setDoc(doc(db, 'users', uid), {
-      displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
-      privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
-      blocked: [], isVerified: false, isBanned: false, createdAt: serverTimestamp()
-    });
-    await addDoc(collection(db, 'chats'), {
-      type: 'self', name: 'Catatan Pribadi', members: [uid],
-      lastMessage: { text: 'Pesan tersimpan untuk diri sendiri', senderId: uid, senderName: displayName },
-      updatedAt: serverTimestamp(), createdAt: serverTimestamp()
-    });
-  } catch (e) {
-    try { await cred.user.delete(); } catch {}
-    console.error('REGISTER FIRESTORE ERROR:', e);
-    throw new Error('Gagal menyimpan data akun. ' + (e.code || e.message || ''));
-  }
+  await setDoc(doc(db, 'usernames', uname), { uid, createdAt: serverTimestamp() });
+  await setDoc(doc(db, 'users', uid), {
+    displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
+    privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
+    blocked: [], hiddenChats: [], isVerified: false, isBanned: false, createdAt: serverTimestamp()
+  });
+  await addDoc(collection(db, 'chats'), {
+    type: 'self', name: 'Catatan Pribadi', members: [uid],
+    lastMessage: { text: 'Pesan tersimpan', senderId: uid, senderName: displayName },
+    updatedAt: serverTimestamp(), createdAt: serverTimestamp()
+  });
 }
 
 async function loginUser(username, password) {
-  const uname = username.toLowerCase().trim();
-  return signInWithEmailAndPassword(auth, emailFor(uname), password);
+  return signInWithEmailAndPassword(auth, emailFor(username.toLowerCase().trim()), password);
 }
 
 async function loadProfileAndShow(user) {
   let snap = null;
-  let lastErr = null;
-  for (let i = 0; i < 25; i++) {
-    try {
-      snap = await getDoc(doc(db, 'users', user.uid));
-      if (snap.exists()) break;
-    } catch (e) { lastErr = e; console.warn('profile load retry', i, e); }
-    await new Promise(r => setTimeout(r, 400));
+  for (let i = 0; i < 10; i++) {
+    snap = await getDoc(doc(db, 'users', user.uid));
+    if (snap.exists()) break;
+    await new Promise(r => setTimeout(r, 500));
   }
-
-  if (!snap || !snap.exists()) {
-    showModal(`
-      <div class="modal-header"><h3>Gagal Memuat Profil</h3></div>
-      <div class="modal-body">
-        <p class="muted small">Tidak dapat memuat profil. Periksa koneksi lalu coba lagi, atau logout dan login ulang.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-soft" id="retry-logout">Logout</button>
-        <button class="btn btn-primary" id="retry-load">Coba Lagi</button>
-      </div>
-    `, root => {
-      root.querySelector('#retry-logout').onclick = () => { closeModal(); signOut(auth); };
-      root.querySelector('#retry-load').onclick = () => { closeModal(); loadProfileAndShow(user); };
-    });
-    return;
-  }
-
-  // CEK BAN
+  if (!snap || !snap.exists()) { showModal(`<div class="modal-body"><p class="muted small">Gagal memuat profil. Logout & coba lagi.</p></div><div class="modal-footer"><button class="btn btn-soft" onclick="location.reload()">Tutup</button></div>`); return; }
   if (snap.data().isBanned) {
-    showModal(`
-      <div class="modal-header"><h3>Akses Ditolak 🚫</h3></div>
-      <div class="modal-body">
-        <p class="muted small">Akun Anda telah diblokir (Banned) oleh Admin karena melanggar aturan.</p>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-soft" id="banned-logout">Keluar</button>
-      </div>
-    `, root => {
-      root.querySelector('#banned-logout').onclick = () => { closeModal(); signOut(auth); };
-    });
+    showModal(`<div class="modal-header"><h3>Akses Ditolak 🚫</h3></div><div class="modal-body"><p class="muted small">Akun Anda diblokir.</p></div><div class="modal-footer"><button class="btn btn-soft" id="banned-logout">Keluar</button></div>`, root => { root.querySelector('#banned-logout').onclick = () => { closeModal(); signOut(auth); }; });
     return;
   }
-
   STATE.uid = user.uid;
   STATE.me = { uid: user.uid, ...snap.data() };
   updateProfileUI();
@@ -668,64 +615,46 @@ async function loadProfileAndShow(user) {
 
 onAuthStateChanged(auth, async user => {
   detachListeners();
-  if (!user) {
-    STATE.uid = null; STATE.me = null;
-    showScreen('screen-auth');
-    return;
-  }
+  if (!user) { STATE.uid = null; STATE.me = null; showScreen('screen-auth'); return; }
   STATE.uid = user.uid;
   await loadProfileAndShow(user);
 });
 
 function updateProfileUI() {
-  const me = STATE.me;
-  if (!me) return;
+  const me = STATE.me; if (!me) return;
   const tick = me.isVerified ? BLUE_TICK_SVG : '';
-  
-  const topName = $('#topbar-name'); 
-  if (topName) topName.innerHTML = esc(me.displayName) + tick;
-  
-  const mn = $('#me-name'); 
-  if (mn) mn.innerHTML = esc(me.displayName) + tick;
-  
-  const mu = $('#me-username'); if (mu) mu.textContent = '@' + me.username;
-  const mb = $('#me-bio'); if (mb) mb.textContent = me.bio || 'Belum ada bio';
-  const ma = $('#me-alias'); if (ma) ma.textContent = '@' + me.username;
-
+  if ($('#topbar-name')) $('#topbar-name').innerHTML = esc(me.displayName) + tick;
+  if ($('#me-name')) $('#me-name').innerHTML = esc(me.displayName) + tick;
+  if ($('#me-username')) $('#me-username').textContent = '@' + me.username;
+  if ($('#me-bio')) $('#me-bio').textContent = me.bio || 'Belum ada bio';
+  if ($('#me-alias')) $('#me-alias').textContent = '@' + me.username;
   setAvatarEl($('#my-status-avatar'), me.displayName, me.photoURL);
   setAvatarEl($('#me-avatar'), me.displayName, me.photoURL, 'lg');
-
   const p = me.privacy || {};
-  const pw = $('#priv-who'); if (pw) pw.value = p.whoCanMessage || 'everyone';
-  const po = $('#priv-online'); if (po) po.checked = !!p.hideOnline;
-  const pr = $('#priv-receipt'); if (pr) pr.checked = !!p.hideReceipt;
-  const pf = $('#priv-focus'); if (pf) pf.checked = !!p.focus;
+  if($('#priv-who')) $('#priv-who').value = p.whoCanMessage || 'everyone';
+  if($('#priv-online')) $('#priv-online').checked = !!p.hideOnline;
+  if($('#priv-receipt')) $('#priv-receipt').checked = !!p.hideReceipt;
+  if($('#priv-focus')) $('#priv-focus').checked = !!p.focus;
 }
 
-/* ============================================================
-   LISTENERS
-   ============================================================ */
 function detachListeners() {
   ['unsubChats','unsubRequests','unsubStatuses','unsubMsgs'].forEach(k => {
     if (STATE[k]) { try { STATE[k](); } catch(e){} STATE[k] = null; }
   });
 }
+function attachListeners() { detachListeners(); listenChats(); listenRequests(); listenStatuses(); }
 
-function attachListeners() {
-  detachListeners();
-  listenChats();
-  listenRequests();
-  listenStatuses();
-}
-
+/* --- CHAT LIST & HIDE FEATURE --- */
 function listenChats() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubChats = onSnapshot(q, snap => {
     const all = [];
+    const hidden = STATE.me.hiddenChats || [];
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
-      // FILTER: Sembunyikan chat jika di-ban atau pending
-      if (!c.isBanned && !(c.pendingFor || []).includes(STATE.uid)) all.push(c);
+      if (!c.isBanned && !(c.pendingFor || []).includes(STATE.uid) && !hidden.includes(c.id)) {
+        all.push(c);
+      }
     });
     STATE.chats = all;
     STATE.chats.sort((a, b) => {
@@ -734,40 +663,52 @@ function listenChats() {
       return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
     });
     renderChats();
-  }, err => console.error("Chats listener error:", err));
+  });
 }
 
-function listenRequests() {
-  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
-  STATE.unsubRequests = onSnapshot(q, snap => {
-    STATE.requests = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter(c => !c.isBanned && (c.pendingFor || []).includes(STATE.uid));
-    renderRequests();
-  }, err => console.error("Requests listener error:", err));
-}
+$('#btn-select-mode').addEventListener('click', () => {
+  STATE.isSelectMode = !STATE.isSelectMode;
+  STATE.selectedChats.clear();
+  $('#search-container').classList.toggle('hidden', STATE.isSelectMode);
+  $('#select-container').classList.toggle('hidden', !STATE.isSelectMode);
+  $('.bottom-nav').classList.toggle('hidden', STATE.isSelectMode);
+  $('#fab').classList.toggle('hidden', STATE.isSelectMode);
+  $('#btn-select-mode').classList.toggle('ghost-light', !STATE.isSelectMode);
+  $('#btn-select-mode').classList.toggle('active', STATE.isSelectMode);
+  $('#list-chats').classList.toggle('select-mode-active', STATE.isSelectMode);
+  renderChats();
+});
 
-function listenStatuses() {
-  const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
-  STATE.unsubStatuses = onSnapshot(q, snap => {
-    const now = Date.now();
-    STATE.statuses = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter(s => !s.isBanned && s.expiresAt?.toMillis?.() > now); // FILTER BAN
-    renderStatuses();
-  }, err => console.error("Statuses listener error:", err));
-}
+$('#btn-cancel-select').addEventListener('click', () => $('#btn-select-mode').click());
 
-/* ============================================================
-   RENDER: CHAT LIST
-   ============================================================ */
+$('#btn-select-all').addEventListener('click', () => {
+  if (STATE.selectedChats.size === STATE.chats.length) {
+    STATE.selectedChats.clear();
+  } else {
+    STATE.chats.forEach(c => STATE.selectedChats.add(c.id));
+  }
+  renderChats();
+});
+
+$('#btn-hide-selected').addEventListener('click', async () => {
+  if (STATE.selectedChats.size === 0) { toast('Pilih chat dulu'); return; }
+  if (!confirm(`Sembunyikan ${STATE.selectedChats.size} chat?`)) return;
+  try {
+    const arr = Array.from(STATE.selectedChats);
+    await updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayUnion(...arr) });
+    STATE.me.hiddenChats = [...(STATE.me.hiddenChats || []), ...arr];
+    toast('Chat disembunyikan');
+    $('#btn-select-mode').click();
+    listenChats();
+  } catch (e) { toast('Gagal: ' + e.message); }
+});
+
 function chatDisplayName(chat) {
   if (chat.type === 'self') return 'Catatan Pribadi';
   if (chat.type === 'group') return chat.name || 'Grup';
   const otherUid = (chat.members || []).find(u => u !== STATE.uid);
   return chat.memberNames?.[otherUid] || chat.name || 'Chat';
 }
-
 function getChatTick(chat) {
   if (chat.type === 'group' && chat.isVerified) return BLUE_TICK_SVG;
   if (chat.type === 'direct') {
@@ -776,7 +717,6 @@ function getChatTick(chat) {
   }
   return '';
 }
-
 function chatDisplayPhoto(chat) {
   if (chat.type === 'self') return null;
   if (chat.type === 'group') return chat.photoURL || null;
@@ -804,48 +744,58 @@ function renderChats() {
     const preview = last ? (last.senderId === STATE.uid ? 'Kamu: ' : '') + (last.text || '📎 Media') : 'Belum ada pesan';
     const time = last?.createdAt ? fmtTime(last.createdAt) : (chat.updatedAt ? fmtTime(chat.updatedAt) : '');
     const unread = (chat.unread || {})[STATE.uid] || 0;
-    const icons = [
-      chat.type === 'self' ? '📝' : '', chat.type === 'group' ? '👥' : '',
-      (chat.lockedBy || []).includes(STATE.uid) ? '🔒' : '', (chat.mutedBy || []).includes(STATE.uid) ? '🔕' : ''
-    ].filter(Boolean).map(i => `<span class="tag">${i}</span>`).join('');
+    const icons = [chat.type === 'self' ? '📝' : '', chat.type === 'group' ? '👥' : ''].filter(Boolean).map(i => `<span class="tag">${i}</span>`).join('');
+    const isSelected = STATE.selectedChats.has(chat.id) ? 'selected' : '';
 
-    return `<div class="chat-item" data-chat="${chat.id}">
+    return `<div class="chat-item ${isSelected}" data-chat="${chat.id}">
+      <div class="chat-checkbox"></div>
       ${avatarHTML(name, photo)}
       <div class="chat-item-body">
-        <div class="chat-item-top">
-          <div class="chat-item-name">${icons}<span class="truncate">${esc(name)}</span> ${tick}</div>
-          <span class="chat-item-time">${esc(time)}</span>
+        <div class="chat-top">
+          <div class="chat-name">${icons}<span class="truncate">${esc(name)}</span> ${tick}</div>
+          <span class="chat-time">${esc(time)}</span>
         </div>
-        <div class="chat-item-preview">
+        <div class="chat-preview">
           <span class="truncate">${esc(preview)}</span>
-          ${unread ? `<em class="badge">${unread}</em>` : ''}
+          ${(!STATE.isSelectMode && unread) ? `<em class="badge">${unread}</em>` : ''}
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-function renderRequests() {
-  const list = $('#list-requests');
-  const badge = $('#req-badge');
-  if (!STATE.requests.length) {
-    list.innerHTML = `<div class="empty">Tidak ada permintaan pesan baru.<br>Permintaan dari pengguna asing akan muncul di sini.</div>`;
+$('#list-chats').addEventListener('click', e => {
+  const item = e.target.closest('[data-chat]');
+  if (!item) return;
+  const chatId = item.dataset.chat;
+  if (STATE.isSelectMode) {
+    if (STATE.selectedChats.has(chatId)) STATE.selectedChats.delete(chatId);
+    else STATE.selectedChats.add(chatId);
+    renderChats();
   } else {
+    openChat(chatId);
+  }
+});
+
+/* --- RESTOF THE APP (STATUS, REQUESTS, CHAT SCREEN, ETC) --- */
+function listenRequests() {
+  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
+  STATE.unsubRequests = onSnapshot(q, snap => {
+    STATE.requests = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(c => !c.isBanned && (c.pendingFor || []).includes(STATE.uid));
+    renderRequests();
+  });
+}
+function renderRequests() {
+  const list = $('#list-requests'); const badge = $('#req-badge');
+  if (!STATE.requests.length) { list.innerHTML = `<div class="empty">Tidak ada permintaan pesan baru.</div>`; }
+  else {
     list.innerHTML = STATE.requests.map(req => {
       const initiator = (req.members || []).find(u => u !== STATE.uid);
       const name = req.memberNames?.[initiator] || 'Pengguna';
       const tick = (req.memberVerified && req.memberVerified[initiator]) ? BLUE_TICK_SVG : '';
-      const photo = req.memberPhotos?.[initiator];
-      const lastMsg = req.lastMessage?.text || 'Halo, boleh kenalan?';
       return `<div class="req-item" data-req="${req.id}">
-        <div class="req-head">
-          ${avatarHTML(name, photo)}
-          <div class="req-head-info">
-            <strong class="truncate">${esc(name)} ${tick}</strong>
-            <span>@${esc(req.memberUsernames?.[initiator] || 'pengguna')}</span>
-          </div>
-        </div>
-        <p class="req-msg">${esc(lastMsg)}</p>
+        <div class="req-head">${avatarHTML(name, req.memberPhotos?.[initiator])}<div class="req-head-info"><strong class="truncate">${esc(name)} ${tick}</strong><span>@${esc(req.memberUsernames?.[initiator] || 'pengguna')}</span></div></div>
+        <p class="req-msg">${esc(req.lastMessage?.text || 'Halo, boleh kenalan?')}</p>
         <div class="req-actions">
           <button type="button" class="btn btn-reject" data-act="reject">Tolak &amp; Blokir</button>
           <button type="button" class="btn btn-accept" data-act="accept">Terima</button>
@@ -853,936 +803,518 @@ function renderRequests() {
       </div>`;
     }).join('');
   }
-  badge.textContent = STATE.requests.length;
-  badge.classList.toggle('hidden', STATE.requests.length === 0);
+  badge.textContent = STATE.requests.length; badge.classList.toggle('hidden', STATE.requests.length === 0);
 }
+$('#list-requests').addEventListener('click', async e => {
+  const btn = e.target.closest('button[data-act]'); if (!btn) return;
+  const reqId = btn.closest('[data-req]').dataset.req;
+  if (btn.dataset.act === 'accept') { await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid) }); openChat(reqId); }
+  else {
+    await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid), rejected: arrayUnion(STATE.uid) });
+    const req = STATE.requests.find(r => r.id === reqId);
+    if (req) { const o = (req.members || []).find(u => u !== STATE.uid); if(o) await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(o) }); }
+    await deleteDoc(doc(db, 'chats', reqId)); toast('Permintaan ditolak');
+  }
+});
 
-/* ============================================================
-   RENDER: STATUS
-   ============================================================ */
+function listenStatuses() {
+  const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
+  STATE.unsubStatuses = onSnapshot(q, snap => {
+    const now = Date.now();
+    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(s => !s.isBanned && s.expiresAt?.toMillis?.() > now);
+    renderStatuses();
+  });
+}
 function renderStatuses() {
   const list = $('#list-status');
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
   const otherStatuses = STATE.statuses.filter(s => s.userId !== STATE.uid);
-
   const myCard = $('#status-add');
   if (myStatuses.length > 0) {
-    const latest = myStatuses[0];
-    myCard.innerHTML = `
-      <div class="status-ring" style="padding:2px;background:linear-gradient(140deg,#13c08d,#0a7c66);border-radius:50%;box-shadow:none">
-        ${avatarHTML(latest.userName, latest.userPhoto, '', 'my-status-avatar')}
-      </div>
-      <div class="status-info">
-        <strong>Status saya</strong>
-        <p class="muted small" style="margin:2px 0 0">${myStatuses.length} pembaruan · ketuk untuk kelola</p>
-      </div>
-      <span class="plus-dot">+</span>
-    `;
+    myCard.innerHTML = `<div class="status-ring" style="padding:2px;background:linear-gradient(140deg,#13c08d,#0a7c66);border-radius:50%;box-shadow:none">${avatarHTML(myStatuses[0].userName, myStatuses[0].userPhoto, '', 'my-status-avatar')}</div><div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">${myStatuses.length} pembaruan · ketuk untuk kelola</p></div><span class="plus-dot">+</span>`;
   } else {
-    myCard.innerHTML = `
-      ${avatarHTML(STATE.me.displayName, STATE.me.photoURL, '', 'my-status-avatar')}
-      <div class="status-info">
-        <strong>Status saya</strong>
-        <p class="muted small" style="margin:2px 0 0">Ketuk untuk menambah pembaruan</p>
-      </div>
-      <span class="plus-dot">+</span>
-    `;
+    myCard.innerHTML = `${avatarHTML(STATE.me.displayName, STATE.me.photoURL, '', 'my-status-avatar')}<div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">Ketuk untuk menambah</p></div><span class="plus-dot">+</span>`;
   }
   myCard.onclick = openMyStatusesModal;
-
-  if (!otherStatuses.length) {
-    list.innerHTML = `<div class="empty">Belum ada pembaruan status dari pengguna lain.</div>`;
-    return;
-  }
-  list.innerHTML = otherStatuses.map(s => {
-    // Note: We don't store isVerified in status currently, but we could. 
-    // For now, assume status doesn't need the tick or we fetch user data.
-    return `
-    <div class="status-item" data-status="${s.id}">
-      <div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">
-        ${avatarHTML(s.userName, s.userPhoto)}
-      </div>
-      <div class="status-info">
-        <strong class="truncate">${esc(s.userName)}</strong>
-        <span>${esc(fmtRel(s.createdAt))}</span>
-      </div>
-      <span class="status-badge">${s.type === 'image' ? '📷' : '📝'}</span>
-    </div>
-  `}).join('');
+  if (!otherStatuses.length) { list.innerHTML = `<div class="empty">Belum ada status lain.</div>`; return; }
+  list.innerHTML = otherStatuses.map(s => `<div class="status-item" data-status="${s.id}"><div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong class="truncate">${esc(s.userName)}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><span class="status-badge">${s.type === 'image' ? '📷' : '📝'}</span></div>`).join('');
 }
-
 function openMyStatusesModal() {
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
-  showModal(`
-    <div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div>
-    <div class="modal-body">
-      <button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button>
-      <div id="ms-list">
-        ${myStatuses.length ? myStatuses.map(s => `
-          <div class="status-item" style="cursor:default">
-            <div class="status-ring">
-              ${avatarHTML(s.userName, s.userPhoto)}
-            </div>
-            <div class="status-info">
-              <strong>${esc(s.type === 'image' ? '📷 Foto' : '📝 Teks')}</strong>
-              <span>${esc(fmtRel(s.createdAt))} · ${s.viewers?.length || 0} dilihat</span>
-            </div>
-            <button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button>
-            <button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">🗑</button>
-          </div>
-        `).join('') : '<p class="muted small center" style="padding:16px">Belum ada status. Ketuk tombol di atas untuk membuat.</p>'}
-      </div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>
-  `, root => {
+  showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${esc(s.type === 'image' ? '📷 Foto' : '📝 Teks')}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">🗑</button></div>`).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
     root.querySelector('#ms-close').onclick = closeModal;
     root.querySelector('#ms-add').onclick = () => { closeModal(); openNewStatusModal(); };
-    root.querySelectorAll('[data-ms-view]').forEach(b => {
-      b.onclick = () => {
-        const s = STATE.statuses.find(x => x.id === b.dataset.msView);
-        if (s) { closeModal(); openStatusViewer(s); }
-      };
-    });
-    root.querySelectorAll('[data-ms-del]').forEach(b => {
-      b.onclick = async () => {
-        if (!confirm('Hapus status ini?')) return;
-        try {
-          await deleteDoc(doc(db, 'status', b.dataset.msDel));
-          toast('Status dihapus');
-          closeModal();
-        } catch (e) { toast('Gagal hapus: ' + (e.message || '')); }
-      };
-    });
+    root.querySelectorAll('[data-ms-view]').forEach(b => b.onclick = () => { const s = STATE.statuses.find(x => x.id === b.dataset.msView); if(s){closeModal();openStatusViewer(s);} });
+    root.querySelectorAll('[data-ms-del]').forEach(b => b.onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',b.dataset.msDel));closeModal();} });
   });
 }
-
-/* ============================================================
-   CHAT LIST & NEW CHAT
-   ============================================================ */
-$('#list-chats').addEventListener('click', e => {
-  const item = e.target.closest('[data-chat]');
-  if (item) openChat(item.dataset.chat);
+$('#list-status').addEventListener('click', e => {
+  const item = e.target.closest('[data-status]'); if (!item) return;
+  const s = STATE.statuses.find(x => x.id === item.dataset.status); if (s) openStatusViewer(s);
 });
-$('#search-input').addEventListener('input', renderChats);
+function openStatusViewer(s) {
+  const isMine = s.userId === STATE.uid; const wrap = document.createElement('div'); wrap.className = 'status-viewer';
+  wrap.innerHTML = `<div class="sv-header">${avatarHTML(s.userName, s.userPhoto, 'sm')}<div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">🗑</button>` : ''}<button class="icon-btn ghost-light" id="sv-close">✕</button></div><div class="sv-body">${s.type === 'image' && s.photoURL ? `<img src="${esc(s.photoURL)}">${s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : ''}` : `<p>${esc(s.content)}</p>`}</div>`;
+  document.body.appendChild(wrap);
+  wrap.querySelector('#sv-close').onclick = async () => { if(!isMine){try{await updateDoc(doc(db,'status',s.id),{viewers:arrayUnion(STATE.uid)});}catch{}} wrap.remove(); };
+  if(isMine) wrap.querySelector('#sv-delete').onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',s.id));wrap.remove();} };
+}
 
-$('#fab').addEventListener('click', () => {
-  showModal(`
-    <div class="modal-header"><h3>Aksi Baru</h3></div>
-    <div class="menu-list">
-      <button class="menu-item" id="menu-new-chat"><span class="ico">💬</span>Chat Baru</button>
-      <button class="menu-item" id="menu-new-group"><span class="ico">👥</span>Buat Grup</button>
-      <button class="menu-item" id="menu-new-status"><span class="ico">◍</span>Buat Status</button>
-    </div>
-  `, root => {
-    root.querySelector('#menu-new-chat').onclick = () => { closeModal(); openNewChatModal(); };
-    root.querySelector('#menu-new-group').onclick = () => { closeModal(); openNewGroupModal(); };
-    root.querySelector('#menu-new-status').onclick = () => { closeModal(); openNewStatusModal(); };
+function openNewStatusModal() {
+  showModal(`<div class="modal-header"><h3>Buat Status</h3></div><div class="modal-body"><label class="field"><span>Status teks</span><div class="input-wrap"><input id="status-text" type="text" maxlength="120" placeholder="Apa yang kamu pikirkan?"></div></label><p class="muted small">Atau unggah foto (opsional).</p><button type="button" class="btn btn-soft" id="status-photo-btn">📷 Pilih Foto</button></div><div class="modal-footer"><button class="btn btn-soft" id="status-cancel">Batal</button><button class="btn btn-primary" id="status-save">Bagikan</button></div>`, root => {
+    let photoFile = null;
+    root.querySelector('#status-cancel').onclick = closeModal;
+    root.querySelector('#status-photo-btn').onclick = () => {
+      const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.style.display='none'; document.body.appendChild(fi);
+      fi.onchange = e => { photoFile = e.target.files?.[0]; if(photoFile){ if(photoFile.size>10485760){toast('Maks 10MB');photoFile=null;} else {root.querySelector('#status-photo-btn').textContent='📷 '+photoFile.name;} } document.body.removeChild(fi); };
+      fi.click();
+    };
+    root.querySelector('#status-save').onclick = async () => {
+      const text = root.querySelector('#status-text').value.trim();
+      if(!text && !photoFile){toast('Isi status/foto');return;}
+      const btn = root.querySelector('#status-save'); btn.disabled=true; btn.textContent='Memproses…';
+      try {
+        let url=''; if(photoFile) url=await uploadToCloudinary(photoFile);
+        await addDoc(collection(db,'status'),{userId:STATE.uid,userName:STATE.me.displayName,userPhoto:STATE.me.photoURL||'',type:photoFile?'image':'text',content:text,photoURL:url,viewers:[],createdAt:serverTimestamp(),expiresAt:Timestamp.fromMillis(Date.now()+86400000)});
+        toast('Status dibagikan'); closeModal();
+      } catch(e){toast('Gagal: '+e.message); btn.disabled=false; btn.textContent='Bagikan';}
+    };
   });
+}
+
+/* --- CHAT SCREEN --- */
+$('#chat-back').addEventListener('click', () => { if(STATE.unsubMsgs){STATE.unsubMsgs();STATE.unsubMsgs=null;} STATE.currentChat=null; showScreen('screen-home'); });
+$('#chat-header').addEventListener('click', (e) => {
+  if (e.target.closest('#chat-back') || e.target.closest('#chat-menu')) return;
+  if (STATE.currentChat && STATE.currentChat.type === 'group') openGroupSettings(STATE.currentChat.id);
 });
 
-function openNewChatModal() {
-  showModal(`
-    <div class="modal-header"><h3>Chat Baru</h3></div>
-    <div class="modal-body">
-      <label class="field"><span>Cari username</span>
-        <div class="input-wrap"><span class="prefix">@</span>
-          <input id="search-user-input" type="text" placeholder="ketik username…" autocomplete="off">
-        </div>
-      </label>
-      <div id="search-results" style="min-height:60px"></div>
-    </div>
-    <div class="modal-footer"><button class="btn btn-soft" id="close-search">Tutup</button></div>
-  `, root => {
-    const input = root.querySelector('#search-user-input');
-    const results = root.querySelector('#search-results');
-    root.querySelector('#close-search').onclick = closeModal;
-
-    let t;
-    input.addEventListener('input', () => {
-      clearTimeout(t);
-      t = setTimeout(async () => {
-        const q = input.value.toLowerCase().trim();
-        if (q.length < 2) { results.innerHTML = ''; return; }
-        results.innerHTML = '<p class="muted small center">Mencari…</p>';
-        try {
-          const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(10)));
-          const users = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== STATE.uid);
-          if (!users.length) { results.innerHTML = '<p class="muted small center">Tidak ditemukan.</p>'; return; }
-          results.innerHTML = users.map(u => `
-            <div class="search-result" data-uid="${u.uid}">
-              ${avatarHTML(u.displayName, u.photoURL, 'sm')}
-              <div class="info">
-                <strong>${esc(u.displayName)} ${u.isVerified ? BLUE_TICK_SVG : ''}</strong>
-                <span>@${esc(u.username)}</span>
-              </div>
-            </div>`).join('');
-          results.querySelectorAll('.search-result').forEach(el => { el.onclick = () => startChatWith(el.dataset.uid); });
-        } catch (err) { results.innerHTML = `<p class="muted small center">Error: ${esc(err.message)}</p>`; }
-      }, 300);
-    });
-    setTimeout(() => input.focus(), 100);
-  });
-}
-
-async function startChatWith(uid) {
-  try {
-    closeModal();
-    let existingId = null;
-    const snap = await getDocs(query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid)));
-    for (const d of snap.docs) {
-      const data = d.data();
-      if (data.type === 'direct' && (data.members || []).includes(uid)) {
-        existingId = d.id;
-        break;
-      }
-    }
-    if (existingId) { openChat(existingId); return; }
-
-    const targetSnap = await getDoc(doc(db, 'users', uid));
-    if (!targetSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
-    const target = targetSnap.data();
-    if (target.isBanned) { toast('Pengguna ini telah diblokir.'); return; }
-    
-    const privacy = target.privacy?.whoCanMessage || 'everyone';
-    if (privacy === 'nobody') { toast('Pengguna ini menutup permintaan pesan.'); return; }
-
-    const mySnap = await getDoc(doc(db, 'users', STATE.uid));
-    const me = mySnap.data();
-    const isPending = privacy === 'contacts';
-
-    const docRef = await addDoc(collection(db, 'chats'), {
-      type: 'direct', members: [STATE.uid, uid],
-      memberNames: { [STATE.uid]: me.displayName, [uid]: target.displayName },
-      memberPhotos: { [STATE.uid]: me.photoURL || '', [uid]: target.photoURL || '' },
-      memberUsernames: { [STATE.uid]: me.username, [uid]: target.username },
-      memberVerified: { [STATE.uid]: me.isVerified || false, [uid]: target.isVerified || false },
-      pendingFor: isPending ? [uid] : [], unread: {}, lastMessage: null,
-      updatedAt: serverTimestamp(), createdAt: serverTimestamp()
-    });
-
-    if (isPending) toast('Permintaan pesan terkirim.');
-    openChat(docRef.id);
-  } catch (err) {
-    console.error('START CHAT ERROR:', err);
-    toast('Gagal buka chat: ' + (err.message || 'Cek koneksi/aturan'));
-  }
-}
-
-/* ============================================================
-   OPEN CHAT & PIN LOCK
-   ============================================================ */
 async function openChat(chatId) {
-  const chatSnap = await getDoc(doc(db, 'chats', chatId));
-  if (!chatSnap.exists()) { toast('Chat tidak ditemukan'); return; }
-  const chatData = chatSnap.data();
-
-  if (chatData.isBanned) { toast('Chat ini telah diblokir oleh Admin.'); return; }
-
-  if (chatData.pins && chatData.pins[STATE.uid]) {
-    showModal(`
-      <div class="modal-header"><h3>Chat Terkunci 🔒</h3></div>
-      <div class="modal-body">
-        <label class="field"><span>Masukkan PIN</span>
-          <div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6" placeholder="****"></div>
-        </label>
-      </div>
-      <div class="modal-footer">
-        <button class="btn btn-soft" id="unlock-cancel">Batal</button>
-        <button class="btn btn-primary" id="unlock-btn">Buka</button>
-      </div>
-    `, root => {
-      root.querySelector('#unlock-cancel').onclick = closeModal;
-      root.querySelector('#unlock-btn').onclick = () => {
-        const inputPin = root.querySelector('#unlock-pin').value;
-        if (inputPin === chatData.pins[STATE.uid]) {
-          closeModal();
-          proceedOpenChat(chatId, chatData);
-        } else { toast('PIN salah'); }
-      };
-    });
-    return;
+  const snap = await getDoc(doc(db, 'chats', chatId));
+  if (!snap.exists()) return;
+  const data = snap.data();
+  if (data.isBanned) { toast('Chat diblokir admin.'); return; }
+  if (data.pins && data.pins[STATE.uid]) {
+    showModal(`<div class="modal-header"><h3>Chat Terkunci 🔒</h3></div><div class="modal-body"><label class="field"><span>PIN</span><div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6"></div></label></div><div class="modal-footer"><button class="btn btn-soft" id="unlock-cancel">Batal</button><button class="btn btn-primary" id="unlock-btn">Buka</button></div>`, r => {
+      r.querySelector('#unlock-cancel').onclick = closeModal;
+      r.querySelector('#unlock-btn').onclick = () => { if(r.querySelector('#unlock-pin').value === data.pins[STATE.uid]) { closeModal(); proceedOpenChat(chatId, data); } else toast('PIN salah'); };
+    }); return;
   }
-
-  proceedOpenChat(chatId, chatData);
+  proceedOpenChat(chatId, data);
 }
 
 function proceedOpenChat(chatId, chat) {
-  STATE.currentChat = { id: chatId, ...chat };
-  STATE.replyTo = null; STATE.timerSec = 0;
-  hideReplyBar();
-
-  const name = chatDisplayName(chat);
-  const photo = chatDisplayPhoto(chat);
-  const tick = getChatTick(chat);
-  
+  STATE.currentChat = { id: chatId, ...chat }; STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar();
+  const name = chatDisplayName(chat); const photo = chatDisplayPhoto(chat); const tick = getChatTick(chat);
   $('#chat-name').innerHTML = esc(name) + tick;
   $('#chat-sub').textContent = chat.type === 'self' ? 'Catatan pribadi' : (chat.type === 'group' ? (chat.members?.length || 0) + ' anggota' : '@' + (chat.memberUsernames?.[chat.members.find(u => u !== STATE.uid)] || '—'));
-
-  const av = $('#chat-avatar');
-  setAvatarEl(av, name, photo, 'sm');
-
-  if ((chat.unread || {})[STATE.uid]) {
-    updateDoc(doc(db, 'chats', chatId), { ['unread.' + STATE.uid]: 0 }).catch(()=>{});
-  }
-
-  markMessagesAsRead(chatId);
+  setAvatarEl($('#chat-avatar'), name, photo, 'sm');
+  if ((chat.unread || {})[STATE.uid]) updateDoc(doc(db, 'chats', chatId), { ['unread.'+STATE.uid]: 0 });
   showScreen('screen-chat');
   if (STATE.unsubMsgs) STATE.unsubMsgs();
   listenMessages(chatId);
-  setTimeout(() => $('#chat-input').focus(), 80);
 }
 
 function listenMessages(chatId) {
   const q = query(collection(db, 'chats', chatId, 'messages'), orderBy('createdAt', 'asc'), limit(300));
   STATE.unsubMsgs = onSnapshot(q, snap => {
     const now = Date.now();
-    STATE.currentChat.messages = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter(m => !(m.deletedFor || []).includes(STATE.uid))
-      .filter(m => !m.expiresAt || m.expiresAt.toMillis() > now);
+    STATE.currentChat.messages = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(m => !(m.deletedFor||[]).includes(STATE.uid) && (!m.expiresAt || m.expiresAt.toMillis() > now));
     renderMessages();
-  }, err => console.error("Messages listener error:", err));
-}
-
-async function markMessagesAsRead(chatId) {
-  try {
-    const q = query(collection(db, 'chats', chatId, 'messages'), where('senderId', '!=', STATE.uid));
-    const snap = await getDocs(q);
-    const batch = writeBatch(db);
-    let changed = false;
-    snap.forEach(d => {
-      const data = d.data();
-      if (data.status !== 'read') { batch.update(d.ref, { status: 'read' }); changed = true; }
-    });
-    if (changed) await batch.commit();
-  } catch(e) { }
+  });
 }
 
 function renderMessages() {
-  const chat = STATE.currentChat;
-  if (!chat) return;
-  const box = $('#chat-body');
-  const msgs = chat.messages || [];
-
-  if (!msgs.length) {
-    box.innerHTML = `<div class="day-divider">Belum ada pesan</div><p class="muted small center">Ketuk kolom bawah untuk mulai mengirim pesan.</p>`;
-    return;
-  }
-
-  const rows = msgs.map(m => {
-    const isOut = m.senderId === STATE.uid;
-    const time = fmtTime(m.createdAt);
+  const chat = STATE.currentChat; if (!chat) return;
+  const box = $('#chat-body'); const msgs = chat.messages || [];
+  if (!msgs.length) { box.innerHTML = `<div class="day-divider">Belum ada pesan</div>`; return; }
+  box.innerHTML = `<div class="day-divider">Percakapan</div>` + msgs.map(m => {
+    if (m.type === 'system') {
+      return `<div class="msg sys"><div class="bubble">${esc(m.text)}</div></div>`;
+    }
+    const isOut = m.senderId === STATE.uid; const time = fmtTime(m.createdAt);
     const check = isOut ? (m.status === 'read' ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
     const sender = (!isOut && chat.type === 'group') ? `<div class="sender-name">${esc(m.senderName || '')}</div>` : '';
-
-    let body = m.isDeletedForEveryone ? '<span class="deleted">Pesan ini telah dihapus</span>' : esc(m.text || '');
-    if (m.type === 'image' && m.mediaUrl) {
-      body = `<img src="${esc(m.mediaUrl)}" class="chat-img" alt="Media" onclick="window.open('${esc(m.mediaUrl)}', '_blank')">`;
-      if (m.text) body += `<div style="margin-top:5px">${esc(m.text)}</div>`;
-    }
-
+    let body = m.isDeletedForEveryone ? '<span class="deleted">Dihapus</span>' : esc(m.text || '');
+    if (m.type === 'image' && m.mediaUrl) body = `<img src="${esc(m.mediaUrl)}" class="chat-img" onclick="window.open('${esc(m.mediaUrl)}','_blank')">`;
     const reply = m.replyTo ? `<div class="reply-preview"><b>${esc(m.replyTo.senderName || '')}</b><br>${esc(m.replyTo.text || '')}</div>` : '';
-    const timerTag = (m.timer && !m.isDeletedForEveryone) ? `<span style="opacity:.7"> ⏱</span>` : '';
-    return `<div class="msg ${isOut ? 'out' : 'in'}" data-mid="${m.id}">
-      <div class="bubble">${sender}${reply}${body}${timerTag}
-        <span class="meta">${esc(time)} ${check}</span>
-      </div>
-    </div>`;
+    return `<div class="msg ${isOut?'out':'in'}" data-mid="${m.id}"><div class="bubble">${sender}${reply}${body}<span class="meta">${esc(time)} ${check}</span></div></div>`;
   }).join('');
-  box.innerHTML = `<div class="day-divider">Percakapan</div>${rows}`;
   box.scrollTop = box.scrollHeight;
 }
 
-/* ============================================================
-   SEND MESSAGE & MEDIA
-   ============================================================ */
 async function sendMessage(text, type = 'text', mediaUrl = null) {
-  const chat = STATE.currentChat;
-  if (!chat || (!text.trim() && !mediaUrl)) return;
-  const me = STATE.me;
-
+  const chat = STATE.currentChat; if (!chat || (!text.trim() && !mediaUrl)) return;
+  if (chat.type === 'group' && chat.onlyAdminsCanChat) {
+    const isAdmin = chat.createdBy === STATE.uid || (chat.admins || []).includes(STATE.uid);
+    if (!isAdmin) { toast('Hanya Admin yang bisa chat di grup ini'); return; }
+  }
   const payload = {
-    senderId: STATE.uid, senderName: me.displayName, text: text.trim(), type: type, status: 'sent',
-    createdAt: serverTimestamp(),
-    replyTo: STATE.replyTo ? { text: STATE.replyTo.text || '📎 Media', senderName: STATE.replyTo.senderName } : null,
+    senderId: STATE.uid, senderName: STATE.me.displayName, text: text.trim(), type: type, status: 'sent',
+    createdAt: serverTimestamp(), replyTo: STATE.replyTo ? { text: STATE.replyTo.text || '📎', senderName: STATE.replyTo.senderName } : null,
     timer: STATE.timerSec || 0, isDeletedForEveryone: false, deletedFor: []
   };
   if (mediaUrl) payload.mediaUrl = mediaUrl;
   if (STATE.timerSec) payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
-
   await addDoc(collection(db, 'chats', chat.id, 'messages'), payload);
-
-  const otherMembers = (chat.members || []).filter(u => u !== STATE.uid);
-  const unreadUpdate = {};
-  otherMembers.forEach(u => unreadUpdate['unread.' + u] = ((chat.unread || {})[u] || 0) + 1);
-
-  await updateDoc(doc(db, 'chats', chat.id), {
-    lastMessage: { text: type === 'image' ? '📷 Foto' : payload.text, senderId: STATE.uid, senderName: me.displayName, createdAt: serverTimestamp() },
-    updatedAt: serverTimestamp(), ...unreadUpdate
-  });
-
+  const unread = {}; (chat.members || []).filter(u => u !== STATE.uid).forEach(u => unread['unread.'+u] = ((chat.unread||{})[u]||0)+1);
+  await updateDoc(doc(db, 'chats', chat.id), { lastMessage: { text: type==='image'?'📷 Foto':payload.text, senderId: STATE.uid, senderName: STATE.me.displayName, createdAt: serverTimestamp() }, updatedAt: serverTimestamp(), ...unread });
   STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
 }
 
-$('#composer').addEventListener('submit', async e => {
-  e.preventDefault();
-  try { await sendMessage($('#chat-input').value); }
-  catch (err) { console.error('SEND ERROR:', err); toast('Gagal kirim: ' + (err.message || 'Cek koneksi')); }
-});
-
+$('#composer').addEventListener('submit', e => { e.preventDefault(); sendMessage($('#chat-input').value).catch(e => toast('Error: '+e.message)); });
 $('#btn-attach').addEventListener('click', () => $('#chat-media-input').click());
 $('#chat-media-input').addEventListener('change', async e => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  if (!file.type.startsWith('image/')) { toast('Hanya file gambar'); e.target.value=''; return; }
-  if (file.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); e.target.value=''; return; }
-
-  toast('Mengunggah gambar...');
-  try {
-    const url = await uploadToCloudinary(file);
-    await sendMessage('', 'image', url);
-    toast('Gambar terkirim');
-  } catch (err) { toast('Gagal upload: ' + (err.message || '')); }
-  e.target.value = '';
+  const file = e.target.files?.[0]; if (!file) return;
+  if (file.size > 10485760) { toast('Maks 10MB'); e.target.value=''; return; }
+  toast('Mengunggah…');
+  try { const url = await uploadToCloudinary(file); await sendMessage('', 'image', url); toast('Terkirim'); } catch(err){ toast('Gagal: '+err.message); }
+  e.target.value='';
 });
 
-$('#chat-back').addEventListener('click', () => {
-  if (STATE.unsubMsgs) { STATE.unsubMsgs(); STATE.unsubMsgs = null; }
-  STATE.currentChat = null;
-  showScreen('screen-home');
-});
-
-/* ============================================================
-   MESSAGE OPTIONS
-   ============================================================ */
 $('#chat-body').addEventListener('click', async e => {
-  const msgEl = e.target.closest('[data-mid]');
-  if (!msgEl) return;
-  const mid = msgEl.dataset.mid;
-  const msg = (STATE.currentChat?.messages || []).find(m => m.id === mid);
-  if (!msg) return;
+  const msgEl = e.target.closest('[data-mid]'); if (!msgEl) return;
+  const mid = msgEl.dataset.mid; const msg = (STATE.currentChat?.messages||[]).find(m=>m.id===mid); if(!msg || msg.type==='system') return;
   const isOut = msg.senderId === STATE.uid;
-  showModal(`
-    <div class="modal-header"><h3>Pesan</h3></div>
-    <div class="menu-list">
-      <button class="menu-item" id="m-reply"><span class="ico">↩</span>Balas</button>
-      <button class="menu-item" id="m-copy"><span class="ico">📋</span>Salin Teks</button>
-      <button class="menu-item" id="m-del-me"><span class="ico">🗑</span>Hapus untuk Saya</button>
-      ${isOut ? `<button class="menu-item" id="m-del-all" style="color:#e5484d"><span class="ico">🗑</span>Hapus untuk Semua</button>` : ''}
-    </div>
-  `, root => {
-    root.querySelector('#m-reply').onclick = () => {
-      STATE.replyTo = msg;
-      $('#reply-name').textContent = msg.senderName || (isOut ? 'Kamu' : 'Pengguna');
-      $('#reply-text').textContent = msg.isDeletedForEveryone ? 'Pesan dihapus' : (msg.text || (msg.type === 'image' ? '📷 Foto' : ''));
-      $('#reply-bar').classList.remove('hidden');
-      closeModal(); $('#chat-input').focus();
-    };
-    root.querySelector('#m-copy').onclick = async () => {
-      try { await navigator.clipboard.writeText(msg.text || ''); toast('Teks disalin'); } catch { toast('Gagal salin'); }
-      closeModal();
-    };
-    root.querySelector('#m-del-me').onclick = async () => {
-      await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), { deletedFor: arrayUnion(STATE.uid) });
-      closeModal(); toast('Dihapus untuk kamu');
-    };
-    const allBtn = root.querySelector('#m-del-all');
-    if (allBtn) allBtn.onclick = async () => {
-      await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), { isDeletedForEveryone: true, text: '', replyTo: null, mediaUrl: null });
-      closeModal(); toast('Dihapus untuk semua');
-    };
+  showModal(`<div class="modal-header"><h3>Pesan</h3></div><div class="menu-list"><button class="menu-item" id="m-reply">↩ Balas</button><button class="menu-item" id="m-copy">📋 Salin</button><button class="menu-item" id="m-del-me">🗑 Hapus untuk Saya</button>${isOut?'<button class="menu-item" id="m-del-all" style="color:red">🗑 Hapus untuk Semua</button>':''}</div>`, r => {
+    r.querySelector('#m-reply').onclick = () => { STATE.replyTo = msg; $('#reply-name').textContent = msg.senderName; $('#reply-text').textContent = msg.text || '📎'; $('#reply-bar').classList.remove('hidden'); closeModal(); };
+    r.querySelector('#m-copy').onclick = () => { navigator.clipboard.writeText(msg.text||''); toast('Disalin'); closeModal(); };
+    r.querySelector('#m-del-me').onclick = async () => { await updateDoc(doc(db,'chats',STATE.currentChat.id,'messages',mid),{deletedFor:arrayUnion(STATE.uid)}); closeModal(); };
+    if(isOut) r.querySelector('#m-del-all').onclick = async () => { await updateDoc(doc(db,'chats',STATE.currentChat.id,'messages',mid),{isDeletedForEveryone:true,text:'',mediaUrl:null}); closeModal(); };
   });
 });
-
 $('#reply-cancel').addEventListener('click', () => { STATE.replyTo = null; hideReplyBar(); });
 function hideReplyBar() { $('#reply-bar').classList.add('hidden'); }
 
-/* ============================================================
-   TIMER & MENU CHAT (PIN & CLEAR)
-   ============================================================ */
-$('#btn-timer').addEventListener('click', () => {
-  showModal(`
-    <div class="modal-header"><h3>Pesan Timer</h3></div>
-    <div class="menu-list">
-      <button class="menu-item" data-t="10">⏱ 10 detik</button>
-      <button class="menu-item" data-t="60">⏱ 1 menit</button>
-      <button class="menu-item" data-t="300">⏱ 5 menit</button>
-      <button class="menu-item" data-t="0">Matikan timer</button>
-    </div>
-  `, root => {
-    root.querySelectorAll('[data-t]').forEach(btn => {
-      btn.onclick = () => {
-        STATE.timerSec = parseInt(btn.dataset.t, 10);
-        toast(STATE.timerSec ? 'Timer aktif: ' + (STATE.timerSec < 60 ? STATE.timerSec + ' detik' : (STATE.timerSec/60) + ' menit') : 'Timer nonaktif');
-        closeModal();
-      };
-    });
-  });
-});
+/* --- GROUP SETTINGS & MANAGEMENT --- */
+async function openGroupSettings(chatId) {
+  const snap = await getDoc(doc(db, 'chats', chatId));
+  const c = snap.data();
+  const isOwner = c.createdBy === STATE.uid;
+  const isAdmin = (c.admins || []).includes(STATE.uid) || isOwner;
+  const canEdit = isOwner || isAdmin;
 
-$('#chat-menu').addEventListener('click', () => {
-  showModal(`
-    <div class="modal-header"><h3>Opsi Chat</h3></div>
-    <div class="menu-list">
-      <button class="menu-item" id="cm-mute">🔕 Bisukan / Aktifkan Notifikasi</button>
-      <button class="menu-item" id="cm-lock">🔒 Kunci dengan PIN</button>
-      <button class="menu-item" id="cm-clear" style="color:#e5484d">🗑 Kosongkan Chat</button>
-    </div>
-  `, root => {
-    root.querySelector('#cm-mute').onclick = async () => {
-      const chat = STATE.currentChat;
-      const isMuted = (chat.mutedBy || []).includes(STATE.uid);
-      await updateDoc(doc(db, 'chats', chat.id), { mutedBy: isMuted ? arrayRemove(STATE.uid) : arrayUnion(STATE.uid) });
-      toast(isMuted ? 'Notifikasi diaktifkan' : 'Chat dibisukan');
-      closeModal();
-    };
-
-    root.querySelector('#cm-lock').onclick = () => {
-      showModal(`
-        <div class="modal-header"><h3>Kunci dengan PIN</h3></div>
-        <div class="modal-body">
-          <label class="field"><span>Masukkan PIN (4-6 angka)</span>
-            <div class="input-wrap"><input id="chat-pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="****"></div>
-          </label>
-          <p class="muted small">PIN hanya berlaku untukmu. Saat buka chat, kamu perlu memasukkan PIN.</p>
-        </div>
-        <div class="modal-footer">
-          <button class="btn btn-soft" id="pin-cancel">Batal</button>
-          <button class="btn btn-primary" id="pin-save">Kunci</button>
-        </div>
-      `, root2 => {
-        root2.querySelector('#pin-cancel').onclick = closeModal;
-        root2.querySelector('#pin-save').onclick = async () => {
-          const pin = root2.querySelector('#chat-pin-input').value;
-          if (!/^\d{4,6}$/.test(pin)) { toast('PIN harus 4-6 angka'); return; }
-          await updateDoc(doc(db, 'chats', STATE.currentChat.id), { [`pins.${STATE.uid}`]: pin });
-          toast('Chat dikunci dengan PIN');
-          closeModal();
-        };
-      });
-    };
-
-    root.querySelector('#cm-clear').onclick = async () => {
-      if (!confirm('Hapus SEMUA pesan di chat ini? Tindakan tidak bisa dibatalkan.')) return;
-      try {
-        const snap = await getDocs(collection(db, 'chats', STATE.currentChat.id, 'messages'));
-        const batch = writeBatch(db);
-        snap.forEach(d => batch.delete(d.ref));
-        await batch.commit();
-        await updateDoc(doc(db, 'chats', STATE.currentChat.id), { lastMessage: null });
-        toast('Chat dikosongkan');
-        closeModal();
-      } catch (err) {
-        console.error(err);
-        toast('Gagal mengosongkan chat');
+  const memberListHtml = (c.members || []).map(uid => {
+    const isUserOwner = uid === c.createdBy;
+    const isUserAdmin = (c.admins || []).includes(uid);
+    const name = c.memberNames?.[uid] || 'Unknown';
+    const badge = isUserOwner ? '<span class="badge-owner">Pemilik</span>' : (isUserAdmin ? '<span class="badge-admin">Admin</span>' : '');
+    let actions = '';
+    if (canEdit && !isUserOwner && uid !== STATE.uid) {
+      actions = `<button class="btn btn-danger sm" data-kick="${uid}" style="padding:6px 10px;font-size:11px">Keluarkan</button>`;
+      if (isOwner) {
+        actions = `<button class="btn btn-soft sm" data-toggle-admin="${uid}" data-is-admin="${isUserAdmin}" style="padding:6px 10px;font-size:11px;margin-right:5px">${isUserAdmin?'Cabut Admin':'Jadikan Admin'}</button>` + actions;
       }
-    };
-  });
-});
-
-/* ============================================================
-   REQUESTS ACTIONS
-   ============================================================ */
-$('#list-requests').addEventListener('click', async e => {
-  const btn = e.target.closest('button[data-act]');
-  if (!btn) return;
-  const reqEl = btn.closest('[data-req]');
-  const reqId = reqEl.dataset.req;
-  if (btn.dataset.act === 'accept') {
-    await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid) });
-    toast('Permintaan diterima'); openChat(reqId);
-  } else {
-    await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid), rejected: arrayUnion(STATE.uid) });
-    const initiator = STATE.requests.find(r => r.id === reqId);
-    if (initiator) {
-      const otherUid = (initiator.members || []).find(u => u !== STATE.uid);
-      if (otherUid) await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(otherUid) });
     }
-    await deleteDoc(doc(db, 'chats', reqId));
-    toast('Permintaan ditolak & diblokir');
-  }
-});
+    return `<div class="member-item">${avatarHTML(name, c.memberPhotos?.[uid], 'sm')}<div class="member-info"><strong>${esc(name)} ${uid===STATE.uid?'(Kamu)':''} ${badge}</strong></div>${actions}</div>`;
+  }).join('');
 
-/* ============================================================
-   PROFILE ACTIONS
-   ============================================================ */
-$('#btn-edit-profile').addEventListener('click', () => {
   showModal(`
-    <div class="modal-header"><h3>Edit Profil</h3></div>
-    <div class="modal-body">
-      <label class="field"><span>Nama Tampilan</span>
-        <div class="input-wrap"><input id="edit-name" type="text" value="${esc(STATE.me.displayName)}"></div>
-      </label>
-      <label class="field"><span>Bio</span>
-        <div class="input-wrap"><input id="edit-bio" type="text" value="${esc(STATE.me.bio || '')}" maxlength="100"></div>
-      </label>
+    <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center">
+      <h3>Info Grup</h3>
+      <button class="icon-btn" id="gs-close">✕</button>
     </div>
-    <div class="modal-footer">
-      <button class="btn btn-soft" id="cancel-edit">Batal</button>
-      <button class="btn btn-primary" id="save-edit">Simpan</button>
-    </div>
-  `, root => {
-    root.querySelector('#cancel-edit').onclick = closeModal;
-    root.querySelector('#save-edit').onclick = async () => {
-      const name = root.querySelector('#edit-name').value.trim();
-      const bio = root.querySelector('#edit-bio').value.trim();
-      if (!name) { toast('Nama wajib'); return; }
-      await updateDoc(doc(db, 'users', STATE.uid), { displayName: name, bio });
-      STATE.me.displayName = name; STATE.me.bio = bio;
-      updateProfileUI(); toast('Profil diperbarui'); closeModal();
-    };
-  });
-});
-
-$('#btn-change-photo').addEventListener('click', () => $('#photo-input').click());
-$('#photo-input').addEventListener('change', async e => {
-  const file = e.target.files?.[0];
-  if (!file) return;
-  if (file.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); e.target.value=''; return; }
-  if (!file.type.startsWith('image/')) { toast('Hanya file gambar'); e.target.value=''; return; }
-
-  toast('Mengunggah foto profil…');
-  try {
-    const photoURL = await uploadToCloudinary(file);
-    await updateDoc(doc(db, 'users', STATE.uid), { photoURL });
-    STATE.me.photoURL = photoURL;
-    updateProfileUI(); toast('Foto profil diperbarui');
-  } catch (err) { toast('Gagal upload: ' + (err.message || '')); }
-  e.target.value = '';
-});
-
-/* ============================================================
-   PRIVACY
-   ============================================================ */
-$('#priv-who').addEventListener('change', async e => {
-  await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.whoCanMessage': e.target.value });
-  toast('Privasi diperbarui');
-});
-$('#priv-online').addEventListener('change', async e => {
-  await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.hideOnline': e.target.checked });
-});
-$('#priv-receipt').addEventListener('change', async e => {
-  await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.hideReceipt': e.target.checked });
-});
-$('#priv-focus').addEventListener('change', async e => {
-  await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.focus': e.target.checked });
-  STATE.me.privacy = { ...(STATE.me.privacy || {}), focus: e.target.checked };
-  toast(e.target.checked ? 'Mode Fokus aktif' : 'Mode Fokus nonaktif');
-});
-$('#btn-focus').addEventListener('click', async () => {
-  const v = !(STATE.me.privacy?.focus);
-  await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.focus': v });
-  STATE.me.privacy = { ...(STATE.me.privacy || {}), focus: v };
-  $('#priv-focus').checked = v; toast(v ? 'Mode Fokus aktif' : 'Mode Fokus nonaktif');
-});
-
-$('#btn-blocked-list').addEventListener('click', async () => {
-  const blocked = STATE.me.blocked || [];
-  if (!blocked.length) { toast('Belum ada pengguna diblokir'); return; }
-  const users = await Promise.all(blocked.map(async uid => {
-    const s = await getDoc(doc(db, 'users', uid));
-    return s.exists() ? { uid, ...s.data() } : null;
-  }));
-  showModal(`
-    <div class="modal-header"><h3>Daftar Diblokir</h3></div>
     <div class="modal-body">
-      ${users.filter(Boolean).map(u => `
-        <div class="search-result">
-          ${avatarHTML(u.displayName, u.photoURL, 'sm')}
-          <div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div>
-          <button class="btn btn-soft sm" data-unblock="${u.uid}">Buka</button>
+      <div class="settings-header">
+        <div id="gs-photo-wrapper" style="position:relative;cursor:${canEdit?'pointer':'default'}">
+          ${avatarHTML(c.name, c.photoURL, 'lg', 'gs-photo')}
+          ${canEdit ? '<div style="position:absolute;bottom:0;right:0;background:var(--primary);color:#fff;border-radius:50%;padding:5px;font-size:12px;border:2px solid #fff">📷</div>' : ''}
         </div>
-      `).join('') || '<p class="muted small center">Kosong</p>'}
+        ${canEdit ? `<input class="settings-group-title" id="gs-name-input" value="${esc(c.name)}" style="border-bottom:1px dashed var(--primary);text-align:center;width:100%;">` : `<h2 class="settings-group-title">${esc(c.name)}</h2>`}
+        <p class="muted small">${c.members.length} Anggota</p>
+        ${canEdit ? `<button class="btn btn-primary sm" id="gs-save-name" style="width:100%">Simpan Perubahan</button>` : ''}
+      </div>
+
+      <div class="list-card" style="margin-bottom:15px">
+        <label class="row">
+          <span>Hanya Admin yang bisa chat</span>
+          <input type="checkbox" class="switch" id="gs-only-admin-chat" ${c.onlyAdminsCanChat?'checked':''} ${canEdit?'':'disabled'}>
+        </label>
+        <label class="row">
+          <span>Siapa yang bisa tambah anggota</span>
+          <select id="gs-who-can-add" ${canEdit?'':'disabled'}>
+            <option value="everyone" ${c.whoCanAddMembers==='everyone'?'selected':''}>Semua Anggota</option>
+            <option value="admins" ${c.whoCanAddMembers==='admins'?'selected':''}>Hanya Admin</option>
+          </select>
+        </label>
+      </div>
+
+      <p class="section-title">Anggota Grup</p>
+      <div class="list-card" style="padding:10px 14px">${memberListHtml}</div>
     </div>
-    <div class="modal-footer"><button class="btn btn-soft" id="close-blocked">Tutup</button></div>
+    <div class="modal-footer" style="flex-direction:column;gap:10px">
+      <button class="btn btn-danger" id="gs-leave" style="width:100%">Keluar Grup</button>
+      ${isOwner ? `<button class="btn btn-danger" id="gs-disband" style="width:100%;background:#b91c1c">Bubarkan Grup</button>` : ''}
+    </div>
   `, root => {
-    root.querySelector('#close-blocked').onclick = closeModal;
-    root.querySelectorAll('[data-unblock]').forEach(b => {
-      b.onclick = async () => {
-        await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayRemove(b.dataset.unblock) });
-        STATE.me.blocked = (STATE.me.blocked || []).filter(x => x !== b.dataset.unblock);
-        toast('Diblokir dibuka'); closeModal();
+    root.querySelector('#gs-close').onclick = closeModal;
+
+    // Save name
+    if (canEdit) {
+      root.querySelector('#gs-save-name').onclick = async () => {
+        const newName = root.querySelector('#gs-name-input').value.trim();
+        if (!newName) return toast('Nama kosong');
+        await updateDoc(doc(db, 'chats', chatId), { name: newName });
+        toast('Nama diperbarui'); closeModal();
+        if (STATE.currentChat?.id === chatId) proceedOpenChat(chatId, { ...c, name: newName });
       };
-    });
-  });
-});
+    }
 
-/* ============================================================
-   LOGOUT
-   ============================================================ */
-async function doLogout() { detachListeners(); await signOut(auth); toast('Kamu sudah keluar'); }
-$('#btn-logout').addEventListener('click', doLogout);
-$('#btn-logout-2').addEventListener('click', doLogout);
-
-/* ============================================================
-   STATUS (VIEW, DELETE, UPLOAD)
-   ============================================================ */
-function openNewStatusModal() {
-  showModal(`
-    <div class="modal-header"><h3>Buat Status</h3></div>
-    <div class="modal-body">
-      <label class="field"><span>Status teks</span>
-        <div class="input-wrap"><input id="status-text" type="text" maxlength="120" placeholder="Apa yang kamu pikirkan?"></div>
-      </label>
-      <p class="muted small">Atau unggah foto (opsional).</p>
-      <button type="button" class="btn btn-soft" id="status-photo-btn">📷 Pilih Foto</button>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-soft" id="status-cancel">Batal</button>
-      <button class="btn btn-primary" id="status-save">Bagikan</button>
-    </div>
-  `, root => {
-    let photoFile = null;
-    root.querySelector('#status-cancel').onclick = closeModal;
-
-    root.querySelector('#status-photo-btn').onclick = () => {
-      const fi = document.createElement('input');
-      fi.type = 'file';
-      fi.accept = 'image/*';
-      fi.style.display = 'none';
-      document.body.appendChild(fi);
-      fi.onchange = e => {
-        photoFile = e.target.files?.[0] || null;
-        if (photoFile) {
-          if (photoFile.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); photoFile = null; }
-          else {
-            toast('Foto dipilih: ' + photoFile.name);
-            root.querySelector('#status-photo-btn').textContent = '📷 Ganti Foto (' + photoFile.name + ')';
-          }
-        }
+    // Change photo
+    root.querySelector('#gs-photo-wrapper').onclick = () => {
+      if (!canEdit) return;
+      const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.style.display='none'; document.body.appendChild(fi);
+      fi.onchange = async e => {
+        const file = e.target.files?.[0]; if(!file) return;
+        toast('Mengunggah foto…');
+        try {
+          const url = await uploadToCloudinary(file);
+          await updateDoc(doc(db, 'chats', chatId), { photoURL: url });
+          toast('Foto grup diubah');
+          root.querySelector('#gs-photo').outerHTML = avatarHTML(c.name, url, 'lg', 'gs-photo');
+        } catch(err){ toast('Gagal: '+err.message); }
         document.body.removeChild(fi);
       };
       fi.click();
     };
 
-    root.querySelector('#status-save').onclick = async () => {
-      const text = root.querySelector('#status-text').value.trim();
-      if (!text && !photoFile) { toast('Isi status atau pilih foto'); return; }
-
-      const btn = root.querySelector('#status-save');
-      btn.disabled = true; btn.textContent = 'Memproses…';
-
-      try {
-        let photoURL = '';
-        if (photoFile) {
-          toast('Mengunggah foto status…');
-          try {
-            photoURL = await uploadToCloudinary(photoFile);
-          } catch (e) {
-            toast('Upload foto gagal: ' + (e.message || ''));
-            btn.disabled = false; btn.textContent = 'Bagikan';
-            return;
-          }
-        }
-        await addDoc(collection(db, 'status'), {
-          userId: STATE.uid, userName: STATE.me.displayName, userPhoto: STATE.me.photoURL || '',
-          type: photoFile ? 'image' : 'text', content: text, photoURL, viewers: [],
-          createdAt: serverTimestamp(), expiresAt: Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000)
-        });
-        toast('Status dibagikan');
-        closeModal();
-      } catch (err) {
-        toast('Gagal: ' + (err.message || ''));
-        btn.disabled = false; btn.textContent = 'Bagikan';
-      }
+    // Toggles
+    const toggleAdminChat = root.querySelector('#gs-only-admin-chat');
+    if(toggleAdminChat) toggleAdminChat.onchange = async (e) => {
+      await updateDoc(doc(db, 'chats', chatId), { onlyAdminsCanChat: e.target.checked });
+      toast('Pengaturan chat diperbarui');
     };
+
+    const selAdd = root.querySelector('#gs-who-can-add');
+    if(selAdd) selAdd.onchange = async (e) => {
+      await updateDoc(doc(db, 'chats', chatId), { whoCanAddMembers: e.target.value });
+      toast('Pengaturan anggota diperbarui');
+    };
+
+    // Kick
+    root.querySelectorAll('[data-kick]').forEach(btn => {
+      btn.onclick = async () => {
+        const uid = btn.dataset.kick;
+        if (!confirm('Keluarkan anggota ini?')) return;
+        const memberNames = { ...c.memberNames }; delete memberNames[uid];
+        const memberPhotos = { ...c.memberPhotos }; delete memberPhotos[uid];
+        const memberUsernames = { ...c.memberUsernames }; delete memberUsernames[uid];
+        const unread = { ...c.unread }; delete unread[uid];
+        await updateDoc(doc(db, 'chats', chatId), {
+          members: arrayRemove(uid), admins: arrayRemove(uid),
+          memberNames, memberPhotos, memberUsernames, unread
+        });
+        await addDoc(collection(db, 'chats', chatId, 'messages'), {
+          type: 'system', text: `${STATE.me.displayName} telah mengeluarkan ${c.memberNames[uid]}`, createdAt: serverTimestamp()
+        });
+        toast('Anggota dikeluarkan'); closeModal();
+      };
+    });
+
+    // Toggle Admin
+    root.querySelectorAll('[data-toggle-admin]').forEach(btn => {
+      btn.onclick = async () => {
+        const uid = btn.dataset.toggleAdmin;
+        const isAdm = btn.dataset.isAdmin === 'true';
+        if (isAdm) {
+          await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) });
+          toast('Admin dicabut');
+        } else {
+          await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) });
+          toast('Dijadikan Admin');
+          await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} sebagai Admin`, createdAt: serverTimestamp() });
+        }
+        closeModal();
+      };
+    });
+
+    // Leave group
+    root.querySelector('#gs-leave').onclick = async () => {
+      if (!confirm('Keluar dari grup ini?')) return;
+      const memberNames = { ...c.memberNames }; delete memberNames[STATE.uid];
+      const memberPhotos = { ...c.memberPhotos }; delete memberPhotos[STATE.uid];
+      const memberUsernames = { ...c.memberUsernames }; delete memberUsernames[STATE.uid];
+      const unread = { ...c.unread }; delete unread[STATE.uid];
+      await updateDoc(doc(db, 'chats', chatId), {
+        members: arrayRemove(STATE.uid), admins: arrayRemove(STATE.uid),
+        memberNames, memberPhotos, memberUsernames, unread
+      });
+      await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} telah keluar dari grup`, createdAt: serverTimestamp() });
+      toast('Kamu keluar grup'); closeModal(); $('#chat-back').click();
+    };
+
+    // Disband group
+    if (isOwner) {
+      root.querySelector('#gs-disband').onclick = async () => {
+        if (!confirm('Bubarkan grup ini untuk semua orang? Tindakan ini permanen.')) return;
+        try {
+          const msgs = await getDocs(collection(db, 'chats', chatId, 'messages'));
+          const batch = writeBatch(db);
+          msgs.forEach(m => batch.delete(m.ref));
+          batch.delete(doc(db, 'chats', chatId));
+          await batch.commit();
+          toast('Grup dibubarkan'); closeModal(); $('#chat-back').click();
+        } catch(e) { toast('Gagal: '+e.message); }
+      };
+    }
   });
 }
 
-$('#list-status').addEventListener('click', e => {
-  const item = e.target.closest('[data-status]');
-  if (!item) return;
-  const s = STATE.statuses.find(x => x.id === item.dataset.status);
-  if (!s) return;
-  openStatusViewer(s);
-});
-
-function openStatusViewer(s) {
-  const isMine = s.userId === STATE.uid;
-  const wrap = document.createElement('div');
-  wrap.className = 'status-viewer';
-  wrap.innerHTML = `
-    <div class="sv-header">
-      ${avatarHTML(s.userName, s.userPhoto, 'sm')}
-      <div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>
-      ${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">🗑</button>` : ''}
-      <button class="icon-btn ghost-light" id="sv-close">✕</button>
-    </div>
-    <div class="sv-body">
-      ${s.type === 'image' && s.photoURL ? `<img src="${esc(s.photoURL)}">${s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : ''}` : `<p>${esc(s.content)}</p>`}
-    </div>
-  `;
-  document.body.appendChild(wrap);
-
-  wrap.querySelector('#sv-close').onclick = async () => {
-    if (!isMine) {
-      try { await updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) }); } catch {}
-    }
-    wrap.remove();
-  };
-
-  if (isMine) {
-    wrap.querySelector('#sv-delete').onclick = async () => {
-      if (confirm('Hapus status ini?')) {
-        await deleteDoc(doc(db, 'status', s.id));
-        wrap.remove();
-        toast('Status dihapus');
-      }
-    };
-  }
-}
-
-/* ============================================================
-   GROUP CREATION
-   ============================================================ */
-function openNewGroupModal() {
+/* --- ADD MEMBER LOGIC (DARI MENU CHAT) --- */
+$('#chat-menu').addEventListener('click', () => {
+  const isGroup = STATE.currentChat?.type === 'group';
   showModal(`
-    <div class="modal-header"><h3>Buat Grup</h3></div>
-    <div class="modal-body">
-      <label class="field"><span>Nama Grup</span>
-        <div class="input-wrap"><input id="grp-name" type="text" placeholder="Nama grup" maxlength="40"></div>
-      </label>
-      <label class="field"><span>Anggota (cari username)</span>
-        <div class="input-wrap"><span class="prefix">@</span>
-          <input id="grp-search" type="text" placeholder="ketik username…">
-        </div>
-      </label>
-      <div id="grp-results"></div>
-      <div id="grp-selected" style="display:flex;flex-wrap:wrap;gap:6px"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-soft" id="grp-cancel">Batal</button>
-      <button class="btn btn-primary" id="grp-create">Buat Grup</button>
+    <div class="modal-header"><h3>Opsi Chat</h3></div>
+    <div class="menu-list">
+      ${isGroup ? `<button class="menu-item" id="cm-add-member">👥 Tambah Anggota</button>` : ''}
+      <button class="menu-item" id="cm-mute">🔕 Bisukan / Aktifkan</button>
+      <button class="menu-item" id="cm-lock">🔒 Kunci dengan PIN</button>
+      <button class="menu-item" id="cm-clear" style="color:#e5484d">🗑 Kosongkan Chat</button>
     </div>
   `, root => {
-    const selected = new Map();
-    const selBox = root.querySelector('#grp-selected');
-    const results = root.querySelector('#grp-results');
-    root.querySelector('#grp-cancel').onclick = closeModal;
+    root.querySelector('#cm-mute').onclick = async () => {
+      const isMuted = (STATE.currentChat.mutedBy||[]).includes(STATE.uid);
+      await updateDoc(doc(db,'chats',STATE.currentChat.id),{mutedBy:isMuted?arrayRemove(STATE.uid):arrayUnion(STATE.uid)});
+      toast(isMuted?'Aktif':'Dibisukan'); closeModal();
+    };
+    root.querySelector('#cm-lock').onclick = () => {
+      showModal(`<div class="modal-header"><h3>Kunci PIN</h3></div><div class="modal-body"><input type="password" id="pin-in" maxlength="6" placeholder="PIN 4-6 angka" class="input-wrap" style="padding:10px;width:100%"></div><div class="modal-footer"><button class="btn btn-soft" id="p-cancel">Batal</button><button class="btn btn-primary" id="p-save">Simpan</button></div>`, r2 => {
+        r2.querySelector('#p-cancel').onclick = closeModal;
+        r2.querySelector('#p-save').onclick = async () => { const p = r2.querySelector('#pin-in').value; if(/^\d{4,6}$/.test(p)){await updateDoc(doc(db,'chats',STATE.currentChat.id),{[`pins.${STATE.uid}`]:p});closeModal();toast('Terkunci');}else toast('Format salah'); };
+      });
+    };
+    root.querySelector('#cm-clear').onclick = async () => {
+      if(!confirm('Hapus semua pesan?')) return;
+      const s = await getDocs(collection(db,'chats',STATE.currentChat.id,'messages')); const b = writeBatch(db); s.forEach(d=>b.delete(d.ref)); await b.commit();
+      await updateDoc(doc(db,'chats',STATE.currentChat.id),{lastMessage:null}); toast('Chat kosong'); closeModal();
+    };
+    if(isGroup) {
+      root.querySelector('#cm-add-member').onclick = () => {
+        if (STATE.currentChat.whoCanAddMembers === 'admins') {
+          const isAdm = STATE.currentChat.createdBy === STATE.uid || (STATE.currentChat.admins||[]).includes(STATE.uid);
+          if (!isAdm) { toast('Hanya Admin yang bisa tambah anggota'); return; }
+        }
+        closeModal();
+        openAddMemberModal();
+      };
+    }
+  });
+});
 
-    let t;
-    root.querySelector('#grp-search').addEventListener('input', e => {
-      clearTimeout(t);
-      const q = e.target.value.toLowerCase().trim();
-      if (q.length < 2) { results.innerHTML = ''; return; }
-      t = setTimeout(async () => {
-        const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(8)));
-        const users = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== STATE.uid && !u.isBanned);
-        results.innerHTML = users.map(u => `
-          <div class="search-result" data-uid="${u.uid}">
-            ${avatarHTML(u.displayName, u.photoURL, 'sm')}
-            <div class="info">
-              <strong>${esc(u.displayName)} ${u.isVerified ? BLUE_TICK_SVG : ''}</strong>
-              <span>@${esc(u.username)}</span>
-            </div>
-          </div>`).join('') || '<p class="muted small center">Tidak ditemukan</p>';
-        results.querySelectorAll('.search-result').forEach(el => {
-          el.onclick = () => {
-            const u = users.find(x => x.uid === el.dataset.uid);
-            if (!selected.has(u.uid)) {
-              selected.set(u.uid, u);
-              const chip = document.createElement('span');
-              chip.className = 'alias-chip'; chip.textContent = u.displayName + ' ×';
-              chip.onclick = () => { selected.delete(u.uid); chip.remove(); };
-              selBox.appendChild(chip);
-            }
-            results.innerHTML = ''; root.querySelector('#grp-search').value = '';
+function openAddMemberModal() {
+  showModal(`<div class="modal-header"><h3>Tambah Anggota</h3></div><div class="modal-body"><input type="text" id="am-search" placeholder="Cari username…" class="input-wrap" style="padding:10px;width:100%"><div id="am-results"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, root => {
+    const input = root.querySelector('#am-search'); const res = root.querySelector('#am-results');
+    let t; input.addEventListener('input', () => {
+      clearTimeout(t); t = setTimeout(async () => {
+        const q = input.value.toLowerCase().trim(); if(q.length<2) return;
+        const snap = await getDocs(query(collection(db,'users'),where('username','>=',q),where('username','<=',q+'\uf8ff'),limit(5)));
+        res.innerHTML = snap.docs.map(d => {
+          const u = d.data();
+          if (STATE.currentChat.members.includes(d.id)) return `<div class="search-result"><div class="info"><strong>${esc(u.displayName)}</strong><span>Sudah di grup</span></div></div>`;
+          return `<div class="search-result" data-add="${d.id}" data-name="${esc(u.displayName)}" data-photo="${esc(u.photoURL||'')}" data-uname="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`;
+        }).join('');
+        res.querySelectorAll('[data-add]').forEach(el => {
+          el.onclick = async () => {
+            const uid = el.dataset.add;
+            const names = { ...STATE.currentChat.memberNames, [uid]: el.dataset.name };
+            const photos = { ...STATE.currentChat.memberPhotos, [uid]: el.dataset.photo };
+            const unames = { ...STATE.currentChat.memberUsernames, [uid]: el.dataset.uname };
+            await updateDoc(doc(db,'chats',STATE.currentChat.id), { members: arrayUnion(uid), memberNames: names, memberPhotos: photos, memberUsernames: unames });
+            await addDoc(collection(db,'chats',STATE.currentChat.id,'messages'), { type:'system', text:`${STATE.me.displayName} telah menambahkan ${el.dataset.name}`, createdAt: serverTimestamp() });
+            toast('Ditambahkan'); closeModal();
           };
         });
       }, 300);
     });
+  });
+}
 
-    root.querySelector('#grp-create').onclick = async () => {
-      const name = root.querySelector('#grp-name').value.trim();
-      if (!name) { toast('Nama grup wajib'); return; }
-      if (selected.size < 1) { toast('Minimal 1 anggota'); return; }
-      const members = [STATE.uid, ...selected.keys()];
-      const memberNames = { [STATE.uid]: STATE.me.displayName };
-      const memberPhotos = { [STATE.uid]: STATE.me.photoURL || '' };
-      const memberUsernames = { [STATE.uid]: STATE.me.username };
-      selected.forEach(u => {
-        memberNames[u.uid] = u.displayName; memberPhotos[u.uid] = u.photoURL || ''; memberUsernames[u.uid] = u.username;
-      });
-      const ref = await addDoc(collection(db, 'chats'), {
-        type: 'group', name, members, memberNames, memberPhotos, memberUsernames,
-        pendingFor: [], unread: {}, lastMessage: null, createdBy: STATE.uid, isVerified: false,
-        updatedAt: serverTimestamp(), createdAt: serverTimestamp()
-      });
+/* --- PROFILE, PRIVACY, LOGOUT, GROUP CREATION, NAV (SAMA SEPERTI SEBELUMNYA) --- */
+$('#btn-edit-profile').addEventListener('click', () => {
+  showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
+    r.querySelector('#es').onclick = async () => { await updateDoc(doc(db,'users',STATE.uid),{displayName:r.querySelector('#en').value.trim(),bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=r.querySelector('#en').value; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); closeModal(); };
+  });
+});
+$('#btn-change-photo').addEventListener('click', () => $('#photo-input').click());
+$('#photo-input').addEventListener('change', async e => {
+  const f = e.target.files?.[0]; if(!f) return; toast('Upload…');
+  try{ const url = await uploadToCloudinary(f); await updateDoc(doc(db,'users',STATE.uid),{photoURL:url}); STATE.me.photoURL=url; updateProfileUI(); toast('Berhasil'); }catch(err){toast(err.message);}
+  e.target.value='';
+});
+$('#priv-who').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.whoCanMessage':e.target.value}));
+$('#priv-online').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.hideOnline':e.target.checked}));
+$('#priv-receipt').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.hideReceipt':e.target.checked}));
+$('#priv-focus').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.focus':e.target.checked}));
+$('#btn-focus').addEventListener('click', () => { const v = !STATE.me.privacy?.focus; updateDoc(doc(db,'users',STATE.uid),{'privacy.focus':v}); STATE.me.privacy.focus=v; $('#priv-focus').checked=v; toast(v?'Fokus Aktif':'Nonaktif'); });
+async function doLogout() { detachListeners(); await signOut(auth); }
+$('#btn-logout').onclick = doLogout; $('#btn-logout-2').onclick = doLogout;
+
+$$('.nav-btn').forEach(b => b.addEventListener('click', () => {
+  $$('.nav-btn').forEach(x=>x.classList.toggle('active',x===b)); $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+b.dataset.tab)); $('#content').scrollTop=0;
+}));
+
+$$('.seg-btn').forEach(b => b.addEventListener('click', () => {
+  $$('.seg-btn').forEach(x=>x.classList.toggle('active',x===b)); $('#form-login').classList.toggle('hidden',b.dataset.auth!=='login'); $('#form-register').classList.toggle('hidden',b.dataset.auth!=='register');
+}));
+
+$('#form-login').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; try{await loginUser($('#login-user').value,$('#login-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Masuk'; });
+$('#form-register').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-register'); b.disabled=true; b.textContent='…'; try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Buat Akun'; });
+
+$('#fab').addEventListener('click', () => {
+  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list"><button class="menu-item" id="mnc">💬 Chat Baru</button><button class="menu-item" id="mng">👥 Buat Grup</button><button class="menu-item" id="mns">◍ Buat Status</button></div>`, r=>{
+    r.querySelector('#mnc').onclick = () => { closeModal(); openNewChatModal(); };
+    r.querySelector('#mng').onclick = () => { closeModal(); openNewGroupModal(); };
+    r.querySelector('#mns').onclick = () => { closeModal(); openNewStatusModal(); };
+  });
+});
+
+function openNewChatModal() {
+  showModal(`<div class="modal-header"><h3>Chat Baru</h3></div><div class="modal-body"><input id="sc-u" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari username…"><div id="sc-r" style="margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r=>{
+    const inp = r.querySelector('#sc-u'); const res = r.querySelector('#sc-r');
+    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
+      if(inp.value.length<2){res.innerHTML='';return;}
+      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(10)));
+      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(u.uid===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
+      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>startChatWith(el.dataset.uid);});
+    },300); });
+  });
+}
+
+async function startChatWith(uid) {
+  closeModal();
+  const s = await getDocs(query(collection(db,'chats'),where('members','array-contains',STATE.uid)));
+  for(const d of s.docs){ if(d.data().type==='direct' && (d.data().members||[]).includes(uid)){ openChat(d.id); return; } }
+  const t = (await getDoc(doc(db,'users',uid))).data();
+  const docRef = await addDoc(collection(db,'chats'),{
+    type:'direct',members:[STATE.uid,uid],memberNames:{[STATE.uid]:STATE.me.displayName,[uid]:t.displayName},memberPhotos:{[STATE.uid]:STATE.me.photoURL||'',[uid]:t.photoURL||''},memberUsernames:{[STATE.uid]:STATE.me.username,[uid]:t.username},memberVerified:{[STATE.uid]:STATE.me.isVerified||false,[uid]:t.isVerified||false},pendingFor:t.privacy?.whoCanMessage==='contacts'?[uid]:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()
+  });
+  openChat(docRef.id);
+}
+
+function openNewGroupModal() {
+  showModal(`<div class="modal-header"><h3>Buat Grup</h3></div><div class="modal-body"><input id="g-n" class="input-wrap" style="padding:10px;width:100%;margin-bottom:10px" placeholder="Nama Grup"><input id="g-s" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari anggota…"><div id="g-r"></div><div id="g-sel" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="g-c">Buat</button></div>`, r=>{
+    const sel = new Map(); const inp = r.querySelector('#g-s'); const res = r.querySelector('#g-r');
+    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
+      if(inp.value.length<2){res.innerHTML='';return;}
+      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(5)));
+      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(d.id===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}" data-n="${esc(u.displayName)}" data-p="${esc(u.photoURL||'')}" data-un="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
+      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>{
+        sel.set(el.dataset.uid, {name:el.dataset.n, photo:el.dataset.p, uname:el.dataset.un});
+        const c = document.createElement('span'); c.className='alias-chip'; c.textContent=el.dataset.n+' ×'; c.onclick=()=>{sel.delete(el.dataset.uid);c.remove();}; r.querySelector('#g-sel').appendChild(c);
+        inp.value=''; res.innerHTML='';
+      }});
+    },300); });
+    r.querySelector('#g-c').onclick = async () => {
+      const name = r.querySelector('#g-n').value.trim(); if(!name||sel.size<1) return toast('Isi nama & anggota');
+      const members = [STATE.uid, ...sel.keys()];
+      const mn = {[STATE.uid]:STATE.me.displayName}; const mp = {[STATE.uid]:STATE.me.photoURL||''}; const mu = {[STATE.uid]:STATE.me.username};
+      sel.forEach((v,k)=>{mn[k]=v.name;mp[k]=v.photo;mu[k]=v.uname;});
+      const ref = await addDoc(collection(db,'chats'),{type:'group',name,members,memberNames:mn,memberPhotos:mp,memberUsernames:mu,createdBy:STATE.uid,admins:[],onlyAdminsCanChat:false,whoCanAddMembers:'everyone',pendingFor:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()});
       toast('Grup dibuat'); closeModal(); openChat(ref.id);
     };
   });
 }
 
-/* ============================================================
-   TAB NAVIGATION
-   ============================================================ */
-$$('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const tab = btn.dataset.tab;
-    $$('.nav-btn').forEach(b => b.classList.toggle('active', b === btn));
-    $$('.tab-panel').forEach(p => p.classList.toggle('active', p.id === 'tab-' + tab));
-    $('#content').scrollTop = 0;
-  });
-});
-
-/* ============================================================
-   AUTH UI
-   ============================================================ */
-$$('.seg-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const mode = btn.dataset.auth;
-    $$('.seg-btn').forEach(b => b.classList.toggle('active', b === btn));
-    $('#form-login').classList.toggle('hidden', mode !== 'login');
-    $('#form-register').classList.toggle('hidden', mode !== 'register');
-  });
-});
-
-$('#form-login').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = $('#btn-login'); btn.disabled = true; btn.textContent = 'Memproses…';
-  try {
-    await loginUser($('#login-user').value, $('#login-pass').value);
-  } catch (err) {
-    const code = err.code || '';
-    let msg = err.message;
-    if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found')
-      msg = 'Username atau password salah';
-    toast('Login gagal: ' + msg);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Masuk';
-  }
-});
-
-$('#form-register').addEventListener('submit', async e => {
-  e.preventDefault();
-  const btn = $('#btn-register'); btn.disabled = true; btn.textContent = 'Memproses…';
-  try {
-    await registerUser($('#reg-name').value, $('#reg-user').value, $('#reg-pass').value);
-  } catch (err) {
-    toast('Gagal daftar: ' + err.message);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Buat Akun';
-  }
-});
-
-let unameCheckT;
-$('#reg-user').addEventListener('input', e => {
-  clearTimeout(unameCheckT);
-  const v = e.target.value.toLowerCase().trim();
-  const hint = $('#reg-hint');
-  if (!v) { hint.textContent = '3-20 karakter (huruf kecil, angka, _)'; hint.className = 'hint'; return; }
-  if (!/^[a-z0-9_]{3,20}$/.test(v)) { hint.textContent = 'Format tidak valid'; hint.className = 'hint err'; return; }
-  hint.textContent = 'Memeriksa ketersediaan…'; hint.className = 'hint';
-  unameCheckT = setTimeout(async () => {
-    try {
-      const s = await getDoc(doc(db, 'usernames', v));
-      if (s.exists()) { hint.textContent = 'Username sudah dipakai'; hint.className = 'hint err'; }
-      else { hint.textContent = '@' + v + ' tersedia ✓'; hint.className = 'hint ok'; }
-    } catch { hint.textContent = ''; }
-  }, 500);
-});
-
-/* Initial screen */
 showScreen('screen-auth');
 </script>
 </body>
