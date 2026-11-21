@@ -6,7 +6,6 @@
 <meta name="theme-color" content="#0fa585">
 <title>ChatGo</title>
 
-<!-- ==== IMPORT MAP FIREBASE ==== -->
 <script type="importmap">
 {
   "imports": {
@@ -18,7 +17,6 @@
 </script>
 
 <style>
-/* ===== TOKENS ===== */
 :root{
   --primary:#0fa585;--primary-2:#12b886;--primary-dark:#0a7c66;
   --primary-soft:#e8f7f2;--bg:#eef2f5;--surface:#fff;
@@ -44,7 +42,6 @@ img{display:block;max-width:100%;}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
 .muted{color:var(--muted);}.small{font-size:12px;}.center{text-align:center;}
 
-/* ===== SHELL ===== */
 .app-shell{
   position:relative;width:100%;max-width:480px;
   height:100vh;height:100dvh;background:var(--bg);
@@ -61,7 +58,6 @@ img{display:block;max-width:100%;}
   .screen{border-radius:30px;overflow:hidden;}
 }
 
-/* ===== AUTH ===== */
 .auth-scroll{flex:1;min-height:0;overflow-y:auto;display:flex;flex-direction:column;padding-bottom:calc(28px + env(safe-area-inset-bottom));}
 .auth-hero{background:linear-gradient(150deg,#13c08d 0%,#0fa585 45%,#0a7c66 100%);color:#fff;padding:calc(env(safe-area-inset-top) + 42px) 26px 34px;border-radius:0 0 34px 34px;text-align:center;box-shadow:0 12px 28px rgba(10,124,102,.22);}
 .brand-badge{width:60px;height:60px;margin:0 auto 16px;border-radius:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);display:grid;place-items:center;font-weight:800;font-size:20px;letter-spacing:.5px;backdrop-filter:blur(6px);}
@@ -90,7 +86,6 @@ img{display:block;max-width:100%;}
 .btn.sm{width:auto;padding:11px 18px;font-size:13.5px;border-radius:12px;}
 .auth-note{margin:0;font-size:11.5px;color:var(--muted);text-align:center;line-height:1.5;}
 
-/* ===== TOPBAR ===== */
 .topbar{position:relative;z-index:6;background:linear-gradient(150deg,#13c08d 0%,#0fa585 50%,#0a7c66 100%);color:#fff;padding:calc(env(safe-area-inset-top) + 16px) 18px 18px;border-radius:0 0 26px 26px;box-shadow:0 8px 22px rgba(10,80,66,.20);}
 .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .topbar-hello{margin:0 0 3px;font-size:12px;color:rgba(255,255,255,.82);}
@@ -105,7 +100,6 @@ img{display:block;max-width:100%;}
 .search-wrap input{flex:1;min-width:0;border:0;background:transparent;padding:12px 0;font-size:14px;color:#fff;}
 .search-wrap input::placeholder{color:rgba(255,255,255,.78);}
 
-/* ===== CONTENT ===== */
 .content{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:16px 14px calc(var(--nav-h) + 84px);}
 .tab-panel{display:none;}
 .tab-panel.active{display:block;animation:fadeUp .2s ease both;}
@@ -114,7 +108,6 @@ img{display:block;max-width:100%;}
 .section-title:not(:first-child){margin-top:22px;}
 .empty{padding:44px 20px;text-align:center;color:var(--muted);font-size:13.5px;line-height:1.6;background:#fff;border:1px dashed var(--line);border-radius:18px;}
 
-/* ===== KOMPONEN ===== */
 .avatar{width:48px;height:48px;flex-shrink:0;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:15px;letter-spacing:.3px;background:linear-gradient(140deg,var(--a,#12b886),var(--b,#0a7c66));box-shadow:0 4px 12px rgba(10,90,75,.18);user-select:none;overflow:hidden;}
 .avatar img{width:100%;height:100%;object-fit:cover;}
 .avatar.sm{width:38px;height:38px;font-size:13px;}
@@ -123,7 +116,6 @@ img{display:block;max-width:100%;}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-sm);}
 .tag{font-size:11px;line-height:1;}
 
-/* ===== CHAT LIST ===== */
 .chat-item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:10px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .14s ease,background .16s,box-shadow .16s;}
 .chat-item:active{transform:scale(.988);background:#fbfdfc;box-shadow:0 1px 4px rgba(16,64,54,.06);}
 .chat-item-body{flex:1;min-width:0;}
@@ -133,7 +125,6 @@ img{display:block;max-width:100%;}
 .chat-item-preview{display:flex;align-items:center;gap:8px;margin-top:3px;font-size:13px;color:var(--muted);}
 .chat-item-preview>span{flex:1;min-width:0;}
 
-/* ===== STATUS ===== */
 .status-add{display:flex;align-items:center;gap:12px;padding:14px;cursor:pointer;transition:background .16s;}
 .status-add:active{background:#fbfdfc;}
 .status-add strong{display:block;font-size:14.5px;}
@@ -149,7 +140,6 @@ img{display:block;max-width:100%;}
 .status-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);}
 .status-badge{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:99px;background:var(--primary-soft);color:var(--primary-dark);flex-shrink:0;}
 
-/* ===== REQUEST ===== */
 .req-item{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
 .req-head{display:flex;align-items:center;gap:12px;}
 .req-head-info{flex:1;min-width:0;}
@@ -161,7 +151,6 @@ img{display:block;max-width:100%;}
 .btn-accept{background:linear-gradient(135deg,var(--primary-2),var(--primary-dark));color:#fff;box-shadow:0 8px 18px rgba(10,124,102,.24);}
 .btn-reject{background:#fdecec;color:var(--danger);}
 
-/* ===== PROFILE ===== */
 .profile-card{padding:22px 18px 20px;text-align:center;background:linear-gradient(180deg,#ffffff,#f8fdfb);}
 .profile-card h3{margin:14px 0 2px;font-size:19px;font-weight:800;}
 .profile-card .uname{margin:0;font-size:13px;color:var(--primary-dark);font-weight:700;}
@@ -183,7 +172,6 @@ img{display:block;max-width:100%;}
 .switch:checked{background:linear-gradient(135deg,var(--primary-2),var(--primary-dark));}
 .switch:checked::after{transform:translateX(19px);}
 
-/* ===== BOTTOM NAV & FAB ===== */
 .bottom-nav{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -8px 22px rgba(16,64,54,.07);}
 .nav-btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 2px;border-radius:13px;font-size:10.5px;font-weight:800;letter-spacing:.2px;color:#8b9a96;transition:color .18s,background .18s;}
 .nav-btn .ico{font-size:18px;line-height:1;filter:grayscale(1);opacity:.62;transition:.18s;}
@@ -193,7 +181,6 @@ img{display:block;max-width:100%;}
 .fab{position:absolute;z-index:15;right:16px;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));width:56px;height:56px;display:grid;place-items:center;border-radius:50%;font-size:27px;font-weight:400;line-height:1;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:var(--shadow-lg);transition:transform .14s ease,box-shadow .18s;}
 .fab:active{transform:scale(.92);box-shadow:0 8px 18px rgba(10,124,102,.3);}
 
-/* ===== CHAT SCREEN ===== */
 #screen-chat{background:#e9efee;}
 .chat-topbar{position:relative;z-index:6;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 10px 12px;background:linear-gradient(150deg,#13c08d 0%,#0fa585 55%,#0a7c66 100%);color:#fff;box-shadow:0 6px 18px rgba(10,80,66,.22);}
 .chat-topbar-info{flex:1;min-width:0;}
@@ -215,6 +202,7 @@ img{display:block;max-width:100%;}
 .reply-preview{padding:6px 10px;margin-bottom:6px;border-left:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.15);border-radius:6px;font-size:12.5px;opacity:.9;}
 .msg.in .reply-preview{border-left-color:var(--primary);background:#f0f6f4;color:#3d4f4a;}
 .sender-name{font-size:11px;font-weight:800;opacity:.75;margin-bottom:2px;}
+.chat-img{max-width:100%;border-radius:10px;margin-top:5px;}
 
 .chat-input-bar{position:relative;z-index:6;display:flex;align-items:center;gap:7px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(16,64,54,.06);}
 .chat-input-wrap{flex:1;min-width:0;background:#f1f5f3;border:1.5px solid transparent;border-radius:24px;padding:0 16px;transition:background .18s,border-color .18s;}
@@ -230,7 +218,6 @@ img{display:block;max-width:100%;}
 .reply-bar strong{display:block;font-size:12px;color:var(--primary-dark);}
 .reply-bar span{display:block;font-size:12.5px;color:#5c6f6a;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 
-/* ===== TOAST & MODAL ===== */
 .toast{position:absolute;z-index:60;left:50%;bottom:calc(var(--nav-h) + 96px + env(safe-area-inset-bottom));transform:translate(-50%,10px);max-width:86%;padding:11px 18px;border-radius:99px;background:rgba(18,33,29,.93);color:#fff;font-size:12.8px;font-weight:600;text-align:center;opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;box-shadow:0 10px 26px rgba(0,0,0,.2);}
 .toast.show{opacity:1;transform:translate(-50%,0);}
 #modal-root{position:absolute;inset:0;z-index:80;display:none;}
@@ -256,7 +243,6 @@ img{display:block;max-width:100%;}
 .search-result .info strong{display:block;font-size:14.5px;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
-/* ===== STATUS VIEWER ===== */
 .status-viewer{position:absolute;inset:0;background:#111;color:#fff;z-index:90;display:flex;flex-direction:column;}
 .status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 14px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);}
 .status-viewer .sv-header .info{flex:1;}
@@ -270,7 +256,6 @@ img{display:block;max-width:100%;}
 
 <div class="app-shell" id="app-shell">
 
-  <!-- ===== LAYAR 1: AUTH ===== -->
   <section id="screen-auth" class="screen active">
     <div class="auth-scroll">
       <div class="auth-hero">
@@ -313,7 +298,6 @@ img{display:block;max-width:100%;}
     </div>
   </section>
 
-  <!-- ===== LAYAR 2: BERANDA ===== -->
   <section id="screen-home" class="screen hidden">
     <header class="topbar">
       <div class="topbar-row">
@@ -409,7 +393,6 @@ img{display:block;max-width:100%;}
     </nav>
   </section>
 
-  <!-- ===== LAYAR 3: RUANG CHAT ===== -->
   <section id="screen-chat" class="screen hidden">
     <header class="chat-topbar">
       <button type="button" class="icon-btn ghost-light" id="chat-back">←</button>
@@ -441,12 +424,10 @@ img{display:block;max-width:100%;}
   <div id="modal-root" class="hidden"></div>
   <div class="toast" id="toast"></div>
   <input type="file" id="photo-input" accept="image/*" class="hidden">
+  <input type="file" id="chat-media-input" accept="image/*" class="hidden">
 </div>
 
 <script type="module">
-/* ============================================================
-   IMPORTS
-   ============================================================ */
 import { initializeApp } from "firebase/app";
 import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
@@ -458,9 +439,6 @@ import {
   serverTimestamp, arrayUnion, arrayRemove, getDocs, writeBatch, Timestamp
 } from "firebase/firestore";
 
-/* ============================================================
-   FIREBASE INIT
-   ============================================================ */
 const firebaseConfig = {
   apiKey: "AIzaSyAt3cwXZtgkeiD0B3yJy1DOXKtlte1oiIM",
   authDomain: "chatgo-f4a66.firebaseapp.com",
@@ -476,32 +454,40 @@ const db = initializeFirestore(app, {
   useFetchStreams: false
 });
 
-/* ============================================================
-   CLOUDINARY CONFIG
-   ============================================================ */
+/* ===== CLOUDINARY ===== */
 const CLOUDINARY_CLOUD_NAME = "dyyrkj3ho";
-const CLOUDINARY_UPLOAD_PRESET = "Chatgo preset";
+const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
-async function uploadToCloudinary(file, folder = "chatgo") {
+async function uploadToCloudinary(file) {
   const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/auto/upload`;
   const formData = new FormData();
   formData.append("file", file);
   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
-  formData.append("folder", folder);
-  const response = await fetch(url, { method: "POST", body: formData });
+
+  let response;
+  try {
+    response = await fetch(url, { method: "POST", body: formData });
+  } catch (netErr) {
+    throw new Error("Koneksi gagal. Periksa internet Anda.");
+  }
+
   if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.error?.message || "Gagal mengunggah ke Cloudinary");
+    let msg = "Gagal mengunggah";
+    try {
+      const errorData = await response.json();
+      msg = errorData.error?.message || msg;
+    } catch { msg = `Upload error (HTTP ${response.status})`; }
+    if (/preset/i.test(msg)) {
+      msg = "Upload preset Cloudinary tidak valid. Pastikan preset 'chatgo_preset' ada dan bertipe Unsigned.";
+    }
+    throw new Error(msg);
   }
   const data = await response.json();
+  if (!data.secure_url) throw new Error("Respons upload tidak valid");
   return data.secure_url;
 }
 
-/* ============================================================
-   STATE & HELPERS
-   ============================================================ */
-let isRegistering = false; // Flag perbaikan error profil tidak ditemukan
-
+/* ===== STATE ===== */
 const STATE = {
   uid: null, me: null,
   chats: [], requests: [], statuses: [],
@@ -525,7 +511,7 @@ function toast(msg) {
   el.textContent = msg;
   el.classList.add('show');
   clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
 }
 
 function showScreen(id) {
@@ -536,15 +522,25 @@ function showScreen(id) {
   });
 }
 
-function avatarHTML(name, photo, cls = '') {
+/* ==== FIX: avatar builder TANPA trailing space + support ID ==== */
+function avatarHTML(name, photo, cls = '', id = '') {
   const [a, b] = colorFor(name || '?');
-  if (photo) return `<div class="avatar ${cls}"><img src="${esc(photo)}" alt=""></div>`;
-  return `<div class="avatar ${cls}" style="--a:${a};--b:${b}">${esc(initialsFor(name))}</div>`;
+  const classes = 'avatar' + (cls ? ' ' + cls : '');
+  const idAttr = id ? ` id="${esc(id)}"` : '';
+  if (photo) return `<div class="${classes}"${idAttr}><img src="${esc(photo)}" alt=""></div>`;
+  return `<div class="${classes}"${idAttr} style="--a:${a};--b:${b}">${esc(initialsFor(name))}</div>`;
 }
 
-/* ============================================================
-   MODAL
-   ============================================================ */
+function setAvatarEl(el, name, photo, extraCls = '') {
+  if (!el) return;
+  el.className = 'avatar' + (extraCls ? ' ' + extraCls : '');
+  const [a, b] = colorFor(name || '?');
+  el.style.setProperty('--a', a);
+  el.style.setProperty('--b', b);
+  if (photo) el.innerHTML = `<img src="${esc(photo)}" alt="">`;
+  else el.innerHTML = esc(initialsFor(name));
+}
+
 function showModal(html, onMount) {
   const root = $('#modal-root');
   root.innerHTML = `<div class="modal-backdrop"><div class="modal">${html}</div></div>`;
@@ -564,39 +560,97 @@ function closeModal() {
    AUTH
    ============================================================ */
 async function registerUser(displayName, username, password) {
-  isRegistering = true;
   const uname = username.toLowerCase().trim();
-  if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter');
+  if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter (huruf kecil, angka, _)');
   if (password.length < 6) throw new Error('Password minimal 6 karakter');
   if (!displayName.trim()) throw new Error('Nama tampilan wajib');
 
-  const unameSnap = await getDoc(doc(db, 'usernames', uname));
-  if (unameSnap.exists()) throw new Error('Username sudah dipakai');
+  // Cek username
+  try {
+    const unameSnap = await getDoc(doc(db, 'usernames', uname));
+    if (unameSnap.exists()) throw new Error('Username sudah dipakai');
+  } catch (e) {
+    if (e.message === 'Username sudah dipakai') throw e;
+    throw new Error('Tidak dapat memeriksa username: ' + (e.code || e.message || 'cek koneksi'));
+  }
 
-  const cred = await createUserWithEmailAndPassword(auth, emailFor(uname), password);
+  let cred;
+  try {
+    cred = await createUserWithEmailAndPassword(auth, emailFor(uname), password);
+  } catch (err) {
+    const code = err.code || '';
+    if (code === 'auth/email-already-in-use') {
+      throw new Error('Username sudah terdaftar. Coba login atau gunakan username lain.');
+    }
+    if (code === 'auth/operation-not-allowed') {
+      throw new Error('Login Email/Password belum diaktifkan di Firebase Console.');
+    }
+    if (code === 'auth/invalid-email') throw new Error('Format username tidak valid.');
+    if (code === 'auth/weak-password') throw new Error('Password terlalu lemah.');
+    throw new Error(err.message || 'Gagal membuat akun');
+  }
+
   const uid = cred.user.uid;
 
-  await setDoc(doc(db, 'usernames', uname), { uid, createdAt: serverTimestamp() });
-  await setDoc(doc(db, 'users', uid), {
-    displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
-    privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
-    blocked: [], createdAt: serverTimestamp()
-  });
-
-  await addDoc(collection(db, 'chats'), {
-    type: 'self', name: 'Catatan Pribadi', members: [uid],
-    lastMessage: { text: 'Pesan tersimpan untuk diri sendiri', senderId: uid, senderName: displayName },
-    updatedAt: serverTimestamp(), createdAt: serverTimestamp()
-  });
-  
-  // Jeda sedikit agar sinkronisasi Firestore selesai sebelum onAuthStateChanged membaca
-  await new Promise(r => setTimeout(r, 800));
-  isRegistering = false;
+  try {
+    await setDoc(doc(db, 'usernames', uname), { uid, createdAt: serverTimestamp() });
+    await setDoc(doc(db, 'users', uid), {
+      displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
+      privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
+      blocked: [], createdAt: serverTimestamp()
+    });
+    await addDoc(collection(db, 'chats'), {
+      type: 'self', name: 'Catatan Pribadi', members: [uid],
+      lastMessage: { text: 'Pesan tersimpan untuk diri sendiri', senderId: uid, senderName: displayName },
+      updatedAt: serverTimestamp(), createdAt: serverTimestamp()
+    });
+  } catch (e) {
+    // rollback auth user kalau gagal nulis firestore
+    try { await cred.user.delete(); } catch {}
+    console.error('REGISTER FIRESTORE ERROR:', e);
+    throw new Error('Gagal menyimpan data akun. ' + (e.code || e.message || ''));
+  }
 }
 
 async function loginUser(username, password) {
   const uname = username.toLowerCase().trim();
   return signInWithEmailAndPassword(auth, emailFor(uname), password);
+}
+
+async function loadProfileAndShow(user) {
+  let snap = null;
+  let lastErr = null;
+  for (let i = 0; i < 25; i++) {
+    try {
+      snap = await getDoc(doc(db, 'users', user.uid));
+      if (snap.exists()) break;
+    } catch (e) { lastErr = e; console.warn('profile load retry', i, e); }
+    await new Promise(r => setTimeout(r, 400));
+  }
+
+  if (!snap || !snap.exists()) {
+    // Jangan auto-logout. Beri pilihan ke user.
+    showModal(`
+      <div class="modal-header"><h3>Gagal Memuat Profil</h3></div>
+      <div class="modal-body">
+        <p class="muted small">Tidak dapat memuat profil. Periksa koneksi lalu coba lagi, atau logout dan login ulang.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-soft" id="retry-logout">Logout</button>
+        <button class="btn btn-primary" id="retry-load">Coba Lagi</button>
+      </div>
+    `, root => {
+      root.querySelector('#retry-logout').onclick = () => { closeModal(); signOut(auth); };
+      root.querySelector('#retry-load').onclick = () => { closeModal(); loadProfileAndShow(user); };
+    });
+    return;
+  }
+
+  STATE.uid = user.uid;
+  STATE.me = { uid: user.uid, ...snap.data() };
+  updateProfileUI();
+  showScreen('screen-home');
+  attachListeners();
 }
 
 onAuthStateChanged(auth, async user => {
@@ -607,43 +661,26 @@ onAuthStateChanged(auth, async user => {
     return;
   }
   STATE.uid = user.uid;
-  
-  // RETRY LOGIC: Jika baru register, tunggu sampai profil muncul di Firestore
-  let snap = await getDoc(doc(db, 'users', user.uid));
-  let attempts = 0;
-  while (!snap.exists() && isRegistering && attempts < 5) {
-    await new Promise(r => setTimeout(r, 800)); 
-    snap = await getDoc(doc(db, 'users', user.uid));
-    attempts++;
-  }
-
-  if (!snap.exists()) { 
-    toast('Profil tidak ditemukan. Coba login ulang.'); 
-    signOut(auth); 
-    return; 
-  }
-  
-  STATE.me = { uid: user.uid, ...snap.data() };
-  updateProfileUI();
-  showScreen('screen-home');
-  attachListeners();
+  await loadProfileAndShow(user);
 });
 
 function updateProfileUI() {
   const me = STATE.me;
   if (!me) return;
-  $('#topbar-name').textContent = me.displayName;
-  $('#me-name').textContent = me.displayName;
-  $('#me-username').textContent = '@' + me.username;
-  $('#me-bio').textContent = me.bio || 'Belum ada bio';
-  $('#me-alias').textContent = '@' + me.username;
-  $('#my-status-avatar').outerHTML = avatarHTML(me.displayName, me.photoURL).replace('class="avatar"', 'class="avatar" id="my-status-avatar"');
-  $('#me-avatar').outerHTML = avatarHTML(me.displayName, me.photoURL, 'lg').replace('class="avatar lg"', 'class="avatar lg" id="me-avatar"');
+  const topName = $('#topbar-name'); if (topName) topName.textContent = me.displayName;
+  const mn = $('#me-name'); if (mn) mn.textContent = me.displayName;
+  const mu = $('#me-username'); if (mu) mu.textContent = '@' + me.username;
+  const mb = $('#me-bio'); if (mb) mb.textContent = me.bio || 'Belum ada bio';
+  const ma = $('#me-alias'); if (ma) ma.textContent = '@' + me.username;
+
+  setAvatarEl($('#my-status-avatar'), me.displayName, me.photoURL);
+  setAvatarEl($('#me-avatar'), me.displayName, me.photoURL, 'lg');
+
   const p = me.privacy || {};
-  $('#priv-who').value = p.whoCanMessage || 'everyone';
-  $('#priv-online').checked = !!p.hideOnline;
-  $('#priv-receipt').checked = !!p.hideReceipt;
-  $('#priv-focus').checked = !!p.focus;
+  const pw = $('#priv-who'); if (pw) pw.value = p.whoCanMessage || 'everyone';
+  const po = $('#priv-online'); if (po) po.checked = !!p.hideOnline;
+  const pr = $('#priv-receipt'); if (pr) pr.checked = !!p.hideReceipt;
+  const pf = $('#priv-focus'); if (pf) pf.checked = !!p.focus;
 }
 
 /* ============================================================
@@ -677,7 +714,6 @@ function listenChats() {
   }, err => console.error("Chats listener error:", err));
 }
 
-// ✅ PERBAIKAN: Menghindari query multiple array-contains yang tidak didukung Firestore
 function listenRequests() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubRequests = onSnapshot(q, snap => {
@@ -692,7 +728,7 @@ function listenStatuses() {
   const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
   STATE.unsubStatuses = onSnapshot(q, snap => {
     const now = Date.now();
-    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(s => s.expiresAt?.toMillis?.() > now && s.userId !== STATE.uid);
+    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(s => s.expiresAt?.toMillis?.() > now);
     renderStatuses();
   }, err => console.error("Statuses listener error:", err));
 }
@@ -753,9 +789,6 @@ function renderChats() {
   }).join('');
 }
 
-/* ============================================================
-   RENDER: REQUESTS
-   ============================================================ */
 function renderRequests() {
   const list = $('#list-requests');
   const badge = $('#req-badge');
@@ -792,11 +825,40 @@ function renderRequests() {
    ============================================================ */
 function renderStatuses() {
   const list = $('#list-status');
-  if (!STATE.statuses.length) {
-    list.innerHTML = `<div class="empty">Belum ada pembaruan status.</div>`;
+  const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
+  const otherStatuses = STATE.statuses.filter(s => s.userId !== STATE.uid);
+
+  const myCard = $('#status-add');
+  if (myStatuses.length > 0) {
+    const latest = myStatuses[0];
+    myCard.innerHTML = `
+      <div class="status-ring" style="padding:2px;background:linear-gradient(140deg,#13c08d,#0a7c66);border-radius:50%;box-shadow:none">
+        ${avatarHTML(latest.userName, latest.userPhoto, '', 'my-status-avatar')}
+      </div>
+      <div class="status-info">
+        <strong>Status saya</strong>
+        <p class="muted small" style="margin:2px 0 0">${myStatuses.length} pembaruan · ketuk untuk kelola</p>
+      </div>
+      <span class="plus-dot">+</span>
+    `;
+  } else {
+    myCard.innerHTML = `
+      ${avatarHTML(STATE.me.displayName, STATE.me.photoURL, '', 'my-status-avatar')}
+      <div class="status-info">
+        <strong>Status saya</strong>
+        <p class="muted small" style="margin:2px 0 0">Ketuk untuk menambah pembaruan</p>
+      </div>
+      <span class="plus-dot">+</span>
+    `;
+  }
+  // FIX: selalu buka daftar status saya (bisa add + delete)
+  myCard.onclick = openMyStatusesModal;
+
+  if (!otherStatuses.length) {
+    list.innerHTML = `<div class="empty">Belum ada pembaruan status dari pengguna lain.</div>`;
     return;
   }
-  list.innerHTML = STATE.statuses.map(s => `
+  list.innerHTML = otherStatuses.map(s => `
     <div class="status-item" data-status="${s.id}">
       <div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">
         ${avatarHTML(s.userName, s.userPhoto)}
@@ -808,6 +870,52 @@ function renderStatuses() {
       <span class="status-badge">${s.type === 'image' ? '📷' : '📝'}</span>
     </div>
   `).join('');
+}
+
+/* ==== FITUR: kelola semua status saya (lihat + hapus + tambah) ==== */
+function openMyStatusesModal() {
+  const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
+  showModal(`
+    <div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div>
+    <div class="modal-body">
+      <button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button>
+      <div id="ms-list">
+        ${myStatuses.length ? myStatuses.map(s => `
+          <div class="status-item" style="cursor:default">
+            <div class="status-ring">
+              ${avatarHTML(s.userName, s.userPhoto)}
+            </div>
+            <div class="status-info">
+              <strong>${esc(s.type === 'image' ? '📷 Foto' : '📝 Teks')}</strong>
+              <span>${esc(fmtRel(s.createdAt))} · ${s.viewers?.length || 0} dilihat</span>
+            </div>
+            <button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button>
+            <button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">🗑</button>
+          </div>
+        `).join('') : '<p class="muted small center" style="padding:16px">Belum ada status. Ketuk tombol di atas untuk membuat.</p>'}
+      </div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>
+  `, root => {
+    root.querySelector('#ms-close').onclick = closeModal;
+    root.querySelector('#ms-add').onclick = () => { closeModal(); openNewStatusModal(); };
+    root.querySelectorAll('[data-ms-view]').forEach(b => {
+      b.onclick = () => {
+        const s = STATE.statuses.find(x => x.id === b.dataset.msView);
+        if (s) { closeModal(); openStatusViewer(s); }
+      };
+    });
+    root.querySelectorAll('[data-ms-del]').forEach(b => {
+      b.onclick = async () => {
+        if (!confirm('Hapus status ini?')) return;
+        try {
+          await deleteDoc(doc(db, 'status', b.dataset.msDel));
+          toast('Status dihapus');
+          closeModal();
+        } catch (e) { toast('Gagal hapus: ' + (e.message || '')); }
+      };
+    });
+  });
 }
 
 /* ============================================================
@@ -875,12 +983,9 @@ function openNewChatModal() {
   });
 }
 
-// ✅ PERBAIKAN: Menghindari query == + array-contains, dan menambahkan try/catch
 async function startChatWith(uid) {
   try {
     closeModal();
-    
-    // 1) Cek chat existing
     let existingId = null;
     const snap = await getDocs(query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid)));
     for (const d of snap.docs) {
@@ -892,18 +997,16 @@ async function startChatWith(uid) {
     }
     if (existingId) { openChat(existingId); return; }
 
-    // 2) Ambil profil target
     const targetSnap = await getDoc(doc(db, 'users', uid));
     if (!targetSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
     const target = targetSnap.data();
     const privacy = target.privacy?.whoCanMessage || 'everyone';
     if (privacy === 'nobody') { toast('Pengguna ini menutup permintaan pesan.'); return; }
-    
+
     const mySnap = await getDoc(doc(db, 'users', STATE.uid));
     const me = mySnap.data();
     const isPending = privacy === 'contacts';
 
-    // 3) Buat chat baru
     const docRef = await addDoc(collection(db, 'chats'), {
       type: 'direct', members: [STATE.uid, uid],
       memberNames: { [STATE.uid]: me.displayName, [uid]: target.displayName },
@@ -912,10 +1015,9 @@ async function startChatWith(uid) {
       pendingFor: isPending ? [uid] : [], unread: {}, lastMessage: null,
       updatedAt: serverTimestamp(), createdAt: serverTimestamp()
     });
-    
+
     if (isPending) toast('Permintaan pesan terkirim.');
     openChat(docRef.id);
-
   } catch (err) {
     console.error('START CHAT ERROR:', err);
     toast('Gagal buka chat: ' + (err.message || 'Cek koneksi/aturan'));
@@ -923,33 +1025,63 @@ async function startChatWith(uid) {
 }
 
 /* ============================================================
-   OPEN CHAT
+   OPEN CHAT & PIN LOCK
    ============================================================ */
 async function openChat(chatId) {
   const chatSnap = await getDoc(doc(db, 'chats', chatId));
   if (!chatSnap.exists()) { toast('Chat tidak ditemukan'); return; }
-  STATE.currentChat = { id: chatId, ...chatSnap.data() };
+  const chatData = chatSnap.data();
+
+  if (chatData.pins && chatData.pins[STATE.uid]) {
+    showModal(`
+      <div class="modal-header"><h3>Chat Terkunci 🔒</h3></div>
+      <div class="modal-body">
+        <label class="field"><span>Masukkan PIN</span>
+          <div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6" placeholder="****"></div>
+        </label>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-soft" id="unlock-cancel">Batal</button>
+        <button class="btn btn-primary" id="unlock-btn">Buka</button>
+      </div>
+    `, root => {
+      root.querySelector('#unlock-cancel').onclick = closeModal;
+      root.querySelector('#unlock-btn').onclick = () => {
+        const inputPin = root.querySelector('#unlock-pin').value;
+        if (inputPin === chatData.pins[STATE.uid]) {
+          closeModal();
+          proceedOpenChat(chatId, chatData);
+        } else { toast('PIN salah'); }
+      };
+    });
+    return;
+  }
+
+  proceedOpenChat(chatId, chatData);
+}
+
+function proceedOpenChat(chatId, chat) {
+  STATE.currentChat = { id: chatId, ...chat };
   STATE.replyTo = null; STATE.timerSec = 0;
   hideReplyBar();
 
-  const chat = STATE.currentChat;
   const name = chatDisplayName(chat);
   const photo = chatDisplayPhoto(chat);
   $('#chat-name').textContent = name;
   $('#chat-sub').textContent = chat.type === 'self' ? 'Catatan pribadi' : (chat.type === 'group' ? (chat.members?.length || 0) + ' anggota' : '@' + (chat.memberUsernames?.[chat.members.find(u => u !== STATE.uid)] || '—'));
 
   const av = $('#chat-avatar');
-  av.outerHTML = avatarHTML(name, photo, 'sm').replace('class="avatar sm"', 'class="avatar sm" id="chat-avatar"');
+  setAvatarEl(av, name, photo, 'sm');
 
   if ((chat.unread || {})[STATE.uid]) {
-    await updateDoc(doc(db, 'chats', chatId), { ['unread.' + STATE.uid]: 0 });
+    updateDoc(doc(db, 'chats', chatId), { ['unread.' + STATE.uid]: 0 }).catch(()=>{});
   }
 
   markMessagesAsRead(chatId);
   showScreen('screen-chat');
   if (STATE.unsubMsgs) STATE.unsubMsgs();
   listenMessages(chatId);
-  $('#chat-input').focus();
+  setTimeout(() => $('#chat-input').focus(), 80);
 }
 
 function listenMessages(chatId) {
@@ -978,9 +1110,6 @@ async function markMessagesAsRead(chatId) {
   } catch(e) { }
 }
 
-/* ============================================================
-   RENDER MESSAGES
-   ============================================================ */
 function renderMessages() {
   const chat = STATE.currentChat;
   if (!chat) return;
@@ -997,7 +1126,13 @@ function renderMessages() {
     const time = fmtTime(m.createdAt);
     const check = isOut ? (m.status === 'read' ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
     const sender = (!isOut && chat.type === 'group') ? `<div class="sender-name">${esc(m.senderName || '')}</div>` : '';
+
     let body = m.isDeletedForEveryone ? '<span class="deleted">Pesan ini telah dihapus</span>' : esc(m.text || '');
+    if (m.type === 'image' && m.mediaUrl) {
+      body = `<img src="${esc(m.mediaUrl)}" class="chat-img" alt="Media" onclick="window.open('${esc(m.mediaUrl)}', '_blank')">`;
+      if (m.text) body += `<div style="margin-top:5px">${esc(m.text)}</div>`;
+    }
+
     const reply = m.replyTo ? `<div class="reply-preview"><b>${esc(m.replyTo.senderName || '')}</b><br>${esc(m.replyTo.text || '')}</div>` : '';
     const timerTag = (m.timer && !m.isDeletedForEveryone) ? `<span style="opacity:.7"> ⏱</span>` : '';
     return `<div class="msg ${isOut ? 'out' : 'in'}" data-mid="${m.id}">
@@ -1011,18 +1146,20 @@ function renderMessages() {
 }
 
 /* ============================================================
-   SEND MESSAGE
+   SEND MESSAGE & MEDIA
    ============================================================ */
-async function sendMessage(text) {
+async function sendMessage(text, type = 'text', mediaUrl = null) {
   const chat = STATE.currentChat;
-  if (!chat || !text.trim()) return;
+  if (!chat || (!text.trim() && !mediaUrl)) return;
   const me = STATE.me;
+
   const payload = {
-    senderId: STATE.uid, senderName: me.displayName, text: text.trim(), type: 'text', status: 'sent',
+    senderId: STATE.uid, senderName: me.displayName, text: text.trim(), type: type, status: 'sent',
     createdAt: serverTimestamp(),
-    replyTo: STATE.replyTo ? { text: STATE.replyTo.text, senderName: STATE.replyTo.senderName } : null,
+    replyTo: STATE.replyTo ? { text: STATE.replyTo.text || '📎 Media', senderName: STATE.replyTo.senderName } : null,
     timer: STATE.timerSec || 0, isDeletedForEveryone: false, deletedFor: []
   };
+  if (mediaUrl) payload.mediaUrl = mediaUrl;
   if (STATE.timerSec) payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
 
   await addDoc(collection(db, 'chats', chat.id, 'messages'), payload);
@@ -1032,22 +1169,34 @@ async function sendMessage(text) {
   otherMembers.forEach(u => unreadUpdate['unread.' + u] = ((chat.unread || {})[u] || 0) + 1);
 
   await updateDoc(doc(db, 'chats', chat.id), {
-    lastMessage: { text: payload.text, senderId: STATE.uid, senderName: me.displayName, createdAt: serverTimestamp() },
+    lastMessage: { text: type === 'image' ? '📷 Foto' : payload.text, senderId: STATE.uid, senderName: me.displayName, createdAt: serverTimestamp() },
     updatedAt: serverTimestamp(), ...unreadUpdate
   });
 
   STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
 }
 
-// ✅ PERBAIKAN: Menangkap error saat kirim pesan
-$('#composer').addEventListener('submit', async e => { 
-  e.preventDefault(); 
+$('#composer').addEventListener('submit', async e => {
+  e.preventDefault();
+  try { await sendMessage($('#chat-input').value); }
+  catch (err) { console.error('SEND ERROR:', err); toast('Gagal kirim: ' + (err.message || 'Cek koneksi')); }
+});
+
+/* ==== FITUR: lampiran media ==== */
+$('#btn-attach').addEventListener('click', () => $('#chat-media-input').click());
+$('#chat-media-input').addEventListener('change', async e => {
+  const file = e.target.files?.[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) { toast('Hanya file gambar'); e.target.value=''; return; }
+  if (file.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); e.target.value=''; return; }
+
+  toast('Mengunggah gambar...');
   try {
-    await sendMessage($('#chat-input').value); 
-  } catch (err) {
-    console.error('SEND ERROR:', err);
-    toast('Gagal kirim: ' + (err.message || 'Cek aturan Firestore'));
-  }
+    const url = await uploadToCloudinary(file);
+    await sendMessage('', 'image', url);
+    toast('Gambar terkirim');
+  } catch (err) { toast('Gagal upload: ' + (err.message || '')); }
+  e.target.value = '';
 });
 
 $('#chat-back').addEventListener('click', () => {
@@ -1071,14 +1220,14 @@ $('#chat-body').addEventListener('click', async e => {
     <div class="menu-list">
       <button class="menu-item" id="m-reply"><span class="ico">↩</span>Balas</button>
       <button class="menu-item" id="m-copy"><span class="ico">📋</span>Salin Teks</button>
-      ${isOut ? `<button class="menu-item" id="m-del-me"><span class="ico">🗑</span>Hapus untuk Saya</button>
-      <button class="menu-item" id="m-del-all" style="color:#e5484d"><span class="ico">🗑</span>Hapus untuk Semua</button>` : `<button class="menu-item" id="m-del-me"><span class="ico">🗑</span>Hapus untuk Saya</button>`}
+      <button class="menu-item" id="m-del-me"><span class="ico">🗑</span>Hapus untuk Saya</button>
+      ${isOut ? `<button class="menu-item" id="m-del-all" style="color:#e5484d"><span class="ico">🗑</span>Hapus untuk Semua</button>` : ''}
     </div>
   `, root => {
     root.querySelector('#m-reply').onclick = () => {
       STATE.replyTo = msg;
       $('#reply-name').textContent = msg.senderName || (isOut ? 'Kamu' : 'Pengguna');
-      $('#reply-text').textContent = msg.isDeletedForEveryone ? 'Pesan dihapus' : (msg.text || '');
+      $('#reply-text').textContent = msg.isDeletedForEveryone ? 'Pesan dihapus' : (msg.text || (msg.type === 'image' ? '📷 Foto' : ''));
       $('#reply-bar').classList.remove('hidden');
       closeModal(); $('#chat-input').focus();
     };
@@ -1092,7 +1241,7 @@ $('#chat-body').addEventListener('click', async e => {
     };
     const allBtn = root.querySelector('#m-del-all');
     if (allBtn) allBtn.onclick = async () => {
-      await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), { isDeletedForEveryone: true, text: '', replyTo: null });
+      await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), { isDeletedForEveryone: true, text: '', replyTo: null, mediaUrl: null });
       closeModal(); toast('Dihapus untuk semua');
     };
   });
@@ -1102,7 +1251,7 @@ $('#reply-cancel').addEventListener('click', () => { STATE.replyTo = null; hideR
 function hideReplyBar() { $('#reply-bar').classList.add('hidden'); }
 
 /* ============================================================
-   TIMER
+   TIMER & MENU CHAT (PIN & CLEAR)
    ============================================================ */
 $('#btn-timer').addEventListener('click', () => {
   showModal(`
@@ -1124,12 +1273,11 @@ $('#btn-timer').addEventListener('click', () => {
   });
 });
 
-$('#btn-attach').addEventListener('click', () => { toast('Fitur lampiran media segera hadir.'); });
 $('#chat-menu').addEventListener('click', () => {
   showModal(`
     <div class="modal-header"><h3>Opsi Chat</h3></div>
     <div class="menu-list">
-      <button class="menu-item" id="cm-mute">🔕 Bisukan</button>
+      <button class="menu-item" id="cm-mute">🔕 Bisukan / Aktifkan Notifikasi</button>
       <button class="menu-item" id="cm-lock">🔒 Kunci dengan PIN</button>
       <button class="menu-item" id="cm-clear" style="color:#e5484d">🗑 Kosongkan Chat</button>
     </div>
@@ -1141,8 +1289,47 @@ $('#chat-menu').addEventListener('click', () => {
       toast(isMuted ? 'Notifikasi diaktifkan' : 'Chat dibisukan');
       closeModal();
     };
-    root.querySelector('#cm-lock').onclick = () => { toast('Fitur PIN segera hadir'); closeModal(); };
-    root.querySelector('#cm-clear').onclick = () => { toast('Fitur hapus riwayat segera hadir'); closeModal(); };
+
+    root.querySelector('#cm-lock').onclick = () => {
+      showModal(`
+        <div class="modal-header"><h3>Kunci dengan PIN</h3></div>
+        <div class="modal-body">
+          <label class="field"><span>Masukkan PIN (4-6 angka)</span>
+            <div class="input-wrap"><input id="chat-pin-input" type="password" inputmode="numeric" maxlength="6" placeholder="****"></div>
+          </label>
+          <p class="muted small">PIN hanya berlaku untukmu. Saat buka chat, kamu perlu memasukkan PIN.</p>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-soft" id="pin-cancel">Batal</button>
+          <button class="btn btn-primary" id="pin-save">Kunci</button>
+        </div>
+      `, root2 => {
+        root2.querySelector('#pin-cancel').onclick = closeModal;
+        root2.querySelector('#pin-save').onclick = async () => {
+          const pin = root2.querySelector('#chat-pin-input').value;
+          if (!/^\d{4,6}$/.test(pin)) { toast('PIN harus 4-6 angka'); return; }
+          await updateDoc(doc(db, 'chats', STATE.currentChat.id), { [`pins.${STATE.uid}`]: pin });
+          toast('Chat dikunci dengan PIN');
+          closeModal();
+        };
+      });
+    };
+
+    root.querySelector('#cm-clear').onclick = async () => {
+      if (!confirm('Hapus SEMUA pesan di chat ini? Tindakan tidak bisa dibatalkan.')) return;
+      try {
+        const snap = await getDocs(collection(db, 'chats', STATE.currentChat.id, 'messages'));
+        const batch = writeBatch(db);
+        snap.forEach(d => batch.delete(d.ref));
+        await batch.commit();
+        await updateDoc(doc(db, 'chats', STATE.currentChat.id), { lastMessage: null });
+        toast('Chat dikosongkan');
+        closeModal();
+      } catch (err) {
+        console.error(err);
+        toast('Gagal mengosongkan chat');
+      }
+    };
   });
 });
 
@@ -1170,7 +1357,7 @@ $('#list-requests').addEventListener('click', async e => {
 });
 
 /* ============================================================
-   PROFILE ACTIONS (CLOUDINARY INTEGRATION)
+   PROFILE ACTIONS
    ============================================================ */
 $('#btn-edit-profile').addEventListener('click', () => {
   showModal(`
@@ -1204,16 +1391,16 @@ $('#btn-change-photo').addEventListener('click', () => $('#photo-input').click()
 $('#photo-input').addEventListener('change', async e => {
   const file = e.target.files?.[0];
   if (!file) return;
-  if (file.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); return; }
-  if (!file.type.startsWith('image/')) { toast('Hanya file gambar'); return; }
+  if (file.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); e.target.value=''; return; }
+  if (!file.type.startsWith('image/')) { toast('Hanya file gambar'); e.target.value=''; return; }
 
   toast('Mengunggah foto profil…');
   try {
-    const photoURL = await uploadToCloudinary(file, "profile_photos");
+    const photoURL = await uploadToCloudinary(file);
     await updateDoc(doc(db, 'users', STATE.uid), { photoURL });
     STATE.me.photoURL = photoURL;
     updateProfileUI(); toast('Foto profil diperbarui');
-  } catch (err) { toast('Gagal upload: ' + err.message); }
+  } catch (err) { toast('Gagal upload: ' + (err.message || '')); }
   e.target.value = '';
 });
 
@@ -1232,6 +1419,7 @@ $('#priv-receipt').addEventListener('change', async e => {
 });
 $('#priv-focus').addEventListener('change', async e => {
   await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.focus': e.target.checked });
+  STATE.me.privacy = { ...(STATE.me.privacy || {}), focus: e.target.checked };
   toast(e.target.checked ? 'Mode Fokus aktif' : 'Mode Fokus nonaktif');
 });
 $('#btn-focus').addEventListener('click', async () => {
@@ -1280,10 +1468,8 @@ $('#btn-logout').addEventListener('click', doLogout);
 $('#btn-logout-2').addEventListener('click', doLogout);
 
 /* ============================================================
-   STATUS (CLOUDINARY INTEGRATION)
+   STATUS (VIEW, DELETE, UPLOAD)
    ============================================================ */
-$('#status-add').addEventListener('click', openNewStatusModal);
-
 function openNewStatusModal() {
   showModal(`
     <div class="modal-header"><h3>Buat Status</h3></div>
@@ -1301,25 +1487,58 @@ function openNewStatusModal() {
   `, root => {
     let photoFile = null;
     root.querySelector('#status-cancel').onclick = closeModal;
+
+    // FIX: input file dimasukkan ke DOM agar jalan di semua browser (terutama iOS)
     root.querySelector('#status-photo-btn').onclick = () => {
       const fi = document.createElement('input');
-      fi.type = 'file'; fi.accept = 'image/*';
-      fi.onchange = e => { photoFile = e.target.files?.[0] || null; toast(photoFile ? 'Foto dipilih' : 'Batal'); };
+      fi.type = 'file';
+      fi.accept = 'image/*';
+      fi.style.display = 'none';
+      document.body.appendChild(fi);
+      fi.onchange = e => {
+        photoFile = e.target.files?.[0] || null;
+        if (photoFile) {
+          if (photoFile.size > 10 * 1024 * 1024) { toast('Ukuran maks 10MB'); photoFile = null; }
+          else {
+            toast('Foto dipilih: ' + photoFile.name);
+            root.querySelector('#status-photo-btn').textContent = '📷 Ganti Foto (' + photoFile.name + ')';
+          }
+        }
+        document.body.removeChild(fi);
+      };
       fi.click();
     };
+
     root.querySelector('#status-save').onclick = async () => {
       const text = root.querySelector('#status-text').value.trim();
       if (!text && !photoFile) { toast('Isi status atau pilih foto'); return; }
+
+      const btn = root.querySelector('#status-save');
+      btn.disabled = true; btn.textContent = 'Memproses…';
+
       try {
         let photoURL = '';
-        if (photoFile) { toast('Mengunggah foto status…'); photoURL = await uploadToCloudinary(photoFile, "status_photos"); }
+        if (photoFile) {
+          toast('Mengunggah foto status…');
+          try {
+            photoURL = await uploadToCloudinary(photoFile);
+          } catch (e) {
+            toast('Upload foto gagal: ' + (e.message || ''));
+            btn.disabled = false; btn.textContent = 'Bagikan';
+            return;
+          }
+        }
         await addDoc(collection(db, 'status'), {
           userId: STATE.uid, userName: STATE.me.displayName, userPhoto: STATE.me.photoURL || '',
           type: photoFile ? 'image' : 'text', content: text, photoURL, viewers: [],
           createdAt: serverTimestamp(), expiresAt: Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000)
         });
-        toast('Status dibagikan'); closeModal();
-      } catch (err) { toast('Gagal: ' + err.message); }
+        toast('Status dibagikan');
+        closeModal();
+      } catch (err) {
+        toast('Gagal: ' + (err.message || ''));
+        btn.disabled = false; btn.textContent = 'Bagikan';
+      }
     };
   });
 }
@@ -1333,12 +1552,14 @@ $('#list-status').addEventListener('click', e => {
 });
 
 function openStatusViewer(s) {
+  const isMine = s.userId === STATE.uid;
   const wrap = document.createElement('div');
   wrap.className = 'status-viewer';
   wrap.innerHTML = `
     <div class="sv-header">
       ${avatarHTML(s.userName, s.userPhoto, 'sm')}
       <div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>
+      ${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">🗑</button>` : ''}
       <button class="icon-btn ghost-light" id="sv-close">✕</button>
     </div>
     <div class="sv-body">
@@ -1346,10 +1567,23 @@ function openStatusViewer(s) {
     </div>
   `;
   document.body.appendChild(wrap);
+
   wrap.querySelector('#sv-close').onclick = async () => {
-    await updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) });
+    if (!isMine) {
+      try { await updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) }); } catch {}
+    }
     wrap.remove();
   };
+
+  if (isMine) {
+    wrap.querySelector('#sv-delete').onclick = async () => {
+      if (confirm('Hapus status ini?')) {
+        await deleteDoc(doc(db, 'status', s.id));
+        wrap.remove();
+        toast('Status dihapus');
+      }
+    };
+  }
 }
 
 /* ============================================================
@@ -1457,17 +1691,31 @@ $$('.seg-btn').forEach(btn => {
 $('#form-login').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = $('#btn-login'); btn.disabled = true; btn.textContent = 'Memproses…';
-  try { await loginUser($('#login-user').value, $('#login-pass').value); }
-  catch (err) { toast('Login gagal: ' + (err.code === 'auth/invalid-credential' ? 'Username atau password salah' : err.message)); }
-  btn.disabled = false; btn.textContent = 'Masuk';
+  try {
+    await loginUser($('#login-user').value, $('#login-pass').value);
+    // onAuthStateChanged akan mengurus transisi
+  } catch (err) {
+    const code = err.code || '';
+    let msg = err.message;
+    if (code === 'auth/invalid-credential' || code === 'auth/wrong-password' || code === 'auth/user-not-found')
+      msg = 'Username atau password salah';
+    toast('Login gagal: ' + msg);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Masuk';
+  }
 });
 
 $('#form-register').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = $('#btn-register'); btn.disabled = true; btn.textContent = 'Memproses…';
-  try { await registerUser($('#reg-name').value, $('#reg-user').value, $('#reg-pass').value); }
-  catch (err) { toast('Gagal daftar: ' + err.message); isRegistering = false; }
-  btn.disabled = false; btn.textContent = 'Buat Akun';
+  try {
+    await registerUser($('#reg-name').value, $('#reg-user').value, $('#reg-pass').value);
+    // onAuthStateChanged akan mengurus transisi
+  } catch (err) {
+    toast('Gagal daftar: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Buat Akun';
+  }
 });
 
 let unameCheckT;
