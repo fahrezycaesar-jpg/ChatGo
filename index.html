@@ -453,7 +453,7 @@ import {
   onAuthStateChanged, signOut
 } from "firebase/auth";
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc,
+  getFirestore, initializeFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, addDoc,
   collection, query, where, orderBy, limit, onSnapshot,
   serverTimestamp, arrayUnion, arrayRemove, getDocs, writeBatch, Timestamp
 } from "firebase/firestore";
@@ -471,7 +471,12 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db = getFirestore(app);
+
+// PERBAIKAN: Menggunakan initializeFirestore dengan opsi long polling
+const db = initializeFirestore(app, {
+  experimentalForceLongPolling: true,
+  useFetchStreams: false
+});
 
 /* ============================================================
    CLOUDINARY CONFIG
@@ -665,6 +670,8 @@ function listenChats() {
       return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
     });
     renderChats();
+  }, err => {
+    console.error("Chats listener error:", err);
   });
 }
 
@@ -677,6 +684,8 @@ function listenRequests() {
   STATE.unsubRequests = onSnapshot(q, snap => {
     STATE.requests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderRequests();
+  }, err => {
+    console.error("Requests listener error:", err);
   });
 }
 
@@ -688,6 +697,8 @@ function listenStatuses() {
       .map(d => ({ id: d.id, ...d.data() }))
       .filter(s => s.expiresAt?.toMillis?.() > now && s.userId !== STATE.uid);
     renderStatuses();
+  }, err => {
+    console.error("Statuses listener error:", err);
   });
 }
 
@@ -969,6 +980,8 @@ function listenMessages(chatId) {
       .filter(m => !(m.deletedFor || []).includes(STATE.uid))
       .filter(m => !m.expiresAt || m.expiresAt.toMillis() > now);
     renderMessages();
+  }, err => {
+    console.error("Messages listener error:", err);
   });
 }
 
