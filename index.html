@@ -445,7 +445,7 @@ img{display:block;max-width:100%;}
 
 <script type="module">
 /* ============================================================
-   IMPORTS (Hanya Firebase yang dibutuhkan)
+   IMPORTS
    ============================================================ */
 import { initializeApp } from "firebase/app";
 import {
@@ -471,8 +471,6 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-
-// PERBAIKAN: Menggunakan initializeFirestore dengan opsi long polling
 const db = initializeFirestore(app, {
   experimentalForceLongPolling: true,
   useFetchStreams: false
@@ -490,17 +488,11 @@ async function uploadToCloudinary(file, folder = "chatgo") {
   formData.append("file", file);
   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
   formData.append("folder", folder);
-
-  const response = await fetch(url, {
-    method: "POST",
-    body: formData
-  });
-
+  const response = await fetch(url, { method: "POST", body: formData });
   if (!response.ok) {
     const errorData = await response.json();
     throw new Error(errorData.error?.message || "Gagal mengunggah ke Cloudinary");
   }
-
   const data = await response.json();
   return data.secure_url;
 }
@@ -508,6 +500,8 @@ async function uploadToCloudinary(file, folder = "chatgo") {
 /* ============================================================
    STATE & HELPERS
    ============================================================ */
+let isRegistering = false; // Flag perbaikan error profil tidak ditemukan
+
 const STATE = {
   uid: null, me: null,
   chats: [], requests: [], statuses: [],
@@ -570,8 +564,9 @@ function closeModal() {
    AUTH
    ============================================================ */
 async function registerUser(displayName, username, password) {
+  isRegistering = true;
   const uname = username.toLowerCase().trim();
-  if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter (huruf kecil, angka, _)');
+  if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter');
   if (password.length < 6) throw new Error('Password minimal 6 karakter');
   if (!displayName.trim()) throw new Error('Nama tampilan wajib');
 
@@ -583,21 +578,20 @@ async function registerUser(displayName, username, password) {
 
   await setDoc(doc(db, 'usernames', uname), { uid, createdAt: serverTimestamp() });
   await setDoc(doc(db, 'users', uid), {
-    displayName: displayName.trim(),
-    username: uname,
-    bio: '', photoURL: '',
+    displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
     privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
-    blocked: [],
-    createdAt: serverTimestamp()
+    blocked: [], createdAt: serverTimestamp()
   });
 
-  // Buat chat "Catatan Pribadi"
   await addDoc(collection(db, 'chats'), {
-    type: 'self', name: 'Catatan Pribadi',
-    members: [uid],
+    type: 'self', name: 'Catatan Pribadi', members: [uid],
     lastMessage: { text: 'Pesan tersimpan untuk diri sendiri', senderId: uid, senderName: displayName },
     updatedAt: serverTimestamp(), createdAt: serverTimestamp()
   });
+  
+  // Jeda sedikit agar sinkronisasi Firestore selesai sebelum onAuthStateChanged membaca
+  await new Promise(r => setTimeout(r, 800));
+  isRegistering = false;
 }
 
 async function loginUser(username, password) {
@@ -613,8 +607,22 @@ onAuthStateChanged(auth, async user => {
     return;
   }
   STATE.uid = user.uid;
-  const snap = await getDoc(doc(db, 'users', user.uid));
-  if (!snap.exists()) { toast('Profil tidak ditemukan'); signOut(auth); return; }
+  
+  // RETRY LOGIC: Jika baru register, tunggu sampai profil muncul di Firestore
+  let snap = await getDoc(doc(db, 'users', user.uid));
+  let attempts = 0;
+  while (!snap.exists() && isRegistering && attempts < 5) {
+    await new Promise(r => setTimeout(r, 800)); 
+    snap = await getDoc(doc(db, 'users', user.uid));
+    attempts++;
+  }
+
+  if (!snap.exists()) { 
+    toast('Profil tidak ditemukan. Coba login ulang.'); 
+    signOut(auth); 
+    return; 
+  }
+  
   STATE.me = { uid: user.uid, ...snap.data() };
   updateProfileUI();
   showScreen('screen-home');
@@ -631,7 +639,6 @@ function updateProfileUI() {
   $('#me-alias').textContent = '@' + me.username;
   $('#my-status-avatar').outerHTML = avatarHTML(me.displayName, me.photoURL).replace('class="avatar"', 'class="avatar" id="my-status-avatar"');
   $('#me-avatar').outerHTML = avatarHTML(me.displayName, me.photoURL, 'lg').replace('class="avatar lg"', 'class="avatar lg" id="me-avatar"');
-
   const p = me.privacy || {};
   $('#priv-who').value = p.whoCanMessage || 'everyone';
   $('#priv-online').checked = !!p.hideOnline;
@@ -656,10 +663,7 @@ function attachListeners() {
 }
 
 function listenChats() {
-  const q = query(
-    collection(db, 'chats'),
-    where('members', 'array-contains', STATE.uid)
-  );
+  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubChats = onSnapshot(q, snap => {
     const all = [];
     snap.forEach(d => all.push({ id: d.id, ...d.data() }));
@@ -670,36 +674,24 @@ function listenChats() {
       return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
     });
     renderChats();
-  }, err => {
-    console.error("Chats listener error:", err);
-  });
+  }, err => console.error("Chats listener error:", err));
 }
 
 function listenRequests() {
-  const q = query(
-    collection(db, 'chats'),
-    where('members', 'array-contains', STATE.uid),
-    where('pendingFor', 'array-contains', STATE.uid)
-  );
+  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid), where('pendingFor', 'array-contains', STATE.uid));
   STATE.unsubRequests = onSnapshot(q, snap => {
     STATE.requests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
     renderRequests();
-  }, err => {
-    console.error("Requests listener error:", err);
-  });
+  }, err => console.error("Requests listener error:", err));
 }
 
 function listenStatuses() {
   const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
   STATE.unsubStatuses = onSnapshot(q, snap => {
     const now = Date.now();
-    STATE.statuses = snap.docs
-      .map(d => ({ id: d.id, ...d.data() }))
-      .filter(s => s.expiresAt?.toMillis?.() > now && s.userId !== STATE.uid);
+    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(s => s.expiresAt?.toMillis?.() > now && s.userId !== STATE.uid);
     renderStatuses();
-  }, err => {
-    console.error("Statuses listener error:", err);
-  });
+  }, err => console.error("Statuses listener error:", err));
 }
 
 /* ============================================================
@@ -738,10 +730,8 @@ function renderChats() {
     const time = last?.createdAt ? fmtTime(last.createdAt) : (chat.updatedAt ? fmtTime(chat.updatedAt) : '');
     const unread = (chat.unread || {})[STATE.uid] || 0;
     const icons = [
-      chat.type === 'self' ? '📝' : '',
-      chat.type === 'group' ? '👥' : '',
-      (chat.lockedBy || []).includes(STATE.uid) ? '🔒' : '',
-      (chat.mutedBy || []).includes(STATE.uid) ? '🔕' : ''
+      chat.type === 'self' ? '📝' : '', chat.type === 'group' ? '👥' : '',
+      (chat.lockedBy || []).includes(STATE.uid) ? '🔒' : '', (chat.mutedBy || []).includes(STATE.uid) ? '🔕' : ''
     ].filter(Boolean).map(i => `<span class="tag">${i}</span>`).join('');
 
     return `<div class="chat-item" data-chat="${chat.id}">
@@ -866,33 +856,16 @@ function openNewChatModal() {
         if (q.length < 2) { results.innerHTML = ''; return; }
         results.innerHTML = '<p class="muted small center">Mencari…</p>';
         try {
-          const snap = await getDocs(query(
-            collection(db, 'users'),
-            where('username', '>=', q),
-            where('username', '<=', q + '\uf8ff'),
-            limit(10)
-          ));
-          const users = snap.docs.map(d => ({ uid: d.id, ...d.data() }))
-            .filter(u => u.uid !== STATE.uid);
-          if (!users.length) {
-            results.innerHTML = '<p class="muted small center">Tidak ditemukan.</p>';
-            return;
-          }
+          const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(10)));
+          const users = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== STATE.uid);
+          if (!users.length) { results.innerHTML = '<p class="muted small center">Tidak ditemukan.</p>'; return; }
           results.innerHTML = users.map(u => `
             <div class="search-result" data-uid="${u.uid}">
               ${avatarHTML(u.displayName, u.photoURL, 'sm')}
-              <div class="info">
-                <strong>${esc(u.displayName)}</strong>
-                <span>@${esc(u.username)}</span>
-              </div>
-            </div>
-          `).join('');
-          results.querySelectorAll('.search-result').forEach(el => {
-            el.onclick = () => startChatWith(el.dataset.uid);
-          });
-        } catch (err) {
-          results.innerHTML = `<p class="muted small center">Error: ${esc(err.message)}</p>`;
-        }
+              <div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div>
+            </div>`).join('');
+          results.querySelectorAll('.search-result').forEach(el => { el.onclick = () => startChatWith(el.dataset.uid); });
+        } catch (err) { results.innerHTML = `<p class="muted small center">Error: ${esc(err.message)}</p>`; }
       }, 300);
     });
     setTimeout(() => input.focus(), 100);
@@ -901,11 +874,7 @@ function openNewChatModal() {
 
 async function startChatWith(uid) {
   closeModal();
-  const snap = await getDocs(query(
-    collection(db, 'chats'),
-    where('type', '==', 'direct'),
-    where('members', 'array-contains', STATE.uid)
-  ));
+  const snap = await getDocs(query(collection(db, 'chats'), where('type', '==', 'direct'), where('members', 'array-contains', STATE.uid)));
   for (const d of snap.docs) {
     const data = d.data();
     if ((data.members || []).includes(uid)) { openChat(d.id); return; }
@@ -914,21 +883,17 @@ async function startChatWith(uid) {
   if (!targetSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
   const target = targetSnap.data();
   const privacy = target.privacy?.whoCanMessage || 'everyone';
-
   if (privacy === 'nobody') { toast('Pengguna ini menutup permintaan pesan.'); return; }
   const isPending = privacy === 'contacts';
   const mySnap = await getDoc(doc(db, 'users', STATE.uid));
   const me = mySnap.data();
 
   const docRef = await addDoc(collection(db, 'chats'), {
-    type: 'direct',
-    members: [STATE.uid, uid],
+    type: 'direct', members: [STATE.uid, uid],
     memberNames: { [STATE.uid]: me.displayName, [uid]: target.displayName },
     memberPhotos: { [STATE.uid]: me.photoURL || '', [uid]: target.photoURL || '' },
     memberUsernames: { [STATE.uid]: me.username, [uid]: target.username },
-    pendingFor: isPending ? [uid] : [],
-    unread: {},
-    lastMessage: null,
+    pendingFor: isPending ? [uid] : [], unread: {}, lastMessage: null,
     updatedAt: serverTimestamp(), createdAt: serverTimestamp()
   });
   if (isPending) toast('Permintaan pesan terkirim.');
@@ -942,8 +907,7 @@ async function openChat(chatId) {
   const chatSnap = await getDoc(doc(db, 'chats', chatId));
   if (!chatSnap.exists()) { toast('Chat tidak ditemukan'); return; }
   STATE.currentChat = { id: chatId, ...chatSnap.data() };
-  STATE.replyTo = null;
-  STATE.timerSec = 0;
+  STATE.replyTo = null; STATE.timerSec = 0;
   hideReplyBar();
 
   const chat = STATE.currentChat;
@@ -960,7 +924,6 @@ async function openChat(chatId) {
   }
 
   markMessagesAsRead(chatId);
-
   showScreen('screen-chat');
   if (STATE.unsubMsgs) STATE.unsubMsgs();
   listenMessages(chatId);
@@ -968,11 +931,7 @@ async function openChat(chatId) {
 }
 
 function listenMessages(chatId) {
-  const q = query(
-    collection(db, 'chats', chatId, 'messages'),
-    orderBy('createdAt', 'asc'),
-    limit(300)
-  );
+  const q = query(collection(db, 'chats', chatId, 'messages'), orderBy('createdAt', 'asc'), limit(300));
   STATE.unsubMsgs = onSnapshot(q, snap => {
     const now = Date.now();
     STATE.currentChat.messages = snap.docs
@@ -980,17 +939,12 @@ function listenMessages(chatId) {
       .filter(m => !(m.deletedFor || []).includes(STATE.uid))
       .filter(m => !m.expiresAt || m.expiresAt.toMillis() > now);
     renderMessages();
-  }, err => {
-    console.error("Messages listener error:", err);
-  });
+  }, err => console.error("Messages listener error:", err));
 }
 
 async function markMessagesAsRead(chatId) {
   try {
-    const q = query(
-      collection(db, 'chats', chatId, 'messages'),
-      where('senderId', '!=', STATE.uid)
-    );
+    const q = query(collection(db, 'chats', chatId, 'messages'), where('senderId', '!=', STATE.uid));
     const snap = await getDocs(q);
     const batch = writeBatch(db);
     let changed = false;
@@ -1021,12 +975,7 @@ function renderMessages() {
     const time = fmtTime(m.createdAt);
     const check = isOut ? (m.status === 'read' ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
     const sender = (!isOut && chat.type === 'group') ? `<div class="sender-name">${esc(m.senderName || '')}</div>` : '';
-    let body;
-    if (m.isDeletedForEveryone) {
-      body = '<span class="deleted">Pesan ini telah dihapus</span>';
-    } else {
-      body = esc(m.text || '');
-    }
+    let body = m.isDeletedForEveryone ? '<span class="deleted">Pesan ini telah dihapus</span>' : esc(m.text || '');
     const reply = m.replyTo ? `<div class="reply-preview"><b>${esc(m.replyTo.senderName || '')}</b><br>${esc(m.replyTo.text || '')}</div>` : '';
     const timerTag = (m.timer && !m.isDeletedForEveryone) ? `<span style="opacity:.7"> ⏱</span>` : '';
     return `<div class="msg ${isOut ? 'out' : 'in'}" data-mid="${m.id}">
@@ -1047,20 +996,12 @@ async function sendMessage(text) {
   if (!chat || !text.trim()) return;
   const me = STATE.me;
   const payload = {
-    senderId: STATE.uid,
-    senderName: me.displayName,
-    text: text.trim(),
-    type: 'text',
-    status: 'sent',
+    senderId: STATE.uid, senderName: me.displayName, text: text.trim(), type: 'text', status: 'sent',
     createdAt: serverTimestamp(),
     replyTo: STATE.replyTo ? { text: STATE.replyTo.text, senderName: STATE.replyTo.senderName } : null,
-    timer: STATE.timerSec || 0,
-    isDeletedForEveryone: false,
-    deletedFor: []
+    timer: STATE.timerSec || 0, isDeletedForEveryone: false, deletedFor: []
   };
-  if (STATE.timerSec) {
-    payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
-  }
+  if (STATE.timerSec) payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
 
   await addDoc(collection(db, 'chats', chat.id, 'messages'), payload);
 
@@ -1070,18 +1011,13 @@ async function sendMessage(text) {
 
   await updateDoc(doc(db, 'chats', chat.id), {
     lastMessage: { text: payload.text, senderId: STATE.uid, senderName: me.displayName, createdAt: serverTimestamp() },
-    updatedAt: serverTimestamp(),
-    ...unreadUpdate
+    updatedAt: serverTimestamp(), ...unreadUpdate
   });
 
-  STATE.replyTo = null;
-  STATE.timerSec = 0;
-  hideReplyBar();
-  $('#chat-input').value = '';
+  STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
 }
 
 $('#composer').addEventListener('submit', e => { e.preventDefault(); sendMessage($('#chat-input').value); });
-
 $('#chat-back').addEventListener('click', () => {
   if (STATE.unsubMsgs) { STATE.unsubMsgs(); STATE.unsubMsgs = null; }
   STATE.currentChat = null;
@@ -1112,8 +1048,7 @@ $('#chat-body').addEventListener('click', async e => {
       $('#reply-name').textContent = msg.senderName || (isOut ? 'Kamu' : 'Pengguna');
       $('#reply-text').textContent = msg.isDeletedForEveryone ? 'Pesan dihapus' : (msg.text || '');
       $('#reply-bar').classList.remove('hidden');
-      closeModal();
-      $('#chat-input').focus();
+      closeModal(); $('#chat-input').focus();
     };
     root.querySelector('#m-copy').onclick = async () => {
       try { await navigator.clipboard.writeText(msg.text || ''); toast('Teks disalin'); } catch { toast('Gagal salin'); }
@@ -1121,16 +1056,12 @@ $('#chat-body').addEventListener('click', async e => {
     };
     root.querySelector('#m-del-me').onclick = async () => {
       await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), { deletedFor: arrayUnion(STATE.uid) });
-      closeModal();
-      toast('Dihapus untuk kamu');
+      closeModal(); toast('Dihapus untuk kamu');
     };
     const allBtn = root.querySelector('#m-del-all');
     if (allBtn) allBtn.onclick = async () => {
-      await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), {
-        isDeletedForEveryone: true, text: '', replyTo: null
-      });
-      closeModal();
-      toast('Dihapus untuk semua');
+      await updateDoc(doc(db, 'chats', STATE.currentChat.id, 'messages', mid), { isDeletedForEveryone: true, text: '', replyTo: null });
+      closeModal(); toast('Dihapus untuk semua');
     };
   });
 });
@@ -1161,10 +1092,7 @@ $('#btn-timer').addEventListener('click', () => {
   });
 });
 
-$('#btn-attach').addEventListener('click', () => {
-  toast('Fitur lampiran media segera hadir.');
-});
-
+$('#btn-attach').addEventListener('click', () => { toast('Fitur lampiran media segera hadir.'); });
 $('#chat-menu').addEventListener('click', () => {
   showModal(`
     <div class="modal-header"><h3>Opsi Chat</h3></div>
@@ -1196,16 +1124,13 @@ $('#list-requests').addEventListener('click', async e => {
   const reqId = reqEl.dataset.req;
   if (btn.dataset.act === 'accept') {
     await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid) });
-    toast('Permintaan diterima');
-    openChat(reqId);
+    toast('Permintaan diterima'); openChat(reqId);
   } else {
     await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid), rejected: arrayUnion(STATE.uid) });
     const initiator = STATE.requests.find(r => r.id === reqId);
     if (initiator) {
       const otherUid = (initiator.members || []).find(u => u !== STATE.uid);
-      if (otherUid) {
-        await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(otherUid) });
-      }
+      if (otherUid) await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(otherUid) });
     }
     await deleteDoc(doc(db, 'chats', reqId));
     toast('Permintaan ditolak & diblokir');
@@ -1238,9 +1163,7 @@ $('#btn-edit-profile').addEventListener('click', () => {
       if (!name) { toast('Nama wajib'); return; }
       await updateDoc(doc(db, 'users', STATE.uid), { displayName: name, bio });
       STATE.me.displayName = name; STATE.me.bio = bio;
-      updateProfileUI();
-      toast('Profil diperbarui');
-      closeModal();
+      updateProfileUI(); toast('Profil diperbarui'); closeModal();
     };
   });
 });
@@ -1257,11 +1180,8 @@ $('#photo-input').addEventListener('change', async e => {
     const photoURL = await uploadToCloudinary(file, "profile_photos");
     await updateDoc(doc(db, 'users', STATE.uid), { photoURL });
     STATE.me.photoURL = photoURL;
-    updateProfileUI();
-    toast('Foto profil diperbarui');
-  } catch (err) {
-    toast('Gagal upload: ' + err.message);
-  }
+    updateProfileUI(); toast('Foto profil diperbarui');
+  } catch (err) { toast('Gagal upload: ' + err.message); }
   e.target.value = '';
 });
 
@@ -1286,8 +1206,7 @@ $('#btn-focus').addEventListener('click', async () => {
   const v = !(STATE.me.privacy?.focus);
   await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.focus': v });
   STATE.me.privacy = { ...(STATE.me.privacy || {}), focus: v };
-  $('#priv-focus').checked = v;
-  toast(v ? 'Mode Fokus aktif' : 'Mode Fokus nonaktif');
+  $('#priv-focus').checked = v; toast(v ? 'Mode Fokus aktif' : 'Mode Fokus nonaktif');
 });
 
 $('#btn-blocked-list').addEventListener('click', async () => {
@@ -1315,8 +1234,7 @@ $('#btn-blocked-list').addEventListener('click', async () => {
       b.onclick = async () => {
         await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayRemove(b.dataset.unblock) });
         STATE.me.blocked = (STATE.me.blocked || []).filter(x => x !== b.dataset.unblock);
-        toast('Diblokir dibuka');
-        closeModal();
+        toast('Diblokir dibuka'); closeModal();
       };
     });
   });
@@ -1325,11 +1243,7 @@ $('#btn-blocked-list').addEventListener('click', async () => {
 /* ============================================================
    LOGOUT
    ============================================================ */
-async function doLogout() {
-  detachListeners();
-  await signOut(auth);
-  toast('Kamu sudah keluar');
-}
+async function doLogout() { detachListeners(); await signOut(auth); toast('Kamu sudah keluar'); }
 $('#btn-logout').addEventListener('click', doLogout);
 $('#btn-logout-2').addEventListener('click', doLogout);
 
@@ -1366,23 +1280,13 @@ function openNewStatusModal() {
       if (!text && !photoFile) { toast('Isi status atau pilih foto'); return; }
       try {
         let photoURL = '';
-        if (photoFile) {
-          toast('Mengunggah foto status…');
-          photoURL = await uploadToCloudinary(photoFile, "status_photos");
-        }
+        if (photoFile) { toast('Mengunggah foto status…'); photoURL = await uploadToCloudinary(photoFile, "status_photos"); }
         await addDoc(collection(db, 'status'), {
-          userId: STATE.uid,
-          userName: STATE.me.displayName,
-          userPhoto: STATE.me.photoURL || '',
-          type: photoFile ? 'image' : 'text',
-          content: text,
-          photoURL,
-          viewers: [],
-          createdAt: serverTimestamp(),
-          expiresAt: Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000)
+          userId: STATE.uid, userName: STATE.me.displayName, userPhoto: STATE.me.photoURL || '',
+          type: photoFile ? 'image' : 'text', content: text, photoURL, viewers: [],
+          createdAt: serverTimestamp(), expiresAt: Timestamp.fromMillis(Date.now() + 24 * 60 * 60 * 1000)
         });
-        toast('Status dibagikan');
-        closeModal();
+        toast('Status dibagikan'); closeModal();
       } catch (err) { toast('Gagal: ' + err.message); }
     };
   });
@@ -1402,10 +1306,7 @@ function openStatusViewer(s) {
   wrap.innerHTML = `
     <div class="sv-header">
       ${avatarHTML(s.userName, s.userPhoto, 'sm')}
-      <div class="info">
-        <strong>${esc(s.userName)}</strong>
-        <small>${esc(fmtRel(s.createdAt))}</small>
-      </div>
+      <div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>
       <button class="icon-btn ghost-light" id="sv-close">✕</button>
     </div>
     <div class="sv-body">
@@ -1453,10 +1354,7 @@ function openNewGroupModal() {
       const q = e.target.value.toLowerCase().trim();
       if (q.length < 2) { results.innerHTML = ''; return; }
       t = setTimeout(async () => {
-        const snap = await getDocs(query(
-          collection(db, 'users'),
-          where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(8)
-        ));
+        const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(8)));
         const users = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== STATE.uid);
         results.innerHTML = users.map(u => `
           <div class="search-result" data-uid="${u.uid}">
@@ -1469,13 +1367,11 @@ function openNewGroupModal() {
             if (!selected.has(u.uid)) {
               selected.set(u.uid, u);
               const chip = document.createElement('span');
-              chip.className = 'alias-chip';
-              chip.textContent = u.displayName + ' ×';
+              chip.className = 'alias-chip'; chip.textContent = u.displayName + ' ×';
               chip.onclick = () => { selected.delete(u.uid); chip.remove(); };
               selBox.appendChild(chip);
             }
-            results.innerHTML = '';
-            root.querySelector('#grp-search').value = '';
+            results.innerHTML = ''; root.querySelector('#grp-search').value = '';
           };
         });
       }, 300);
@@ -1490,20 +1386,14 @@ function openNewGroupModal() {
       const memberPhotos = { [STATE.uid]: STATE.me.photoURL || '' };
       const memberUsernames = { [STATE.uid]: STATE.me.username };
       selected.forEach(u => {
-        memberNames[u.uid] = u.displayName;
-        memberPhotos[u.uid] = u.photoURL || '';
-        memberUsernames[u.uid] = u.username;
+        memberNames[u.uid] = u.displayName; memberPhotos[u.uid] = u.photoURL || ''; memberUsernames[u.uid] = u.username;
       });
       const ref = await addDoc(collection(db, 'chats'), {
-        type: 'group', name,
-        members, memberNames, memberPhotos, memberUsernames,
-        pendingFor: [], unread: {}, lastMessage: null,
-        createdBy: STATE.uid,
+        type: 'group', name, members, memberNames, memberPhotos, memberUsernames,
+        pendingFor: [], unread: {}, lastMessage: null, createdBy: STATE.uid,
         updatedAt: serverTimestamp(), createdAt: serverTimestamp()
       });
-      toast('Grup dibuat');
-      closeModal();
-      openChat(ref.id);
+      toast('Grup dibuat'); closeModal(); openChat(ref.id);
     };
   });
 }
@@ -1534,25 +1424,17 @@ $$('.seg-btn').forEach(btn => {
 
 $('#form-login').addEventListener('submit', async e => {
   e.preventDefault();
-  const btn = $('#btn-login');
-  btn.disabled = true; btn.textContent = 'Memproses…';
-  try {
-    await loginUser($('#login-user').value, $('#login-pass').value);
-  } catch (err) {
-    toast('Login gagal: ' + (err.code === 'auth/invalid-credential' ? 'Username atau password salah' : err.message));
-  }
+  const btn = $('#btn-login'); btn.disabled = true; btn.textContent = 'Memproses…';
+  try { await loginUser($('#login-user').value, $('#login-pass').value); }
+  catch (err) { toast('Login gagal: ' + (err.code === 'auth/invalid-credential' ? 'Username atau password salah' : err.message)); }
   btn.disabled = false; btn.textContent = 'Masuk';
 });
 
 $('#form-register').addEventListener('submit', async e => {
   e.preventDefault();
-  const btn = $('#btn-register');
-  btn.disabled = true; btn.textContent = 'Memproses…';
-  try {
-    await registerUser($('#reg-name').value, $('#reg-user').value, $('#reg-pass').value);
-  } catch (err) {
-    toast('Gagal daftar: ' + err.message);
-  }
+  const btn = $('#btn-register'); btn.disabled = true; btn.textContent = 'Memproses…';
+  try { await registerUser($('#reg-name').value, $('#reg-user').value, $('#reg-pass').value); }
+  catch (err) { toast('Gagal daftar: ' + err.message); isRegistering = false; }
   btn.disabled = false; btn.textContent = 'Buat Akun';
 });
 
