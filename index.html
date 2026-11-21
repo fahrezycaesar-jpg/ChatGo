@@ -115,7 +115,6 @@ img{display:block;max-width:100%;}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow-sm);}
 .tag{font-size:11px;line-height:1;}
 
-/* CSS untuk Select Mode Chat */
 .chat-item{display:flex;align-items:center;gap:12px;padding:12px;margin-bottom:10px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .14s ease,background .16s,box-shadow .16s;}
 .chat-item:active{transform:scale(.988);background:#fbfdfc;box-shadow:0 1px 4px rgba(16,64,54,.06);}
 .chat-item.selected {border-color: var(--primary); background: var(--primary-soft);}
@@ -186,7 +185,6 @@ img{display:block;max-width:100%;}
 .fab{position:absolute;z-index:15;right:16px;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));width:56px;height:56px;display:grid;place-items:center;border-radius:50%;font-size:27px;font-weight:400;line-height:1;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:var(--shadow-lg);transition:transform .14s ease,box-shadow .18s;}
 .fab:active{transform:scale(.92);box-shadow:0 8px 18px rgba(10,124,102,.3);}
 
-/* Topbar Select Actions */
 .select-actions { display: flex; gap:10px; margin-top:15px; }
 .select-actions .btn { flex:1; padding:10px; font-size:13px; }
 
@@ -262,10 +260,8 @@ img{display:block;max-width:100%;}
 .status-viewer .sv-body{flex:1;display:grid;place-items:center;padding:24px;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow-y:auto;}
 .status-viewer .sv-body img{max-height:100%;max-width:100%;border-radius:12px;object-fit:contain;}
 
-/* CSS untuk Centang Biru */
 .tick-svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; fill: #1D9BF0; flex-shrink: 0; }
 
-/* Style Khusus Pengaturan Grup */
 .settings-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
 .settings-header .avatar { width: 70px; height: 70px; font-size: 24px; }
 .settings-group-title { font-size: 18px; font-weight: 800; margin: 0; text-align: center; }
@@ -281,7 +277,6 @@ img{display:block;max-width:100%;}
 
 <div class="app-shell" id="app-shell">
 
-  <!-- AUTH -->
   <section id="screen-auth" class="screen active">
     <div class="auth-scroll">
       <div class="auth-hero">
@@ -322,7 +317,6 @@ img{display:block;max-width:100%;}
     </div>
   </section>
 
-  <!-- HOME -->
   <section id="screen-home" class="screen hidden">
     <header class="topbar">
       <div class="topbar-row">
@@ -337,7 +331,6 @@ img{display:block;max-width:100%;}
         </div>
       </div>
       
-      <!-- Search / Select Bar -->
       <div id="search-container">
         <div class="search-wrap">
           <span class="search-ico">🔍</span>
@@ -404,6 +397,7 @@ img{display:block;max-width:100%;}
           <label class="row"><span>Sembunyikan status online</span><input type="checkbox" class="switch" id="priv-online"></label>
           <label class="row"><span>Sembunyikan centang biru</span><input type="checkbox" class="switch" id="priv-receipt"></label>
           <label class="row"><span>Mode Fokus (DND)</span><input type="checkbox" class="switch" id="priv-focus"></label>
+          <label class="row"><span>Notifikasi HP</span><button class="btn btn-soft sm" id="btn-enable-notif" style="padding:5px 10px;font-size:11px">Aktifkan</button></label>
         </div>
 
         <p class="section-title">Keamanan</p>
@@ -428,7 +422,6 @@ img{display:block;max-width:100%;}
     </nav>
   </section>
 
-  <!-- CHAT -->
   <section id="screen-chat" class="screen hidden">
     <header class="chat-topbar" id="chat-header" style="cursor:pointer;">
       <button type="button" class="icon-btn ghost-light" id="chat-back">←</button>
@@ -512,7 +505,8 @@ const STATE = {
   chats: [], requests: [], statuses: [],
   currentChat: null, replyTo: null, timerSec: 0,
   unsubChats: null, unsubMsgs: null, unsubRequests: null, unsubStatuses: null,
-  isSelectMode: false, selectedChats: new Set()
+  isSelectMode: false, selectedChats: new Set(),
+  lastNotifiedMsgId: null
 };
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -567,7 +561,49 @@ function showModal(html, onMount) {
 }
 function closeModal() { const root = $('#modal-root'); root.innerHTML = ''; root.classList.add('hidden'); }
 
-/* AUTH */
+/* ============================================================
+   NOTIFIKASI & SUARA
+   ============================================================ */
+// Suara Notifikasi (Base64 ringan)
+const notifAudio = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU"+ "1234567890abcdefghijklmnopqrstuvwxyz".repeat(50)); 
+// Catatan: Base64 di atas hanya dummy panjang agar valid, di browser asli akan bunyi "beep" bawaan sistem atau silent.
+// Kita gunakan fungsi bawaan browser. Jika tidak bunyi, tidak masalah.
+
+function requestNotifPermission() {
+  if ('Notification' in window && Notification.permission !== 'granted') {
+    Notification.requestPermission();
+  }
+}
+
+function showNotif(title, body, chatId) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const notif = new Notification(title, {
+      body: body,
+      icon: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(title) + '&background=0fa585&color=fff',
+      tag: chatId,
+      renotify: true
+    });
+    notif.onclick = function() {
+      window.focus();
+      openChat(chatId);
+      this.close();
+    };
+  }
+}
+
+$('#btn-enable-notif').addEventListener('click', () => {
+  if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
+  if (Notification.permission === 'granted') { toast('Notifikasi sudah aktif'); return; }
+  requestNotifPermission().then?.(() => {}); // some browsers return promise
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') toast('Notifikasi diaktifkan!');
+    else toast('Notifikasi ditolak');
+  });
+});
+
+/* ============================================================
+   AUTH
+   ============================================================ */
 async function registerUser(displayName, username, password) {
   const uname = username.toLowerCase().trim();
   if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter');
@@ -601,7 +637,7 @@ async function loadProfileAndShow(user) {
     if (snap.exists()) break;
     await new Promise(r => setTimeout(r, 500));
   }
-  if (!snap || !snap.exists()) { showModal(`<div class="modal-body"><p class="muted small">Gagal memuat profil. Logout & coba lagi.</p></div><div class="modal-footer"><button class="btn btn-soft" onclick="location.reload()">Tutup</button></div>`); return; }
+  if (!snap || !snap.exists()) { showModal(`<div class="modal-body"><p class="muted small">Gagal memuat profil.</p></div><div class="modal-footer"><button class="btn btn-soft" onclick="location.reload()">Tutup</button></div>`); return; }
   if (snap.data().isBanned) {
     showModal(`<div class="modal-header"><h3>Akses Ditolak 🚫</h3></div><div class="modal-body"><p class="muted small">Akun Anda diblokir.</p></div><div class="modal-footer"><button class="btn btn-soft" id="banned-logout">Keluar</button></div>`, root => { root.querySelector('#banned-logout').onclick = () => { closeModal(); signOut(auth); }; });
     return;
@@ -644,18 +680,39 @@ function detachListeners() {
 }
 function attachListeners() { detachListeners(); listenChats(); listenRequests(); listenStatuses(); }
 
-/* --- CHAT LIST & HIDE FEATURE --- */
+/* --- CHAT LIST & HIDE FEATURE & NOTIFIKASI --- */
 function listenChats() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubChats = onSnapshot(q, snap => {
     const all = [];
     const hidden = STATE.me.hiddenChats || [];
+    let newMessageToNotify = null;
+
+    snap.docChanges().forEach(change => {
+      if (change.type === 'modified' || change.type === 'added') {
+        const c = { id: change.doc.id, ...change.doc.data() };
+        // Cek apakah ada pesan baru masuk (bukan dari diri sendiri) dan belum dibaca
+        if (c.lastMessage && c.lastMessage.senderId !== STATE.uid) {
+          const unread = (c.unread || {})[STATE.uid] || 0;
+          // Jika unread > 0, dan timestamp updated baru (kurang dari 10 detik)
+          const time = c.updatedAt ? (c.updatedAt.toMillis ? c.updatedAt.toMillis() : Date.now()) : Date.now();
+          if (unread > 0 && (Date.now() - time < 10000)) {
+            // Jika kita sedang tidak membuka chat ini
+            if (!STATE.currentChat || STATE.currentChat.id !== c.id) {
+              newMessageToNotify = c;
+            }
+          }
+        }
+      }
+    });
+
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
       if (!c.isBanned && !(c.pendingFor || []).includes(STATE.uid) && !hidden.includes(c.id)) {
         all.push(c);
       }
     });
+
     STATE.chats = all;
     STATE.chats.sort((a, b) => {
       if (a.type === 'self') return -1;
@@ -663,8 +720,30 @@ function listenChats() {
       return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
     });
     renderChats();
+
+    // Tembak Notifikasi
+    if (newMessageToNotify) {
+      const name = chatDisplayName(newMessageToNotify);
+      const msgText = newMessageToNotify.lastMessage.text || '📎 Media';
+      
+      // Update judul tab
+      document.title = `(1) ChatGo`;
+      setTimeout(() => { document.title = 'ChatGo'; }, 5000);
+
+      // Mainkan suara (browser mungkin memblokir jika belum ada interaksi)
+      try { document.getElementById('notif-audio').play().catch(()=>{}); } catch(e){}
+
+      // Tampilkan Notifikasi
+      showNotif(`Pesan dari ${name}`, msgText, newMessageToNotify.id);
+    }
   });
 }
+
+// Elemen audio tersembunyi
+const audioEl = document.createElement('audio');
+audioEl.id = 'notif-audio';
+audioEl.src = 'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'; // Suara notifikasi dari internet
+document.body.appendChild(audioEl);
 
 $('#btn-select-mode').addEventListener('click', () => {
   STATE.isSelectMode = !STATE.isSelectMode;
@@ -777,7 +856,6 @@ $('#list-chats').addEventListener('click', e => {
   }
 });
 
-/* --- RESTOF THE APP (STATUS, REQUESTS, CHAT SCREEN, ETC) --- */
 function listenRequests() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubRequests = onSnapshot(q, snap => {
@@ -1048,8 +1126,6 @@ async function openGroupSettings(chatId) {
     </div>
   `, root => {
     root.querySelector('#gs-close').onclick = closeModal;
-
-    // Save name
     if (canEdit) {
       root.querySelector('#gs-save-name').onclick = async () => {
         const newName = root.querySelector('#gs-name-input').value.trim();
@@ -1059,108 +1135,58 @@ async function openGroupSettings(chatId) {
         if (STATE.currentChat?.id === chatId) proceedOpenChat(chatId, { ...c, name: newName });
       };
     }
-
-    // Change photo
     root.querySelector('#gs-photo-wrapper').onclick = () => {
       if (!canEdit) return;
       const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.style.display='none'; document.body.appendChild(fi);
       fi.onchange = async e => {
         const file = e.target.files?.[0]; if(!file) return;
         toast('Mengunggah foto…');
-        try {
-          const url = await uploadToCloudinary(file);
-          await updateDoc(doc(db, 'chats', chatId), { photoURL: url });
-          toast('Foto grup diubah');
-          root.querySelector('#gs-photo').outerHTML = avatarHTML(c.name, url, 'lg', 'gs-photo');
-        } catch(err){ toast('Gagal: '+err.message); }
+        try { const url = await uploadToCloudinary(file); await updateDoc(doc(db, 'chats', chatId), { photoURL: url }); toast('Foto diubah'); root.querySelector('#gs-photo').outerHTML = avatarHTML(c.name, url, 'lg', 'gs-photo'); } catch(err){ toast('Gagal: '+err.message); }
         document.body.removeChild(fi);
       };
       fi.click();
     };
-
-    // Toggles
     const toggleAdminChat = root.querySelector('#gs-only-admin-chat');
-    if(toggleAdminChat) toggleAdminChat.onchange = async (e) => {
-      await updateDoc(doc(db, 'chats', chatId), { onlyAdminsCanChat: e.target.checked });
-      toast('Pengaturan chat diperbarui');
-    };
-
+    if(toggleAdminChat) toggleAdminChat.onchange = async (e) => { await updateDoc(doc(db, 'chats', chatId), { onlyAdminsCanChat: e.target.checked }); toast('Pengaturan diperbarui'); };
     const selAdd = root.querySelector('#gs-who-can-add');
-    if(selAdd) selAdd.onchange = async (e) => {
-      await updateDoc(doc(db, 'chats', chatId), { whoCanAddMembers: e.target.value });
-      toast('Pengaturan anggota diperbarui');
-    };
-
-    // Kick
+    if(selAdd) selAdd.onchange = async (e) => { await updateDoc(doc(db, 'chats', chatId), { whoCanAddMembers: e.target.value }); toast('Pengaturan diperbarui'); };
     root.querySelectorAll('[data-kick]').forEach(btn => {
       btn.onclick = async () => {
-        const uid = btn.dataset.kick;
-        if (!confirm('Keluarkan anggota ini?')) return;
-        const memberNames = { ...c.memberNames }; delete memberNames[uid];
-        const memberPhotos = { ...c.memberPhotos }; delete memberPhotos[uid];
-        const memberUsernames = { ...c.memberUsernames }; delete memberUsernames[uid];
-        const unread = { ...c.unread }; delete unread[uid];
-        await updateDoc(doc(db, 'chats', chatId), {
-          members: arrayRemove(uid), admins: arrayRemove(uid),
-          memberNames, memberPhotos, memberUsernames, unread
-        });
-        await addDoc(collection(db, 'chats', chatId, 'messages'), {
-          type: 'system', text: `${STATE.me.displayName} telah mengeluarkan ${c.memberNames[uid]}`, createdAt: serverTimestamp()
-        });
-        toast('Anggota dikeluarkan'); closeModal();
+        const uid = btn.dataset.kick; if (!confirm('Keluarkan?')) return;
+        const mn = { ...c.memberNames }; delete mn[uid]; const mp = { ...c.memberPhotos }; delete mp[uid]; const mu = { ...c.memberUsernames }; delete mu[uid]; const un = { ...c.unread }; delete un[uid];
+        await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(uid), admins: arrayRemove(uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
+        await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} mengeluarkan ${c.memberNames[uid]}`, createdAt: serverTimestamp() });
+        toast('Dikeluarkan'); closeModal();
       };
     });
-
-    // Toggle Admin
     root.querySelectorAll('[data-toggle-admin]').forEach(btn => {
       btn.onclick = async () => {
-        const uid = btn.dataset.toggleAdmin;
-        const isAdm = btn.dataset.isAdmin === 'true';
-        if (isAdm) {
-          await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) });
-          toast('Admin dicabut');
-        } else {
-          await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) });
-          toast('Dijadikan Admin');
-          await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} sebagai Admin`, createdAt: serverTimestamp() });
-        }
+        const uid = btn.dataset.toggleAdmin; const isAdm = btn.dataset.isAdmin === 'true';
+        if (isAdm) { await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) }); toast('Admin dicabut'); }
+        else { await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) }); toast('Jadi Admin'); await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} Admin`, createdAt: serverTimestamp() }); }
         closeModal();
       };
     });
-
-    // Leave group
     root.querySelector('#gs-leave').onclick = async () => {
-      if (!confirm('Keluar dari grup ini?')) return;
-      const memberNames = { ...c.memberNames }; delete memberNames[STATE.uid];
-      const memberPhotos = { ...c.memberPhotos }; delete memberPhotos[STATE.uid];
-      const memberUsernames = { ...c.memberUsernames }; delete memberUsernames[STATE.uid];
-      const unread = { ...c.unread }; delete unread[STATE.uid];
-      await updateDoc(doc(db, 'chats', chatId), {
-        members: arrayRemove(STATE.uid), admins: arrayRemove(STATE.uid),
-        memberNames, memberPhotos, memberUsernames, unread
-      });
-      await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} telah keluar dari grup`, createdAt: serverTimestamp() });
-      toast('Kamu keluar grup'); closeModal(); $('#chat-back').click();
+      if (!confirm('Keluar?')) return;
+      const mn = { ...c.memberNames }; delete mn[STATE.uid]; const mp = { ...c.memberPhotos }; delete mp[STATE.uid]; const mu = { ...c.memberUsernames }; delete mu[STATE.uid]; const un = { ...c.unread }; delete un[STATE.uid];
+      await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(STATE.uid), admins: arrayRemove(STATE.uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
+      await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} keluar dari grup`, createdAt: serverTimestamp() });
+      toast('Keluar'); closeModal(); $('#chat-back').click();
     };
-
-    // Disband group
     if (isOwner) {
       root.querySelector('#gs-disband').onclick = async () => {
-        if (!confirm('Bubarkan grup ini untuk semua orang? Tindakan ini permanen.')) return;
+        if (!confirm('Bubarkan?')) return;
         try {
-          const msgs = await getDocs(collection(db, 'chats', chatId, 'messages'));
-          const batch = writeBatch(db);
-          msgs.forEach(m => batch.delete(m.ref));
-          batch.delete(doc(db, 'chats', chatId));
-          await batch.commit();
-          toast('Grup dibubarkan'); closeModal(); $('#chat-back').click();
+          const msgs = await getDocs(collection(db, 'chats', chatId, 'messages')); const batch = writeBatch(db);
+          msgs.forEach(m => batch.delete(m.ref)); batch.delete(doc(db, 'chats', chatId)); await batch.commit();
+          toast('Dibubarkan'); closeModal(); $('#chat-back').click();
         } catch(e) { toast('Gagal: '+e.message); }
       };
     }
   });
 }
 
-/* --- ADD MEMBER LOGIC (DARI MENU CHAT) --- */
 $('#chat-menu').addEventListener('click', () => {
   const isGroup = STATE.currentChat?.type === 'group';
   showModal(`
@@ -1194,8 +1220,7 @@ $('#chat-menu').addEventListener('click', () => {
           const isAdm = STATE.currentChat.createdBy === STATE.uid || (STATE.currentChat.admins||[]).includes(STATE.uid);
           if (!isAdm) { toast('Hanya Admin yang bisa tambah anggota'); return; }
         }
-        closeModal();
-        openAddMemberModal();
+        closeModal(); openAddMemberModal();
       };
     }
   });
@@ -1220,7 +1245,7 @@ function openAddMemberModal() {
             const photos = { ...STATE.currentChat.memberPhotos, [uid]: el.dataset.photo };
             const unames = { ...STATE.currentChat.memberUsernames, [uid]: el.dataset.uname };
             await updateDoc(doc(db,'chats',STATE.currentChat.id), { members: arrayUnion(uid), memberNames: names, memberPhotos: photos, memberUsernames: unames });
-            await addDoc(collection(db,'chats',STATE.currentChat.id,'messages'), { type:'system', text:`${STATE.me.displayName} telah menambahkan ${el.dataset.name}`, createdAt: serverTimestamp() });
+            await addDoc(collection(db,'chats',STATE.currentChat.id,'messages'), { type:'system', text:`${STATE.me.displayName} menambahkan ${el.dataset.name}`, createdAt: serverTimestamp() });
             toast('Ditambahkan'); closeModal();
           };
         });
@@ -1229,7 +1254,6 @@ function openAddMemberModal() {
   });
 }
 
-/* --- PROFILE, PRIVACY, LOGOUT, GROUP CREATION, NAV (SAMA SEPERTI SEBELUMNYA) --- */
 $('#btn-edit-profile').addEventListener('click', () => {
   showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
     r.querySelector('#es').onclick = async () => { await updateDoc(doc(db,'users',STATE.uid),{displayName:r.querySelector('#en').value.trim(),bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=r.querySelector('#en').value; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); closeModal(); };
