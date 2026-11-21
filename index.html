@@ -90,7 +90,6 @@ img{display:block;max-width:100%;}
 .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .topbar-hello{margin:0 0 3px;font-size:12px;color:rgba(255,255,255,.82);}
 .topbar-title{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;gap:7px;}
-.verified{display:inline-grid;place-items:center;width:16px;height:16px;border-radius:50%;background:#fff;color:var(--primary-dark);font-size:10px;font-weight:900;flex-shrink:0;}
 .topbar-actions{display:flex;gap:8px;}
 .icon-btn{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;font-size:17px;color:#4b5f5a;transition:background .16s,transform .12s;flex-shrink:0;}
 .icon-btn:active{transform:scale(.94);}
@@ -152,7 +151,7 @@ img{display:block;max-width:100%;}
 .btn-reject{background:#fdecec;color:var(--danger);}
 
 .profile-card{padding:22px 18px 20px;text-align:center;background:linear-gradient(180deg,#ffffff,#f8fdfb);}
-.profile-card h3{margin:14px 0 2px;font-size:19px;font-weight:800;}
+.profile-card h3{margin:14px 0 2px;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:5px;}
 .profile-card .uname{margin:0;font-size:13px;color:var(--primary-dark);font-weight:700;}
 .profile-card .bio{margin:9px 0 0;font-size:13px;color:var(--muted);line-height:1.55;}
 .alias-chip{display:inline-block;margin-top:12px;padding:7px 14px;border-radius:99px;background:#f1f7f5;border:1px dashed #cfe3dd;font-size:12px;color:#4b5f5a;}
@@ -184,7 +183,7 @@ img{display:block;max-width:100%;}
 #screen-chat{background:#e9efee;}
 .chat-topbar{position:relative;z-index:6;display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 10px) 10px 12px;background:linear-gradient(150deg,#13c08d 0%,#0fa585 55%,#0a7c66 100%);color:#fff;box-shadow:0 6px 18px rgba(10,80,66,.22);}
 .chat-topbar-info{flex:1;min-width:0;}
-.chat-topbar-info strong{display:block;font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.chat-topbar-info strong{display:flex;align-items:center;gap:5px;font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .chat-topbar-info small{display:block;font-size:11px;color:rgba(255,255,255,.85);margin-top:1px;}
 .chat-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:9px;padding:16px 12px 18px;background-color:#e9efee;background-image:radial-gradient(rgba(10,124,102,.075) 1px,transparent 1px);background-size:18px 18px;}
 .day-divider{align-self:center;margin:2px 0 6px;padding:5px 13px;border-radius:99px;background:rgba(255,255,255,.9);color:#5c6f6a;font-size:11px;font-weight:800;box-shadow:0 1px 4px rgba(16,64,54,.08);}
@@ -201,7 +200,7 @@ img{display:block;max-width:100%;}
 .deleted{font-style:italic;opacity:.72;}
 .reply-preview{padding:6px 10px;margin-bottom:6px;border-left:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.15);border-radius:6px;font-size:12.5px;opacity:.9;}
 .msg.in .reply-preview{border-left-color:var(--primary);background:#f0f6f4;color:#3d4f4a;}
-.sender-name{font-size:11px;font-weight:800;opacity:.75;margin-bottom:2px;}
+.sender-name{font-size:11px;font-weight:800;opacity:.75;margin-bottom:2px;display:flex;align-items:center;gap:4px;}
 .chat-img{max-width:100%;border-radius:10px;margin-top:5px;}
 
 .chat-input-bar{position:relative;z-index:6;display:flex;align-items:center;gap:7px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(16,64,54,.06);}
@@ -240,16 +239,19 @@ img{display:block;max-width:100%;}
 .search-result:active{background:#f4f8f7;}
 .search-result:last-child{border-bottom:none;}
 .search-result .info{flex:1;min-width:0;}
-.search-result .info strong{display:block;font-size:14.5px;}
+.search-result .info strong{display:flex;align-items:center;gap:4px;font-size:14.5px;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
 .status-viewer{position:absolute;inset:0;background:#111;color:#fff;z-index:90;display:flex;flex-direction:column;}
 .status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 14px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);}
 .status-viewer .sv-header .info{flex:1;}
-.status-viewer .sv-header strong{display:block;font-size:14px;}
+.status-viewer .sv-header strong{display:flex;align-items:center;gap:5px;font-size:14px;}
 .status-viewer .sv-header small{display:block;font-size:11px;opacity:.75;}
 .status-viewer .sv-body{flex:1;display:grid;place-items:center;padding:24px;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow-y:auto;}
 .status-viewer .sv-body img{max-height:100%;max-width:100%;border-radius:12px;object-fit:contain;}
+
+/* CSS untuk Centang Biru */
+.tick-svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; fill: #1D9BF0; flex-shrink: 0; }
 </style>
 </head>
 <body>
@@ -303,7 +305,7 @@ img{display:block;max-width:100%;}
       <div class="topbar-row">
         <div>
           <p class="topbar-hello">Selamat datang,</p>
-          <h1 class="topbar-title"><span id="topbar-name">—</span><span class="verified">✓</span></h1>
+          <h1 class="topbar-title"><span id="topbar-name">—</span></h1>
         </div>
         <div class="topbar-actions">
           <button type="button" class="icon-btn ghost-light" id="btn-focus" title="Mode Fokus">🌙</button>
@@ -454,7 +456,7 @@ const db = initializeFirestore(app, {
   useFetchStreams: false
 });
 
-/* ===== CLOUDINARY (SUDAH DIPERBAIKI) ===== */
+/* ===== CLOUDINARY ===== */
 const CLOUDINARY_CLOUD_NAME = "dyytjk3ho";
 const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
@@ -486,6 +488,9 @@ async function uploadToCloudinary(file) {
   if (!data.secure_url) throw new Error("Respons upload tidak valid");
   return data.secure_url;
 }
+
+/* ===== SVG CENTANG BIRU ===== */
+const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L14.5 5.5L18.5 4.5L19.5 8.5L23 11L20.5 14.5L21.5 18.5L17.5 19.5L15 23L11.5 20.5L7.5 21.5L6.5 17.5L3 15L5.5 11.5L4.5 7.5L8.5 6.5L11 3L12 2Z"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
 
 /* ===== STATE ===== */
 const STATE = {
@@ -591,7 +596,7 @@ async function registerUser(displayName, username, password) {
     await setDoc(doc(db, 'users', uid), {
       displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
       privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
-      blocked: [], createdAt: serverTimestamp()
+      blocked: [], isVerified: false, isBanned: false, createdAt: serverTimestamp()
     });
     await addDoc(collection(db, 'chats'), {
       type: 'self', name: 'Catatan Pribadi', members: [uid],
@@ -638,6 +643,22 @@ async function loadProfileAndShow(user) {
     return;
   }
 
+  // CEK BAN
+  if (snap.data().isBanned) {
+    showModal(`
+      <div class="modal-header"><h3>Akses Ditolak 🚫</h3></div>
+      <div class="modal-body">
+        <p class="muted small">Akun Anda telah diblokir (Banned) oleh Admin karena melanggar aturan.</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-soft" id="banned-logout">Keluar</button>
+      </div>
+    `, root => {
+      root.querySelector('#banned-logout').onclick = () => { closeModal(); signOut(auth); };
+    });
+    return;
+  }
+
   STATE.uid = user.uid;
   STATE.me = { uid: user.uid, ...snap.data() };
   updateProfileUI();
@@ -659,8 +680,14 @@ onAuthStateChanged(auth, async user => {
 function updateProfileUI() {
   const me = STATE.me;
   if (!me) return;
-  const topName = $('#topbar-name'); if (topName) topName.textContent = me.displayName;
-  const mn = $('#me-name'); if (mn) mn.textContent = me.displayName;
+  const tick = me.isVerified ? BLUE_TICK_SVG : '';
+  
+  const topName = $('#topbar-name'); 
+  if (topName) topName.innerHTML = esc(me.displayName) + tick;
+  
+  const mn = $('#me-name'); 
+  if (mn) mn.innerHTML = esc(me.displayName) + tick;
+  
   const mu = $('#me-username'); if (mu) mu.textContent = '@' + me.username;
   const mb = $('#me-bio'); if (mb) mb.textContent = me.bio || 'Belum ada bio';
   const ma = $('#me-alias'); if (ma) ma.textContent = '@' + me.username;
@@ -695,8 +722,12 @@ function listenChats() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubChats = onSnapshot(q, snap => {
     const all = [];
-    snap.forEach(d => all.push({ id: d.id, ...d.data() }));
-    STATE.chats = all.filter(c => !(c.pendingFor || []).includes(STATE.uid));
+    snap.forEach(d => {
+      const c = { id: d.id, ...d.data() };
+      // FILTER: Sembunyikan chat jika di-ban atau pending
+      if (!c.isBanned && !(c.pendingFor || []).includes(STATE.uid)) all.push(c);
+    });
+    STATE.chats = all;
     STATE.chats.sort((a, b) => {
       if (a.type === 'self') return -1;
       if (b.type === 'self') return 1;
@@ -711,7 +742,7 @@ function listenRequests() {
   STATE.unsubRequests = onSnapshot(q, snap => {
     STATE.requests = snap.docs
       .map(d => ({ id: d.id, ...d.data() }))
-      .filter(c => (c.pendingFor || []).includes(STATE.uid));
+      .filter(c => !c.isBanned && (c.pendingFor || []).includes(STATE.uid));
     renderRequests();
   }, err => console.error("Requests listener error:", err));
 }
@@ -720,7 +751,9 @@ function listenStatuses() {
   const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
   STATE.unsubStatuses = onSnapshot(q, snap => {
     const now = Date.now();
-    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(s => s.expiresAt?.toMillis?.() > now);
+    STATE.statuses = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(s => !s.isBanned && s.expiresAt?.toMillis?.() > now); // FILTER BAN
     renderStatuses();
   }, err => console.error("Statuses listener error:", err));
 }
@@ -734,6 +767,16 @@ function chatDisplayName(chat) {
   const otherUid = (chat.members || []).find(u => u !== STATE.uid);
   return chat.memberNames?.[otherUid] || chat.name || 'Chat';
 }
+
+function getChatTick(chat) {
+  if (chat.type === 'group' && chat.isVerified) return BLUE_TICK_SVG;
+  if (chat.type === 'direct') {
+    const otherUid = (chat.members || []).find(u => u !== STATE.uid);
+    if (chat.memberVerified && chat.memberVerified[otherUid]) return BLUE_TICK_SVG;
+  }
+  return '';
+}
+
 function chatDisplayPhoto(chat) {
   if (chat.type === 'self') return null;
   if (chat.type === 'group') return chat.photoURL || null;
@@ -756,6 +799,7 @@ function renderChats() {
   list.innerHTML = items.map(chat => {
     const name = chatDisplayName(chat);
     const photo = chatDisplayPhoto(chat);
+    const tick = getChatTick(chat);
     const last = chat.lastMessage;
     const preview = last ? (last.senderId === STATE.uid ? 'Kamu: ' : '') + (last.text || '📎 Media') : 'Belum ada pesan';
     const time = last?.createdAt ? fmtTime(last.createdAt) : (chat.updatedAt ? fmtTime(chat.updatedAt) : '');
@@ -769,7 +813,7 @@ function renderChats() {
       ${avatarHTML(name, photo)}
       <div class="chat-item-body">
         <div class="chat-item-top">
-          <div class="chat-item-name">${icons}<span class="truncate">${esc(name)}</span></div>
+          <div class="chat-item-name">${icons}<span class="truncate">${esc(name)}</span> ${tick}</div>
           <span class="chat-item-time">${esc(time)}</span>
         </div>
         <div class="chat-item-preview">
@@ -790,13 +834,14 @@ function renderRequests() {
     list.innerHTML = STATE.requests.map(req => {
       const initiator = (req.members || []).find(u => u !== STATE.uid);
       const name = req.memberNames?.[initiator] || 'Pengguna';
+      const tick = (req.memberVerified && req.memberVerified[initiator]) ? BLUE_TICK_SVG : '';
       const photo = req.memberPhotos?.[initiator];
       const lastMsg = req.lastMessage?.text || 'Halo, boleh kenalan?';
       return `<div class="req-item" data-req="${req.id}">
         <div class="req-head">
           ${avatarHTML(name, photo)}
           <div class="req-head-info">
-            <strong class="truncate">${esc(name)}</strong>
+            <strong class="truncate">${esc(name)} ${tick}</strong>
             <span>@${esc(req.memberUsernames?.[initiator] || 'pengguna')}</span>
           </div>
         </div>
@@ -849,7 +894,10 @@ function renderStatuses() {
     list.innerHTML = `<div class="empty">Belum ada pembaruan status dari pengguna lain.</div>`;
     return;
   }
-  list.innerHTML = otherStatuses.map(s => `
+  list.innerHTML = otherStatuses.map(s => {
+    // Note: We don't store isVerified in status currently, but we could. 
+    // For now, assume status doesn't need the tick or we fetch user data.
+    return `
     <div class="status-item" data-status="${s.id}">
       <div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">
         ${avatarHTML(s.userName, s.userPhoto)}
@@ -860,7 +908,7 @@ function renderStatuses() {
       </div>
       <span class="status-badge">${s.type === 'image' ? '📷' : '📝'}</span>
     </div>
-  `).join('');
+  `}).join('');
 }
 
 function openMyStatusesModal() {
@@ -963,7 +1011,10 @@ function openNewChatModal() {
           results.innerHTML = users.map(u => `
             <div class="search-result" data-uid="${u.uid}">
               ${avatarHTML(u.displayName, u.photoURL, 'sm')}
-              <div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div>
+              <div class="info">
+                <strong>${esc(u.displayName)} ${u.isVerified ? BLUE_TICK_SVG : ''}</strong>
+                <span>@${esc(u.username)}</span>
+              </div>
             </div>`).join('');
           results.querySelectorAll('.search-result').forEach(el => { el.onclick = () => startChatWith(el.dataset.uid); });
         } catch (err) { results.innerHTML = `<p class="muted small center">Error: ${esc(err.message)}</p>`; }
@@ -990,6 +1041,8 @@ async function startChatWith(uid) {
     const targetSnap = await getDoc(doc(db, 'users', uid));
     if (!targetSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
     const target = targetSnap.data();
+    if (target.isBanned) { toast('Pengguna ini telah diblokir.'); return; }
+    
     const privacy = target.privacy?.whoCanMessage || 'everyone';
     if (privacy === 'nobody') { toast('Pengguna ini menutup permintaan pesan.'); return; }
 
@@ -1002,6 +1055,7 @@ async function startChatWith(uid) {
       memberNames: { [STATE.uid]: me.displayName, [uid]: target.displayName },
       memberPhotos: { [STATE.uid]: me.photoURL || '', [uid]: target.photoURL || '' },
       memberUsernames: { [STATE.uid]: me.username, [uid]: target.username },
+      memberVerified: { [STATE.uid]: me.isVerified || false, [uid]: target.isVerified || false },
       pendingFor: isPending ? [uid] : [], unread: {}, lastMessage: null,
       updatedAt: serverTimestamp(), createdAt: serverTimestamp()
     });
@@ -1021,6 +1075,8 @@ async function openChat(chatId) {
   const chatSnap = await getDoc(doc(db, 'chats', chatId));
   if (!chatSnap.exists()) { toast('Chat tidak ditemukan'); return; }
   const chatData = chatSnap.data();
+
+  if (chatData.isBanned) { toast('Chat ini telah diblokir oleh Admin.'); return; }
 
   if (chatData.pins && chatData.pins[STATE.uid]) {
     showModal(`
@@ -1057,7 +1113,9 @@ function proceedOpenChat(chatId, chat) {
 
   const name = chatDisplayName(chat);
   const photo = chatDisplayPhoto(chat);
-  $('#chat-name').textContent = name;
+  const tick = getChatTick(chat);
+  
+  $('#chat-name').innerHTML = esc(name) + tick;
   $('#chat-sub').textContent = chat.type === 'self' ? 'Catatan pribadi' : (chat.type === 'group' ? (chat.members?.length || 0) + ' anggota' : '@' + (chat.memberUsernames?.[chat.members.find(u => u !== STATE.uid)] || '—'));
 
   const av = $('#chat-avatar');
@@ -1609,11 +1667,14 @@ function openNewGroupModal() {
       if (q.length < 2) { results.innerHTML = ''; return; }
       t = setTimeout(async () => {
         const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(8)));
-        const users = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== STATE.uid);
+        const users = snap.docs.map(d => ({ uid: d.id, ...d.data() })).filter(u => u.uid !== STATE.uid && !u.isBanned);
         results.innerHTML = users.map(u => `
           <div class="search-result" data-uid="${u.uid}">
             ${avatarHTML(u.displayName, u.photoURL, 'sm')}
-            <div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div>
+            <div class="info">
+              <strong>${esc(u.displayName)} ${u.isVerified ? BLUE_TICK_SVG : ''}</strong>
+              <span>@${esc(u.username)}</span>
+            </div>
           </div>`).join('') || '<p class="muted small center">Tidak ditemukan</p>';
         results.querySelectorAll('.search-result').forEach(el => {
           el.onclick = () => {
@@ -1644,7 +1705,7 @@ function openNewGroupModal() {
       });
       const ref = await addDoc(collection(db, 'chats'), {
         type: 'group', name, members, memberNames, memberPhotos, memberUsernames,
-        pendingFor: [], unread: {}, lastMessage: null, createdBy: STATE.uid,
+        pendingFor: [], unread: {}, lastMessage: null, createdBy: STATE.uid, isVerified: false,
         updatedAt: serverTimestamp(), createdAt: serverTimestamp()
       });
       toast('Grup dibuat'); closeModal(); openChat(ref.id);
