@@ -454,8 +454,8 @@ const db = initializeFirestore(app, {
   useFetchStreams: false
 });
 
-/* ===== CLOUDINARY ===== */
-const CLOUDINARY_CLOUD_NAME = "dyyrkj3ho";
+/* ===== CLOUDINARY (SUDAH DIPERBAIKI) ===== */
+const CLOUDINARY_CLOUD_NAME = "dyytjk3ho";
 const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
 async function uploadToCloudinary(file) {
@@ -478,7 +478,7 @@ async function uploadToCloudinary(file) {
       msg = errorData.error?.message || msg;
     } catch { msg = `Upload error (HTTP ${response.status})`; }
     if (/preset/i.test(msg)) {
-      msg = "Upload preset Cloudinary tidak valid. Pastikan preset 'chatgo_preset' ada dan bertipe Unsigned.";
+      msg = "Upload preset Cloudinary tidak valid. Pastikan nama 'chatgo_preset' sama persis dan bertipe Unsigned.";
     }
     throw new Error(msg);
   }
@@ -522,7 +522,6 @@ function showScreen(id) {
   });
 }
 
-/* ==== FIX: avatar builder TANPA trailing space + support ID ==== */
 function avatarHTML(name, photo, cls = '', id = '') {
   const [a, b] = colorFor(name || '?');
   const classes = 'avatar' + (cls ? ' ' + cls : '');
@@ -565,7 +564,6 @@ async function registerUser(displayName, username, password) {
   if (password.length < 6) throw new Error('Password minimal 6 karakter');
   if (!displayName.trim()) throw new Error('Nama tampilan wajib');
 
-  // Cek username
   try {
     const unameSnap = await getDoc(doc(db, 'usernames', uname));
     if (unameSnap.exists()) throw new Error('Username sudah dipakai');
@@ -579,12 +577,8 @@ async function registerUser(displayName, username, password) {
     cred = await createUserWithEmailAndPassword(auth, emailFor(uname), password);
   } catch (err) {
     const code = err.code || '';
-    if (code === 'auth/email-already-in-use') {
-      throw new Error('Username sudah terdaftar. Coba login atau gunakan username lain.');
-    }
-    if (code === 'auth/operation-not-allowed') {
-      throw new Error('Login Email/Password belum diaktifkan di Firebase Console.');
-    }
+    if (code === 'auth/email-already-in-use') throw new Error('Username sudah terdaftar. Coba login atau gunakan username lain.');
+    if (code === 'auth/operation-not-allowed') throw new Error('Login Email/Password belum diaktifkan di Firebase Console.');
     if (code === 'auth/invalid-email') throw new Error('Format username tidak valid.');
     if (code === 'auth/weak-password') throw new Error('Password terlalu lemah.');
     throw new Error(err.message || 'Gagal membuat akun');
@@ -605,7 +599,6 @@ async function registerUser(displayName, username, password) {
       updatedAt: serverTimestamp(), createdAt: serverTimestamp()
     });
   } catch (e) {
-    // rollback auth user kalau gagal nulis firestore
     try { await cred.user.delete(); } catch {}
     console.error('REGISTER FIRESTORE ERROR:', e);
     throw new Error('Gagal menyimpan data akun. ' + (e.code || e.message || ''));
@@ -629,7 +622,6 @@ async function loadProfileAndShow(user) {
   }
 
   if (!snap || !snap.exists()) {
-    // Jangan auto-logout. Beri pilihan ke user.
     showModal(`
       <div class="modal-header"><h3>Gagal Memuat Profil</h3></div>
       <div class="modal-body">
@@ -851,7 +843,6 @@ function renderStatuses() {
       <span class="plus-dot">+</span>
     `;
   }
-  // FIX: selalu buka daftar status saya (bisa add + delete)
   myCard.onclick = openMyStatusesModal;
 
   if (!otherStatuses.length) {
@@ -872,7 +863,6 @@ function renderStatuses() {
   `).join('');
 }
 
-/* ==== FITUR: kelola semua status saya (lihat + hapus + tambah) ==== */
 function openMyStatusesModal() {
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
   showModal(`
@@ -1182,7 +1172,6 @@ $('#composer').addEventListener('submit', async e => {
   catch (err) { console.error('SEND ERROR:', err); toast('Gagal kirim: ' + (err.message || 'Cek koneksi')); }
 });
 
-/* ==== FITUR: lampiran media ==== */
 $('#btn-attach').addEventListener('click', () => $('#chat-media-input').click());
 $('#chat-media-input').addEventListener('change', async e => {
   const file = e.target.files?.[0];
@@ -1488,7 +1477,6 @@ function openNewStatusModal() {
     let photoFile = null;
     root.querySelector('#status-cancel').onclick = closeModal;
 
-    // FIX: input file dimasukkan ke DOM agar jalan di semua browser (terutama iOS)
     root.querySelector('#status-photo-btn').onclick = () => {
       const fi = document.createElement('input');
       fi.type = 'file';
@@ -1693,7 +1681,6 @@ $('#form-login').addEventListener('submit', async e => {
   const btn = $('#btn-login'); btn.disabled = true; btn.textContent = 'Memproses…';
   try {
     await loginUser($('#login-user').value, $('#login-pass').value);
-    // onAuthStateChanged akan mengurus transisi
   } catch (err) {
     const code = err.code || '';
     let msg = err.message;
@@ -1710,7 +1697,6 @@ $('#form-register').addEventListener('submit', async e => {
   const btn = $('#btn-register'); btn.disabled = true; btn.textContent = 'Memproses…';
   try {
     await registerUser($('#reg-name').value, $('#reg-user').value, $('#reg-pass').value);
-    // onAuthStateChanged akan mengurus transisi
   } catch (err) {
     toast('Gagal daftar: ' + err.message);
   } finally {
