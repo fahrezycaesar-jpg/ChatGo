@@ -677,10 +677,13 @@ function listenChats() {
   }, err => console.error("Chats listener error:", err));
 }
 
+// ✅ PERBAIKAN: Menghindari query multiple array-contains yang tidak didukung Firestore
 function listenRequests() {
-  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid), where('pendingFor', 'array-contains', STATE.uid));
+  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubRequests = onSnapshot(q, snap => {
-    STATE.requests = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+    STATE.requests = snap.docs
+      .map(d => ({ id: d.id, ...d.data() }))
+      .filter(c => (c.pendingFor || []).includes(STATE.uid));
     renderRequests();
   }, err => console.error("Requests listener error:", err));
 }
@@ -872,32 +875,51 @@ function openNewChatModal() {
   });
 }
 
+// ✅ PERBAIKAN: Menghindari query == + array-contains, dan menambahkan try/catch
 async function startChatWith(uid) {
-  closeModal();
-  const snap = await getDocs(query(collection(db, 'chats'), where('type', '==', 'direct'), where('members', 'array-contains', STATE.uid)));
-  for (const d of snap.docs) {
-    const data = d.data();
-    if ((data.members || []).includes(uid)) { openChat(d.id); return; }
-  }
-  const targetSnap = await getDoc(doc(db, 'users', uid));
-  if (!targetSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
-  const target = targetSnap.data();
-  const privacy = target.privacy?.whoCanMessage || 'everyone';
-  if (privacy === 'nobody') { toast('Pengguna ini menutup permintaan pesan.'); return; }
-  const isPending = privacy === 'contacts';
-  const mySnap = await getDoc(doc(db, 'users', STATE.uid));
-  const me = mySnap.data();
+  try {
+    closeModal();
+    
+    // 1) Cek chat existing
+    let existingId = null;
+    const snap = await getDocs(query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid)));
+    for (const d of snap.docs) {
+      const data = d.data();
+      if (data.type === 'direct' && (data.members || []).includes(uid)) {
+        existingId = d.id;
+        break;
+      }
+    }
+    if (existingId) { openChat(existingId); return; }
 
-  const docRef = await addDoc(collection(db, 'chats'), {
-    type: 'direct', members: [STATE.uid, uid],
-    memberNames: { [STATE.uid]: me.displayName, [uid]: target.displayName },
-    memberPhotos: { [STATE.uid]: me.photoURL || '', [uid]: target.photoURL || '' },
-    memberUsernames: { [STATE.uid]: me.username, [uid]: target.username },
-    pendingFor: isPending ? [uid] : [], unread: {}, lastMessage: null,
-    updatedAt: serverTimestamp(), createdAt: serverTimestamp()
-  });
-  if (isPending) toast('Permintaan pesan terkirim.');
-  openChat(docRef.id);
+    // 2) Ambil profil target
+    const targetSnap = await getDoc(doc(db, 'users', uid));
+    if (!targetSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
+    const target = targetSnap.data();
+    const privacy = target.privacy?.whoCanMessage || 'everyone';
+    if (privacy === 'nobody') { toast('Pengguna ini menutup permintaan pesan.'); return; }
+    
+    const mySnap = await getDoc(doc(db, 'users', STATE.uid));
+    const me = mySnap.data();
+    const isPending = privacy === 'contacts';
+
+    // 3) Buat chat baru
+    const docRef = await addDoc(collection(db, 'chats'), {
+      type: 'direct', members: [STATE.uid, uid],
+      memberNames: { [STATE.uid]: me.displayName, [uid]: target.displayName },
+      memberPhotos: { [STATE.uid]: me.photoURL || '', [uid]: target.photoURL || '' },
+      memberUsernames: { [STATE.uid]: me.username, [uid]: target.username },
+      pendingFor: isPending ? [uid] : [], unread: {}, lastMessage: null,
+      updatedAt: serverTimestamp(), createdAt: serverTimestamp()
+    });
+    
+    if (isPending) toast('Permintaan pesan terkirim.');
+    openChat(docRef.id);
+
+  } catch (err) {
+    console.error('START CHAT ERROR:', err);
+    toast('Gagal buka chat: ' + (err.message || 'Cek koneksi/aturan'));
+  }
 }
 
 /* ============================================================
@@ -1017,7 +1039,17 @@ async function sendMessage(text) {
   STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
 }
 
-$('#composer').addEventListener('submit', e => { e.preventDefault(); sendMessage($('#chat-input').value); });
+// ✅ PERBAIKAN: Menangkap error saat kirim pesan
+$('#composer').addEventListener('submit', async e => { 
+  e.preventDefault(); 
+  try {
+    await sendMessage($('#chat-input').value); 
+  } catch (err) {
+    console.error('SEND ERROR:', err);
+    toast('Gagal kirim: ' + (err.message || 'Cek aturan Firestore'));
+  }
+});
+
 $('#chat-back').addEventListener('click', () => {
   if (STATE.unsubMsgs) { STATE.unsubMsgs(); STATE.unsubMsgs = null; }
   STATE.currentChat = null;
