@@ -11,7 +11,8 @@
   "imports": {
     "firebase/app": "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js",
     "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js",
-    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js"
+    "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js",
+    "firebase/messaging": "https://www.gstatic.com/firebasejs/10.12.2/firebase-messaging.js"
   }
 }
 </script>
@@ -467,6 +468,7 @@ import {
   collection, query, where, orderBy, limit, onSnapshot,
   serverTimestamp, arrayUnion, arrayRemove, getDocs, writeBatch, Timestamp
 } from "firebase/firestore";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAt3cwXZtgkeiD0B3yJy1DOXKtlte1oiIM",
@@ -483,6 +485,7 @@ const db = initializeFirestore(app, {
   useFetchStreams: false
 });
 
+/* ===== CLOUDINARY ===== */
 const CLOUDINARY_CLOUD_NAME = "dyytjk3ho";
 const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
@@ -498,6 +501,43 @@ async function uploadToCloudinary(file) {
   return data.secure_url;
 }
 
+/* ===== FCM SETUP ===== */
+const VAPID_KEY = "BFtpTtm7Kp50VoK7EnSl7Kf-ix9EZ5NFiaXDQWHaohOFFpdb4gBcbDwH4Dv-s88x96uedrM_9HH2Vmccy0Nx4cc";
+const messaging = getMessaging(app);
+
+async function setupFCM() {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    console.warn('Push notifications tidak didukung browser ini.');
+    return;
+  }
+  try {
+    // MEMANGGIL FILE sw.js SESUAI PERMINTAAN
+    const registration = await navigator.serviceWorker.register('./sw.js'); 
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      const token = await getToken(messaging, { 
+        vapidKey: VAPID_KEY,
+        serviceWorkerRegistration: registration 
+      });
+      if (token) {
+        console.log('FCM Token didapat:', token);
+        if (STATE.uid) {
+          await updateDoc(doc(db, 'users', STATE.uid), { fcmToken: token });
+        }
+      }
+    }
+  } catch (error) {
+    console.error('Gagal setup FCM:', error);
+  }
+}
+
+onMessage(messaging, (payload) => {
+  console.log('Pesan masuk saat web terbuka:', payload);
+  const title = payload.notification?.title || "ChatGo";
+  const body = payload.notification?.body || "Pesan baru";
+  showNotif(title, body, payload.data?.chatId);
+});
+
 const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L14.5 5.5L18.5 4.5L19.5 8.5L23 11L20.5 14.5L21.5 18.5L17.5 19.5L15 23L11.5 20.5L7.5 21.5L6.5 17.5L3 15L5.5 11.5L4.5 7.5L8.5 6.5L11 3L12 2Z"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
 
 const STATE = {
@@ -505,8 +545,7 @@ const STATE = {
   chats: [], requests: [], statuses: [],
   currentChat: null, replyTo: null, timerSec: 0,
   unsubChats: null, unsubMsgs: null, unsubRequests: null, unsubStatuses: null,
-  isSelectMode: false, selectedChats: new Set(),
-  lastNotifiedMsgId: null
+  isSelectMode: false, selectedChats: new Set()
 };
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -561,20 +600,6 @@ function showModal(html, onMount) {
 }
 function closeModal() { const root = $('#modal-root'); root.innerHTML = ''; root.classList.add('hidden'); }
 
-/* ============================================================
-   NOTIFIKASI & SUARA
-   ============================================================ */
-// Suara Notifikasi (Base64 ringan)
-const notifAudio = new Audio("data:audio/wav;base64,UklGRl9vT19XQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YU"+ "1234567890abcdefghijklmnopqrstuvwxyz".repeat(50)); 
-// Catatan: Base64 di atas hanya dummy panjang agar valid, di browser asli akan bunyi "beep" bawaan sistem atau silent.
-// Kita gunakan fungsi bawaan browser. Jika tidak bunyi, tidak masalah.
-
-function requestNotifPermission() {
-  if ('Notification' in window && Notification.permission !== 'granted') {
-    Notification.requestPermission();
-  }
-}
-
 function showNotif(title, body, chatId) {
   if ('Notification' in window && Notification.permission === 'granted') {
     const notif = new Notification(title, {
@@ -585,21 +610,11 @@ function showNotif(title, body, chatId) {
     });
     notif.onclick = function() {
       window.focus();
-      openChat(chatId);
+      if (chatId) openChat(chatId);
       this.close();
     };
   }
 }
-
-$('#btn-enable-notif').addEventListener('click', () => {
-  if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
-  if (Notification.permission === 'granted') { toast('Notifikasi sudah aktif'); return; }
-  requestNotifPermission().then?.(() => {}); // some browsers return promise
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') toast('Notifikasi diaktifkan!');
-    else toast('Notifikasi ditolak');
-  });
-});
 
 /* ============================================================
    AUTH
@@ -647,6 +662,7 @@ async function loadProfileAndShow(user) {
   updateProfileUI();
   showScreen('screen-home');
   attachListeners();
+  setupFCM(); // Panggil setup FCM setelah login berhasil
 }
 
 onAuthStateChanged(auth, async user => {
@@ -680,39 +696,17 @@ function detachListeners() {
 }
 function attachListeners() { detachListeners(); listenChats(); listenRequests(); listenStatuses(); }
 
-/* --- CHAT LIST & HIDE FEATURE & NOTIFIKASI --- */
 function listenChats() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubChats = onSnapshot(q, snap => {
     const all = [];
     const hidden = STATE.me.hiddenChats || [];
-    let newMessageToNotify = null;
-
-    snap.docChanges().forEach(change => {
-      if (change.type === 'modified' || change.type === 'added') {
-        const c = { id: change.doc.id, ...change.doc.data() };
-        // Cek apakah ada pesan baru masuk (bukan dari diri sendiri) dan belum dibaca
-        if (c.lastMessage && c.lastMessage.senderId !== STATE.uid) {
-          const unread = (c.unread || {})[STATE.uid] || 0;
-          // Jika unread > 0, dan timestamp updated baru (kurang dari 10 detik)
-          const time = c.updatedAt ? (c.updatedAt.toMillis ? c.updatedAt.toMillis() : Date.now()) : Date.now();
-          if (unread > 0 && (Date.now() - time < 10000)) {
-            // Jika kita sedang tidak membuka chat ini
-            if (!STATE.currentChat || STATE.currentChat.id !== c.id) {
-              newMessageToNotify = c;
-            }
-          }
-        }
-      }
-    });
-
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
       if (!c.isBanned && !(c.pendingFor || []).includes(STATE.uid) && !hidden.includes(c.id)) {
         all.push(c);
       }
     });
-
     STATE.chats = all;
     STATE.chats.sort((a, b) => {
       if (a.type === 'self') return -1;
@@ -720,30 +714,8 @@ function listenChats() {
       return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
     });
     renderChats();
-
-    // Tembak Notifikasi
-    if (newMessageToNotify) {
-      const name = chatDisplayName(newMessageToNotify);
-      const msgText = newMessageToNotify.lastMessage.text || '📎 Media';
-      
-      // Update judul tab
-      document.title = `(1) ChatGo`;
-      setTimeout(() => { document.title = 'ChatGo'; }, 5000);
-
-      // Mainkan suara (browser mungkin memblokir jika belum ada interaksi)
-      try { document.getElementById('notif-audio').play().catch(()=>{}); } catch(e){}
-
-      // Tampilkan Notifikasi
-      showNotif(`Pesan dari ${name}`, msgText, newMessageToNotify.id);
-    }
   });
 }
-
-// Elemen audio tersembunyi
-const audioEl = document.createElement('audio');
-audioEl.id = 'notif-audio';
-audioEl.src = 'https://assets.mixkit.co/active_storage/sfx/2869/2869-preview.mp3'; // Suara notifikasi dari internet
-document.body.appendChild(audioEl);
 
 $('#btn-select-mode').addEventListener('click', () => {
   STATE.isSelectMode = !STATE.isSelectMode;
@@ -1272,6 +1244,14 @@ $('#priv-focus').addEventListener('change', e => updateDoc(doc(db,'users',STATE.
 $('#btn-focus').addEventListener('click', () => { const v = !STATE.me.privacy?.focus; updateDoc(doc(db,'users',STATE.uid),{'privacy.focus':v}); STATE.me.privacy.focus=v; $('#priv-focus').checked=v; toast(v?'Fokus Aktif':'Nonaktif'); });
 async function doLogout() { detachListeners(); await signOut(auth); }
 $('#btn-logout').onclick = doLogout; $('#btn-logout-2').onclick = doLogout;
+
+$('#btn-enable-notif').addEventListener('click', () => {
+  if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') { setupFCM(); toast('Notifikasi diaktifkan!'); }
+    else toast('Notifikasi ditolak');
+  });
+});
 
 $$('.nav-btn').forEach(b => b.addEventListener('click', () => {
   $$('.nav-btn').forEach(x=>x.classList.toggle('active',x===b)); $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+b.dataset.tab)); $('#content').scrollTop=0;
