@@ -183,6 +183,7 @@ img,video{display:block;max-width:100%;}
 .chat-topbar-info small{display:block;font-size:11px;color:rgba(255,255,255,.85);margin-top:1px;}
 .chat-body{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;display:flex;flex-direction:column;gap:9px;padding:16px 12px 18px;background-color:#e9efee;background-image:radial-gradient(rgba(10,124,102,.075) 1px,transparent 1px);background-size:18px 18px;}
 .day-divider{align-self:center;margin:2px 0 6px;padding:5px 13px;border-radius:99px;background:rgba(255,255,255,.9);color:#5c6f6a;font-size:11px;font-weight:800;box-shadow:0 1px 4px rgba(16,64,54,.08);}
+.encryption-notice { background: #fcf4e8; color: #856404; font-size: 11.5px; text-align: center; padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; line-height: 1.5; align-self: center; max-width: 95%; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
 .msg{display:flex;max-width:84%;}
 .msg.in{align-self:flex-start;justify-content:flex-start;}
 .msg.out{align-self:flex-end;justify-content:flex-end;}
@@ -280,25 +281,53 @@ img,video{display:block;max-width:100%;}
   width:100%;
   height:100%;
   max-height:100dvh;
-  object-fit:contain; /* Menjaga rasio asli, menyentuh ujung jika potret, tengah jika lanskap */
+  object-fit:contain;
 }
 
-.status-viewer .sv-body > p {
+.status-viewer .sv-text-content {
   padding: 24px;
-  margin: 0;
   width: 100%;
   text-align: center;
   font-size: 24px;
   font-weight: 700;
   line-height: 1.4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Desain Keterangan/Deskripsi Status (Latar Hitam Transparan) */
-.status-caption {
+/* Area Bawah Status (Tombol & Caption) */
+.status-bottom-area {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 10;
+  pointer-events: none; /* Biarkan klik tembus ke area navigasi */
+}
+
+.status-action-bar {
+  padding: 10px;
+  pointer-events: auto; /* Aktifkan klik untuk tombol */
+}
+
+.btn-viewers, .btn-reply {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-size: 14px;
+  display: flex; align-items: center; gap: 6px;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.status-caption {
+  position: relative;
+  width: 100%;
   background: rgba(0, 0, 0, 0.65); /* Hitam transparan */
   backdrop-filter: blur(5px);
   padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
@@ -306,7 +335,7 @@ img,video{display:block;max-width:100%;}
   color: #fff;
   font-size: 15px;
   text-align: center;
-  z-index: 10;
+  pointer-events: auto;
   line-height: 1.5;
 }
 
@@ -548,7 +577,7 @@ img,video{display:block;max-width:100%;}
         <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
       </button>
       <div class="chat-input-wrap">
-        <input id="chat-input" type="text" placeholder="Tulis pesan…" autocomplete="off">
+        <input id="chat-input" type="text" placeholder="Tulis pesan…" autocomplete="off" maxlength="45536">
       </div>
       <button type="button" class="soft-btn" id="btn-timer">
         <svg class="svg-icon-outline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
@@ -639,6 +668,7 @@ const SVG_GLOBE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="widt
 const SVG_LOCK = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
 const SVG_TRASH = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
 const SVG_MUTE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
+const SVG_USER_EYE = `<svg class="svg-icon" viewBox="0 0 24 24" style="width:18px;height:18px;margin-right:5px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`; // Ikon siluet orang
 
 const STATE = {
   uid: null, me: null,
@@ -1085,13 +1115,68 @@ function openStatusViewer(statuses) {
 
     // Update body (FULL SCREEN MEDIA)
     const body = document.getElementById('sv-body');
-    let mediaHTML = `<p>${esc(s.content)}</p>`;
+    let mediaHTML = `<div class="sv-text-content"><p>${esc(s.content)}</p></div>`;
     if (s.type === 'image' && s.photoURL) {
-      mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<div class="status-caption">${esc(s.content)}</div>` : '');
+      mediaHTML = `<img src="${esc(s.photoURL)}">`;
     } else if (s.type === 'video' && s.photoURL) {
-      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>` + (s.content ? `<div class="status-caption">${esc(s.content)}</div>` : '');
+      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>`;
     }
-    body.innerHTML = mediaHTML;
+
+    // Action Bar (Viewers / Reply)
+    let actionHTML = '';
+    if (isMine) {
+      actionHTML = `<div class="status-action-bar"><button class="btn-viewers" id="sv-viewers-btn">${SVG_USER_EYE} ${ (s.viewers||[]).length }</button></div>`;
+    } else {
+      actionHTML = `<div class="status-action-bar"><button class="btn-reply" id="sv-reply-btn">Balas</button></div>`;
+    }
+
+    // Caption
+    let captionHTML = '';
+    if (s.type !== 'text' && s.content) {
+      captionHTML = `<div class="status-caption">${esc(s.content)}</div>`;
+    }
+
+    body.innerHTML = mediaHTML + `<div class="status-bottom-area">${actionHTML}${captionHTML}</div>`;
+
+    // Event Listeners for Buttons
+    if (isMine) {
+      document.getElementById('sv-viewers-btn').onclick = async (e) => {
+        e.stopPropagation();
+        if (!s.viewers || s.viewers.length === 0) {
+          toast('Belum ada yang melihat status ini');
+          return;
+        }
+        const viewers = [];
+        for (const uid of s.viewers) {
+          const uSnap = await getDoc(doc(db, 'users', uid));
+          if (uSnap.exists()) viewers.push(uSnap.data());
+        }
+        const listHtml = viewers.map(v => `<div class="search-result"><div class="info"><strong>${esc(v.displayName)}</strong><span>@${esc(v.username)}</span></div></div>`).join('');
+        showModal(`<div class="modal-header"><h3>Dilihat oleh (${viewers.length})</h3></div><div class="modal-body">${listHtml}</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`);
+      };
+    } else {
+      document.getElementById('sv-reply-btn').onclick = async (e) => {
+        e.stopPropagation();
+        closeViewer();
+        const sUser = s.userId;
+        const chatsSnap = await getDocs(query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid)));
+        let chatId = null;
+        for (const d of chatsSnap.docs) {
+          if (d.data().type === 'direct' && d.data().members.includes(sUser)) {
+            chatId = d.id; break;
+          }
+        }
+        if (chatId) {
+          openChat(chatId);
+          setTimeout(() => {
+            const inp = $('#chat-input');
+            if (inp) { inp.value = `Membalas status: "${s.content || '📎 Media'}"\n`; inp.focus(); }
+          }, 500);
+        } else {
+          toast('Tidak dapat menemukan chat dengan pengguna ini');
+        }
+      };
+    }
 
     // Mark as viewed
     if (!isMine && !(s.viewers || []).includes(STATE.uid)) {
@@ -1387,8 +1472,16 @@ function listenMessages(chatId) {
 function renderMessages() {
   const chat = STATE.currentChat; if (!chat) return;
   const box = $('#chat-body'); const msgs = chat.messages || [];
-  if (!msgs.length) { box.innerHTML = `<div class="day-divider">Belum ada pesan</div>`; return; }
-  box.innerHTML = `<div class="day-divider">Percakapan</div>` + msgs.map(m => {
+  
+  // Teks Enkripsi End-to-End
+  const encryptionNotice = `<div class="encryption-notice"><svg class="svg-icon" viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;vertical-align:middle"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> Pesan anda sudah terenkripsi secara end-to-end. Siapa pun tidak dapat melihat pesan Anda bahkan ChatGo Tidak dapat melihat nya kecuali pesan yang anda kirim mengandung kekarasan atau pelecehan lalu mereka melaporkan nya jika anda korban, harap laporkan itu kepada kami</div>`;
+
+  if (!msgs.length) { 
+    box.innerHTML = encryptionNotice + `<div class="day-divider">Belum ada pesan</div>`; 
+    return; 
+  }
+  
+  box.innerHTML = encryptionNotice + msgs.map(m => {
     if (m.type === 'system') { return `<div class="msg sys"><div class="bubble">${esc(m.text)}</div></div>`; }
     const isOut = m.senderId === STATE.uid; const time = fmtTime(m.createdAt);
     const check = isOut ? (m.status === 'read' ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
@@ -1403,6 +1496,13 @@ function renderMessages() {
 
 async function sendMessage(text, type = 'text', mediaUrl = null) {
   const chat = STATE.currentChat; if (!chat || (!text.trim() && !mediaUrl)) return;
+  
+  // Validasi Batas Karakter
+  if (text.length > 45536) {
+    toast('Pesan terlalu panjang (maks 45.536 karakter)');
+    return;
+  }
+
   if (chat.type === 'group' && chat.onlyAdminsCanChat) {
     const isAdmin = chat.createdBy === STATE.uid || (chat.admins || []).includes(STATE.uid);
     if (!isAdmin) { toast('Hanya Admin yang bisa chat di grup ini'); return; }
