@@ -43,6 +43,10 @@ img{display:block;max-width:100%;}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
 .muted{color:var(--muted);}.small{font-size:12px;}.center{text-align:center;}
 
+/* SVG Helper Classes */
+.svg-icon { width: 20px; height: 20px; display: inline-block; vertical-align: middle; fill: currentColor; flex-shrink: 0; }
+.svg-icon-outline { width: 24px; height: 24px; display: inline-block; vertical-align: middle; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+
 .app-shell{
   position:relative;width:100%;max-width:480px;
   height:100vh;height:100dvh;background:var(--bg);
@@ -92,11 +96,11 @@ img{display:block;max-width:100%;}
 .topbar-hello{margin:0 0 3px;font-size:12px;color:rgba(255,255,255,.82);}
 .topbar-title{margin:0;font-size:20px;font-weight:800;letter-spacing:.2px;display:flex;align-items:center;gap:7px;}
 .topbar-actions{display:flex;gap:8px;}
-.icon-btn{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;font-size:17px;color:#4b5f5a;transition:background .16s,transform .12s;flex-shrink:0;}
+.icon-btn{width:40px;height:40px;display:grid;place-items:center;border-radius:50%;color:#4b5f5a;transition:background .16s,transform .12s;flex-shrink:0;}
 .icon-btn:active{transform:scale(.94);}
 .ghost-light{color:#fff;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);}
 .search-wrap{display:flex;align-items:center;gap:10px;margin-top:15px;padding:0 14px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.26);border-radius:15px;backdrop-filter:blur(6px);}
-.search-wrap .search-ico{font-size:14px;opacity:.9;}
+.search-wrap .search-ico{opacity:.9;display:flex;}
 .search-wrap input{flex:1;min-width:0;border:0;background:transparent;padding:12px 0;font-size:14px;color:#fff;}
 .search-wrap input::placeholder{color:rgba(255,255,255,.78);}
 
@@ -157,17 +161,17 @@ img{display:block;max-width:100%;}
 .row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;padding:14px 2px;font-size:13.8px;font-weight:600;text-align:left;border-bottom:1px solid #f1f6f4;background:transparent;transition:opacity .15s;color:var(--text);}
 .list-card .row:last-child{border-bottom:0;}
 .row:active{opacity:.65;}
-.row .row-ico{margin-right:8px;}
-.row .chev{color:#bccbc7;font-size:16px;font-weight:700;}
-.row.danger{color:var(--danger);}
+.row .row-ico{margin-right:8px;display:flex;align-items:center;}
 .row select{border:0;background:#f1f5f3;border-radius:10px;padding:9px 10px;font-size:12.5px;font-weight:700;color:#3d4f4a;max-width:160px;}
 
+/* BOTTOM NAV (UPDATED WITH SVG) */
 .bottom-nav{position:relative;z-index:20;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -8px 22px rgba(16,64,54,.07);}
-.nav-btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 2px;border-radius:13px;font-size:10.5px;font-weight:800;letter-spacing:.2px;color:#8b9a96;transition:color .18s,background .18s;}
-.nav-btn .ico{font-size:18px;line-height:1;filter:grayscale(1);opacity:.62;transition:.18s;}
+.nav-btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:7px 2px;border-radius:13px;font-size:11px;font-weight:800;letter-spacing:.2px;color:#8b9a96;transition:color .18s,background .18s;}
+.nav-btn .nav-icon { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; transition: .18s; }
 .nav-btn.active{color:var(--primary-dark);background:var(--primary-soft);}
-.nav-btn.active .ico{filter:none;opacity:1;transform:translateY(-1px);}
-.fab{position:absolute;z-index:15;right:16px;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));width:56px;height:56px;display:grid;place-items:center;border-radius:50%;font-size:27px;font-weight:400;line-height:1;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:var(--shadow-lg);transition:transform .14s ease,box-shadow .18s;}
+.nav-btn.active .nav-icon{transform:translateY(-1px);}
+
+.fab{position:absolute;z-index:15;right:16px;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));width:56px;height:56px;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:var(--shadow-lg);transition:transform .14s ease,box-shadow .18s;}
 .fab:active{transform:scale(.92);box-shadow:0 8px 18px rgba(10,124,102,.3);}
 
 .select-actions { display: flex; gap:10px; margin-top:15px; }
@@ -190,21 +194,15 @@ img{display:block;max-width:100%;}
 .msg.sys .bubble{background:rgba(255,255,255,.7);color:#555;font-size:12px;font-style:italic;text-align:center;border-radius:10px; box-shadow:none; padding:5px 12px; cursor:default;}
 .bubble .meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:3px;font-size:10px;opacity:.75;white-space:nowrap;}
 .msg.out .bubble .meta{color:rgba(255,255,255,.9);}
-/* FITUR 3: Centang Biru */
 .checks{font-size:11px;letter-spacing:-1px;color:rgba(255,255,255,.65);}
-.checks.read{color:#34B7F1;} /* Warna biru centang */
+.checks.read{color:#34B7F1;}
 .deleted{font-style:italic;opacity:.72;}
 .reply-preview{padding:6px 10px;margin-bottom:6px;border-left:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.15);border-radius:6px;font-size:12.5px;opacity:.9;}
 .msg.in .reply-preview{border-left-color:var(--primary);background:#f0f6f4;color:#3d4f4a;}
 .sender-name{font-size:11px;font-weight:800;opacity:.75;margin-bottom:2px;display:flex;align-items:center;gap:4px;}
 .chat-img{max-width:100%;border-radius:10px;margin-top:5px;}
 
-/* FITUR 1: Indikator Mengetik */
-.typing-indicator {
-  align-self: flex-start; padding: 8px 14px; background: #fff; border-radius: 18px;
-  border-top-left-radius: 4px; font-size: 12px; color: #7c8c88; font-style: italic;
-  box-shadow: 0 2px 5px rgba(0,0,0,.05); margin-bottom: 5px; display: flex; align-items: center; gap: 5px;
-}
+.typing-indicator { align-self: flex-start; padding: 8px 14px; background: #fff; border-radius: 18px; border-top-left-radius: 4px; font-size: 12px; color: #7c8c88; font-style: italic; box-shadow: 0 2px 5px rgba(0,0,0,.05); margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
 .typing-dots { display: flex; gap: 3px; }
 .typing-dots span { width: 4px; height: 4px; background: #7c8c88; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
 .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
@@ -215,12 +213,11 @@ img{display:block;max-width:100%;}
 .chat-input-wrap{flex:1;min-width:0;background:#f1f5f3;border:1.5px solid transparent;border-radius:24px;padding:0 16px;transition:background .18s,border-color .18s;}
 .chat-input-wrap:focus-within{background:#fff;border-color:var(--primary-2);}
 .chat-input-wrap input{width:100%;border:0;background:transparent;padding:12px 0;font-size:15px;}
-.soft-btn{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:17px;color:#61746f;background:#f1f5f3;transition:background .16s,transform .12s;}
+.soft-btn{width:40px;height:40px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;color:#61746f;background:#f1f5f3;transition:background .16s,transform .12s;}
 .soft-btn:active{transform:scale(.93);background:#e5ecea;}
-.send-btn{width:45px;height:45px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:16px;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:0 8px 18px rgba(10,124,102,.32);transition:transform .12s;}
+.send-btn{width:45px;height:45px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:0 8px 18px rgba(10,124,102,.32);transition:transform .12s;}
 .send-btn:active{transform:scale(.92);}
 
-/* FITUR 4: UI Orang Asing */
 .stranger-bar { padding: 15px; background: #fff; border-top: 1px solid var(--line); text-align: center; }
 .stranger-bar p { margin: 0 0 12px; font-size: 13px; color: var(--muted); font-weight: 600; }
 .stranger-actions { display: flex; gap: 10px; }
@@ -248,7 +245,7 @@ img{display:block;max-width:100%;}
 .menu-list{padding:6px 0;}
 .menu-item{display:flex;align-items:center;gap:12px;width:100%;padding:14px 20px;font-size:14.5px;font-weight:600;text-align:left;transition:background .14s;}
 .menu-item:active{background:#f4f8f7;}
-.menu-item .ico{width:24px;text-align:center;font-size:16px;}
+.menu-item .ico{width:24px;text-align:center;display:flex;justify-content:center;}
 .search-result{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid #f1f6f4;cursor:pointer;}
 .search-result:active{background:#f4f8f7;}
 .search-result:last-child{border-bottom:none;}
@@ -279,7 +276,6 @@ img{display:block;max-width:100%;}
 </head>
 <body>
 
-<!-- SUARA PESAN (FITUR 2) -->
 <audio id="msg-sound" src="https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3" preload="auto"></audio>
 
 <div class="app-shell" id="app-shell">
@@ -332,15 +328,20 @@ img{display:block;max-width:100%;}
           <h1 class="topbar-title"><span id="topbar-name">—</span></h1>
         </div>
         <div class="topbar-actions" id="topbar-actions">
-          <button type="button" class="icon-btn ghost-light" id="btn-select-mode" title="Pilih Chat">☑️</button>
-          <!-- FITUR 7: Ganti Logout jadi Ganti Akun -->
-          <button type="button" class="icon-btn ghost-light" id="btn-switch-account" title="Ganti Akun">👥</button>
+          <!-- Icon Select Mode (Titik + Garis) -->
+          <button type="button" class="icon-btn ghost-light" id="btn-select-mode" title="Pilih Chat">
+            <svg class="svg-icon-outline" viewBox="0 0 24 24"><circle cx="6" cy="7" r="2"/><line x1="11" y1="7" x2="21" y2="7"/><circle cx="6" cy="12" r="2"/><line x1="11" y1="12" x2="21" y2="12"/><circle cx="6" cy="17" r="2"/><line x1="11" y1="17" x2="21" y2="17"/></svg>
+          </button>
+          <!-- Icon Switch Account (2 Orang) -->
+          <button type="button" class="icon-btn ghost-light" id="btn-switch-account" title="Ganti Akun">
+            <svg class="svg-icon-outline" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
+          </button>
         </div>
       </div>
       
       <div id="search-container">
         <div class="search-wrap">
-          <span class="search-ico">🔍</span>
+          <span class="search-ico"><svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg></span>
           <input id="search-input" type="text" placeholder="Cari chat atau username…" autocomplete="off">
         </div>
       </div>
@@ -402,36 +403,55 @@ img{display:block;max-width:100%;}
         <p class="section-title">Keamanan</p>
         <div class="card list-card">
           <button type="button" class="row" id="btn-blocked-list">
-            <span><span class="row-ico">🚫</span>Daftar Diblokir</span><span class="chev">›</span>
+            <span><span class="row-ico"><svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg></span>Daftar Diblokir</span>
           </button>
-          <!-- Fitur Logout dihapus dari UI, diganti nanti -->
         </div>
       </div>
     </main>
 
-    <button type="button" class="fab" id="fab" aria-label="Aksi baru">+</button>
+    <!-- Icon FAB + -->
+    <button type="button" class="fab" id="fab" aria-label="Aksi baru">
+      <svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:28px;height:28px"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+    </button>
 
-    <!-- FITUR 10: Permintaan dihapus -->
+    <!-- NAVIGASI BAWAH (SVG DIPERBARUI) -->
     <nav class="bottom-nav">
-      <button type="button" class="nav-btn active" data-tab="chats"><span class="ico">💬</span><span>Chat</span></button>
-      <button type="button" class="nav-btn" data-tab="status"><span class="ico">◍</span><span>Status</span></button>
-      <button type="button" class="nav-btn" data-tab="profile"><span class="ico">👤</span><span>Profil</span></button>
+      <button type="button" class="nav-btn active" data-tab="chats">
+        <!-- Chat Bubble (Black) -->
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg>
+        <span>Chat</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="status">
+        <!-- Globe/Orbit -->
+        <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>
+        <span>Pembaruan</span>
+      </button>
+      <button type="button" class="nav-btn" data-tab="profile">
+        <!-- Profile -->
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+        <span>Profil</span>
+      </button>
     </nav>
   </section>
 
   <section id="screen-chat" class="screen hidden">
     <header class="chat-topbar" id="chat-header" style="cursor:pointer;">
-      <button type="button" class="icon-btn ghost-light" id="chat-back">←</button>
+      <!-- Icon Back -->
+      <button type="button" class="icon-btn ghost-light" id="chat-back">
+        <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+      </button>
       <div class="avatar sm" id="chat-avatar" style="--a:#12b886;--b:#0a7c66">?</div>
       <div class="chat-topbar-info">
         <strong id="chat-name">—</strong>
         <small id="chat-sub">—</small>
       </div>
-      <button type="button" class="icon-btn ghost-light" id="chat-menu">⋮</button>
+      <!-- Icon Menu Titik Tiga Vertikal -->
+      <button type="button" class="icon-btn ghost-light" id="chat-menu">
+        <svg class="svg-icon-outline" viewBox="0 0 24 24"><circle cx="12" cy="5" r="1.5" fill="currentColor"></circle><circle cx="12" cy="12" r="1.5" fill="currentColor"></circle><circle cx="12" cy="19" r="1.5" fill="currentColor"></circle></svg>
+      </button>
     </header>
     <div class="chat-body" id="chat-body"></div>
     
-    <!-- FITUR 4: Banner Orang Asing -->
     <div id="stranger-bar" class="stranger-bar hidden">
       <p>Anda belum pernah mengirim pesan kepada pengguna ini.</p>
       <div class="stranger-actions">
@@ -445,15 +465,23 @@ img{display:block;max-width:100%;}
         <strong id="reply-name">—</strong>
         <span id="reply-text">—</span>
       </div>
-      <button type="button" class="icon-btn" id="reply-cancel">✕</button>
+      <button type="button" class="icon-btn" id="reply-cancel">
+        <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
     </div>
     <form class="chat-input-bar" id="composer">
-      <button type="button" class="soft-btn" id="btn-attach">＋</button>
+      <button type="button" class="soft-btn" id="btn-attach">
+        <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </button>
       <div class="chat-input-wrap">
         <input id="chat-input" type="text" placeholder="Tulis pesan…" autocomplete="off">
       </div>
-      <button type="button" class="soft-btn" id="btn-timer">⏱</button>
-      <button type="submit" class="send-btn">➤</button>
+      <button type="button" class="soft-btn" id="btn-timer">
+        <svg class="svg-icon-outline" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      </button>
+      <button type="submit" class="send-btn">
+        <svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:20px;height:20px;stroke-width:3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+      </button>
     </form>
   </section>
 
@@ -530,6 +558,14 @@ onMessage(messaging, (payload) => {
 });
 
 const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L14.5 5.5L18.5 4.5L19.5 8.5L23 11L20.5 14.5L21.5 18.5L17.5 19.5L15 23L11.5 20.5L7.5 21.5L6.5 17.5L3 15L5.5 11.5L4.5 7.5L8.5 6.5L11 3L12 2Z"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
+
+/* SVG UNTUK MENU (Buat Grup, Kontak, dll) */
+const SVG_GROUP = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`;
+const SVG_CONTACT = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm7-9h-2v2h2v2h-2v2h2v2h-2v2h2v2h-2v2h2V5z"/></svg>`;
+const SVG_GLOBE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`;
+const SVG_LOCK = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
+const SVG_TRASH = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
+const SVG_MUTE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
 
 const STATE = {
   uid: null, me: null,
@@ -686,7 +722,6 @@ function listenChats() {
     const hidden = STATE.me.hiddenChats || [];
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
-      // Tampilkan chat jika tidak di-hidden ATAU jika dia pending (butuh interaksi terima/blokir)
       if (!c.isBanned && (!hidden.includes(c.id) || (c.pendingFor && c.pendingFor.includes(STATE.uid)))) {
         all.push(c);
       }
@@ -770,7 +805,6 @@ function renderChats() {
     const last = chat.lastMessage;
     const isPending = chat.pendingFor && chat.pendingFor.includes(STATE.uid);
     
-    // FITUR 4: Preview chat untuk orang asing
     let preview = last ? (last.senderId === STATE.uid ? 'Kamu: ' : '') + (last.text || '📎 Media') : 'Belum ada pesan';
     if (isPending) preview = '<span style="color:var(--danger);font-weight:bold;">Permintaan pesan masuk</span>';
     
@@ -808,17 +842,14 @@ $('#list-chats').addEventListener('click', e => {
   }
 });
 
-/* FITUR 5 & 6: Status hanya dari kontak & kedaluwarsa */
 function listenStatuses() {
   const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
   STATE.unsubStatuses = onSnapshot(q, snap => {
     const now = Date.now();
-    // Dapatkan daftar UID teman chat (direct)
     const contactUids = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0)).map(c => c.members.find(u => u !== STATE.uid));
-    
     STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() }))
       .filter(s => s.expiresAt?.toMillis?.() > now)
-      .filter(s => s.userId === STATE.uid || contactUids.includes(s.userId)); // Hanya tampilkan status sendiri & kontak
+      .filter(s => s.userId === STATE.uid || contactUids.includes(s.userId));
     renderStatuses();
   });
 }
@@ -838,10 +869,9 @@ function renderStatuses() {
   list.innerHTML = otherStatuses.map(s => `<div class="status-item" data-status="${s.id}"><div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong class="truncate">${esc(s.userName)}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><span class="status-badge">${s.type === 'image' ? '📷' : '📝'}</span></div>`).join('');
 }
 
-/* FUNGSI STATUS MODAL & VIEWER (SAMA SEPERTI SEBELUMNYA) */
 function openMyStatusesModal() {
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
-  showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${esc(s.type === 'image' ? '📷 Foto' : '📝 Teks')}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">🗑</button></div>`).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
+  showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${esc(s.type === 'image' ? '📷 Foto' : '📝 Teks')}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">${SVG_TRASH}</button></div>`).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
     root.querySelector('#ms-close').onclick = closeModal;
     root.querySelector('#ms-add').onclick = () => { closeModal(); openNewStatusModal(); };
     root.querySelectorAll('[data-ms-view]').forEach(b => b.onclick = () => { const s = STATE.statuses.find(x => x.id === b.dataset.msView); if(s){closeModal();openStatusViewer(s);} });
@@ -854,7 +884,7 @@ $('#list-status').addEventListener('click', e => {
 });
 function openStatusViewer(s) {
   const isMine = s.userId === STATE.uid; const wrap = document.createElement('div'); wrap.className = 'status-viewer';
-  wrap.innerHTML = `<div class="sv-header">${avatarHTML(s.userName, s.userPhoto, 'sm')}<div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">🗑</button>` : ''}<button class="icon-btn ghost-light" id="sv-close">✕</button></div><div class="sv-body">${s.type === 'image' && s.photoURL ? `<img src="${esc(s.photoURL)}">${s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : ''}` : `<p>${esc(s.content)}</p>`}</div>`;
+  wrap.innerHTML = `<div class="sv-header">${avatarHTML(s.userName, s.userPhoto, 'sm')}<div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">${SVG_TRASH}</button>` : ''}<button class="icon-btn ghost-light" id="sv-close"><svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="sv-body">${s.type === 'image' && s.photoURL ? `<img src="${esc(s.photoURL)}">${s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : ''}` : `<p>${esc(s.content)}</p>`}</div>`;
   document.body.appendChild(wrap);
   wrap.querySelector('#sv-close').onclick = async () => { if(!isMine){try{await updateDoc(doc(db,'status',s.id),{viewers:arrayUnion(STATE.uid)});}catch{}} wrap.remove(); };
   if(isMine) wrap.querySelector('#sv-delete').onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',s.id));wrap.remove();} };
@@ -881,7 +911,7 @@ function openNewStatusModal() {
   });
 }
 
-/* FITUR 7: GANTI AKUN */
+/* GANTI AKUN */
 $('#btn-switch-account').addEventListener('click', () => {
   const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
   const cur = accounts.find(a => a.username === STATE.me.username);
@@ -936,7 +966,7 @@ async function openChat(chatId) {
   const data = snap.data();
   if (data.isBanned) { toast('Chat diblokir admin.'); return; }
   if (data.pins && data.pins[STATE.uid]) {
-    showModal(`<div class="modal-header"><h3>Chat Terkunci 🔒</h3></div><div class="modal-body"><label class="field"><span>PIN</span><div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6"></div></label></div><div class="modal-footer"><button class="btn btn-soft" id="unlock-cancel">Batal</button><button class="btn btn-primary" id="unlock-btn">Buka</button></div>`, r => {
+    showModal(`<div class="modal-header"><h3>Chat Terkunci ${SVG_LOCK}</h3></div><div class="modal-body"><label class="field"><span>PIN</span><div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6"></div></label></div><div class="modal-footer"><button class="btn btn-soft" id="unlock-cancel">Batal</button><button class="btn btn-primary" id="unlock-btn">Buka</button></div>`, r => {
       r.querySelector('#unlock-cancel').onclick = closeModal;
       r.querySelector('#unlock-btn').onclick = () => { if(r.querySelector('#unlock-pin').value === data.pins[STATE.uid]) { closeModal(); proceedOpenChat(chatId, data); } else toast('PIN salah'); };
     }); return;
@@ -951,7 +981,6 @@ function proceedOpenChat(chatId, chat) {
   $('#chat-sub').textContent = chat.type === 'self' ? 'Catatan pribadi' : (chat.type === 'group' ? (chat.members?.length || 0) + ' anggota' : '@' + (chat.memberUsernames?.[chat.members.find(u => u !== STATE.uid)] || '—'));
   setAvatarEl($('#chat-avatar'), name, photo, 'sm');
   
-  // FITUR 4: Cek Stranger (pendingFor)
   const isPending = chat.pendingFor && chat.pendingFor.includes(STATE.uid);
   if (isPending) {
     $('#stranger-bar').classList.remove('hidden');
@@ -970,11 +999,10 @@ function proceedOpenChat(chatId, chat) {
   listenTyping(chatId);
 }
 
-/* FITUR 4: TERIMA / BLOKIR */
 $('#btn-stranger-accept').addEventListener('click', async () => {
   if (!STATE.currentChat) return;
   await updateDoc(doc(db, 'chats', STATE.currentChat.id), { pendingFor: arrayRemove(STATE.uid) });
-  STATE.currentChat.pendingFor = []; // update lokal
+  STATE.currentChat.pendingFor = []; 
   $('#stranger-bar').classList.add('hidden');
   $('#composer').classList.remove('hidden');
   toast('Pesan diterima');
@@ -987,30 +1015,24 @@ $('#btn-stranger-block').addEventListener('click', async () => {
   toast('Pesan diblokir'); $('#chat-back').click();
 });
 
-/* FITUR 1: TYPING INDICATOR */
 function listenTyping(chatId) {
   const q = collection(db, 'chats', chatId, 'typing');
   STATE.unsubTyping = onSnapshot(q, snap => {
     const now = Date.now();
     let isTyping = false; let typingName = '';
-    
     snap.forEach(d => {
       if (d.id !== STATE.uid) {
         const data = d.data();
         const time = data.timestamp ? (data.timestamp.toMillis ? data.timestamp.toMillis() : Date.now()) : Date.now();
-        if (now - time < 3000) { // Aktif jika < 3 detik
-          isTyping = true;
-          typingName = data.name;
-        }
+        if (now - time < 3000) { isTyping = true; typingName = data.name; }
       }
     });
 
     const exist = $('#typing-ui');
     if (isTyping) {
       const text = STATE.currentChat.type === 'group' ? `${esc(typingName)} sedang mengetik...` : 'sedang mengetik...';
-      if (exist) {
-        exist.querySelector('span').textContent = text;
-      } else {
+      if (exist) { exist.querySelector('span').textContent = text; } 
+      else {
         const div = document.createElement('div');
         div.id = 'typing-ui';
         div.className = 'typing-indicator';
@@ -1018,28 +1040,22 @@ function listenTyping(chatId) {
         $('#chat-body').appendChild(div);
         $('#chat-body').scrollTop = $('#chat-body').scrollHeight;
       }
-    } else if (exist) {
-      exist.remove();
-    }
+    } else if (exist) { exist.remove(); }
   });
 }
 
 let typingTimer;
 $('#chat-input').addEventListener('input', () => {
   if (!STATE.currentChat || STATE.currentChat.pendingFor?.includes(STATE.uid)) return;
-  
   if (!STATE.isTypingActive) {
     STATE.isTypingActive = true;
     const typingRef = doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid);
     setDoc(typingRef, { name: STATE.me.displayName, timestamp: serverTimestamp() });
   }
-
   clearTimeout(typingTimer);
   typingTimer = setTimeout(async () => {
     STATE.isTypingActive = false;
-    if (STATE.currentChat) {
-      try { await deleteDoc(doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid)); } catch(e){}
-    }
+    if (STATE.currentChat) { try { await deleteDoc(doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid)); } catch(e){} }
   }, 2000);
 });
 
@@ -1048,8 +1064,6 @@ function listenMessages(chatId) {
   STATE.unsubMsgs = onSnapshot(q, snap => {
     const now = Date.now();
     const newMsgs = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(m => !(m.deletedFor||[]).includes(STATE.uid) && (!m.expiresAt || m.expiresAt.toMillis() > now));
-    
-    // FITUR 2: Sound saat pesan masuk
     if (STATE.currentChat.messages && newMsgs.length > STATE.currentChat.messages.length) {
        const last = newMsgs[newMsgs.length - 1];
        if (last.senderId !== STATE.uid && last.type !== 'system') playMsgSound();
@@ -1064,11 +1078,8 @@ function renderMessages() {
   const box = $('#chat-body'); const msgs = chat.messages || [];
   if (!msgs.length) { box.innerHTML = `<div class="day-divider">Belum ada pesan</div>`; return; }
   box.innerHTML = `<div class="day-divider">Percakapan</div>` + msgs.map(m => {
-    if (m.type === 'system') {
-      return `<div class="msg sys"><div class="bubble">${esc(m.text)}</div></div>`;
-    }
+    if (m.type === 'system') { return `<div class="msg sys"><div class="bubble">${esc(m.text)}</div></div>`; }
     const isOut = m.senderId === STATE.uid; const time = fmtTime(m.createdAt);
-    // FITUR 3: Centang Biru
     const check = isOut ? (m.status === 'read' ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
     const sender = (!isOut && chat.type === 'group') ? `<div class="sender-name">${esc(m.senderName || '')}</div>` : '';
     let body = m.isDeletedForEveryone ? '<span class="deleted">Dihapus</span>' : esc(m.text || '');
@@ -1093,10 +1104,7 @@ async function sendMessage(text, type = 'text', mediaUrl = null) {
   if (mediaUrl) payload.mediaUrl = mediaUrl;
   if (STATE.timerSec) payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
   await addDoc(collection(db, 'chats', chat.id, 'messages'), payload);
-  
-  // FITUR 2: Sound saat kirim
   playMsgSound();
-
   const unread = {}; (chat.members || []).filter(u => u !== STATE.uid).forEach(u => unread['unread.'+u] = ((chat.unread||{})[u]||0)+1);
   await updateDoc(doc(db, 'chats', chat.id), { lastMessage: { text: type==='image'?'📷 Foto':payload.text, senderId: STATE.uid, senderName: STATE.me.displayName, createdAt: serverTimestamp() }, updatedAt: serverTimestamp(), ...unread });
   STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
@@ -1116,7 +1124,7 @@ $('#chat-body').addEventListener('click', async e => {
   const msgEl = e.target.closest('[data-mid]'); if (!msgEl) return;
   const mid = msgEl.dataset.mid; const msg = (STATE.currentChat?.messages||[]).find(m=>m.id===mid); if(!msg || msg.type==='system') return;
   const isOut = msg.senderId === STATE.uid;
-  showModal(`<div class="modal-header"><h3>Pesan</h3></div><div class="menu-list"><button class="menu-item" id="m-reply">↩ Balas</button><button class="menu-item" id="m-copy">📋 Salin</button><button class="menu-item" id="m-del-me">🗑 Hapus untuk Saya</button>${isOut?'<button class="menu-item" id="m-del-all" style="color:red">🗑 Hapus untuk Semua</button>':''}</div>`, r => {
+  showModal(`<div class="modal-header"><h3>Pesan</h3></div><div class="menu-list"><button class="menu-item" id="m-reply">↩ Balas</button><button class="menu-item" id="m-copy">📋 Salin</button><button class="menu-item" id="m-del-me">${SVG_TRASH} Hapus untuk Saya</button>${isOut?'<button class="menu-item" id="m-del-all" style="color:red">'+SVG_TRASH+' Hapus untuk Semua</button>':''}</div>`, r => {
     r.querySelector('#m-reply').onclick = () => { STATE.replyTo = msg; $('#reply-name').textContent = msg.senderName; $('#reply-text').textContent = msg.text || '📎'; $('#reply-bar').classList.remove('hidden'); closeModal(); };
     r.querySelector('#m-copy').onclick = () => { navigator.clipboard.writeText(msg.text||''); toast('Disalin'); closeModal(); };
     r.querySelector('#m-del-me').onclick = async () => { await updateDoc(doc(db,'chats',STATE.currentChat.id,'messages',mid),{deletedFor:arrayUnion(STATE.uid)}); closeModal(); };
@@ -1126,7 +1134,6 @@ $('#chat-body').addEventListener('click', async e => {
 $('#reply-cancel').addEventListener('click', () => { STATE.replyTo = null; hideReplyBar(); });
 function hideReplyBar() { $('#reply-bar').classList.add('hidden'); }
 
-/* GROUP SETTINGS & MANAGEMENT */
 async function openGroupSettings(chatId) {
   const snap = await getDoc(doc(db, 'chats', chatId));
   const c = snap.data();
@@ -1146,14 +1153,13 @@ async function openGroupSettings(chatId) {
         actions = `<button class="btn btn-soft sm" data-toggle-admin="${uid}" data-is-admin="${isUserAdmin}" style="padding:6px 10px;font-size:11px;margin-right:5px">${isUserAdmin?'Cabut Admin':'Jadikan Admin'}</button>` + actions;
       }
     }
-    // FITUR 11: Klik anggota untuk ke chat pribadi
     return `<div class="member-item" data-uid="${uid}">${avatarHTML(name, c.memberPhotos?.[uid], 'sm')}<div class="member-info"><strong>${esc(name)} ${uid===STATE.uid?'(Kamu)':''} ${badge}</strong></div>${actions}</div>`;
   }).join('');
 
   showModal(`
     <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center">
       <h3>Info Grup</h3>
-      <button class="icon-btn" id="gs-close">✕</button>
+      <button class="icon-btn" id="gs-close"><svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
     </div>
     <div class="modal-body">
       <div class="settings-header">
@@ -1216,7 +1222,7 @@ async function openGroupSettings(chatId) {
     
     root.querySelectorAll('[data-kick]').forEach(btn => {
       btn.onclick = async (e) => {
-        e.stopPropagation(); // Cegah trigger klik member-item
+        e.stopPropagation(); 
         const uid = btn.dataset.kick; if (!confirm('Keluarkan?')) return;
         const mn = { ...c.memberNames }; delete mn[uid]; const mp = { ...c.memberPhotos }; delete mp[uid]; const mu = { ...c.memberUsernames }; delete mu[uid]; const un = { ...c.unread }; delete un[uid];
         await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(uid), admins: arrayRemove(uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
@@ -1227,7 +1233,7 @@ async function openGroupSettings(chatId) {
     
     root.querySelectorAll('[data-toggle-admin]').forEach(btn => {
       btn.onclick = async (e) => {
-        e.stopPropagation(); // Cegah trigger klik member-item
+        e.stopPropagation(); 
         const uid = btn.dataset.toggleAdmin; const isAdm = btn.dataset.isAdmin === 'true';
         if (isAdm) { await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) }); toast('Admin dicabut'); }
         else { await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) }); toast('Jadi Admin'); await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} Admin`, createdAt: serverTimestamp() }); }
@@ -1235,10 +1241,9 @@ async function openGroupSettings(chatId) {
       };
     });
 
-    // FITUR 11: Klik member untuk chat
     root.querySelectorAll('.member-item').forEach(item => {
       item.onclick = (e) => {
-        if (e.target.closest('button')) return; // Abaikan jika klik tombol aksi
+        if (e.target.closest('button')) return; 
         const targetUid = item.dataset.uid;
         if (targetUid === STATE.uid) { toast('Ini akun kamu'); return; }
         closeModal();
@@ -1271,10 +1276,10 @@ $('#chat-menu').addEventListener('click', () => {
   showModal(`
     <div class="modal-header"><h3>Opsi Chat</h3></div>
     <div class="menu-list">
-      ${isGroup ? `<button class="menu-item" id="cm-add-member">👥 Tambah Anggota</button>` : ''}
-      <button class="menu-item" id="cm-mute">🔕 Bisukan / Aktifkan</button>
-      <button class="menu-item" id="cm-lock">🔒 Kunci dengan PIN</button>
-      <button class="menu-item" id="cm-clear" style="color:#e5484d">🗑 Kosongkan Chat</button>
+      ${isGroup ? `<button class="menu-item" id="cm-add-member"><span class="ico">${SVG_GROUP}</span>Tambah Anggota</button>` : ''}
+      <button class="menu-item" id="cm-mute"><span class="ico">${SVG_MUTE}</span>Bisukan / Aktifkan</button>
+      <button class="menu-item" id="cm-lock"><span class="ico">${SVG_LOCK}</span>Kunci dengan PIN</button>
+      <button class="menu-item" id="cm-clear" style="color:#e5484d"><span class="ico">${SVG_TRASH}</span>Kosongkan Chat</button>
     </div>
   `, root => {
     root.querySelector('#cm-mute').onclick = async () => {
@@ -1333,7 +1338,6 @@ function openAddMemberModal() {
   });
 }
 
-/* PROFILE & PRIVACY (DND, Online, Receipt removed) */
 $('#btn-edit-profile').addEventListener('click', () => {
   showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
     r.querySelector('#es').onclick = async () => { await updateDoc(doc(db,'users',STATE.uid),{displayName:r.querySelector('#en').value.trim(),bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=r.querySelector('#en').value; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); closeModal(); };
@@ -1367,13 +1371,12 @@ $('#form-login').addEventListener('submit', async e => {
   e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; 
   try{
     await loginUser($('#login-user').value,$('#login-pass').value);
-    // Simpan ke localstorage untuk multi-akun
     const uname = $('#login-user').value.toLowerCase().trim();
     const pass = $('#login-pass').value;
     let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    accounts = accounts.filter(a => a.username !== uname); // hapus duplikat
-    accounts.push({ username: uname, password: pass, displayName: uname, photoURL: '' }); // data basic
-    if (accounts.length > 2) accounts.shift(); // maksimal 2
+    accounts = accounts.filter(a => a.username !== uname); 
+    accounts.push({ username: uname, password: pass, displayName: uname, photoURL: '' }); 
+    if (accounts.length > 2) accounts.shift(); 
     localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
   }catch(err){toast('Gagal: '+err.message);} 
   b.disabled=false; b.textContent='Masuk'; 
@@ -1381,9 +1384,13 @@ $('#form-login').addEventListener('submit', async e => {
 
 $('#form-register').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-register'); b.disabled=true; b.textContent='…'; try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Buat Akun'; });
 
-/* FAB MENU (Tambah Kontak) */
 $('#fab').addEventListener('click', () => {
-  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list"><button class="menu-item" id="mn-contact">📖 Kontak</button><button class="menu-item" id="mnc">💬 Chat Baru</button><button class="menu-item" id="mng">👥 Buat Grup</button><button class="menu-item" id="mns">◍ Buat Status</button></div>`, r=>{
+  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list">
+    <button class="menu-item" id="mn-contact"><span class="ico">${SVG_CONTACT}</span>Kontak</button>
+    <button class="menu-item" id="mnc"><span class="ico"><svg class="svg-icon-outline" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg></span>Chat Baru</button>
+    <button class="menu-item" id="mng"><span class="ico">${SVG_GROUP}</span>Buat Grup</button>
+    <button class="menu-item" id="mns"><span class="ico">${SVG_GLOBE}</span>Buat Status</button>
+  </div>`, r=>{
     r.querySelector('#mn-contact').onclick = () => { closeModal(); openContactsModal(); };
     r.querySelector('#mnc').onclick = () => { closeModal(); openNewChatModal(); };
     r.querySelector('#mng').onclick = () => { closeModal(); openNewGroupModal(); };
@@ -1391,9 +1398,7 @@ $('#fab').addEventListener('click', () => {
   });
 });
 
-/* FITUR 8: MENU KONTAK */
 function openContactsModal() {
-  // Filter hanya chat direct yang sudah diterima (tidak pending)
   const contacts = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0));
   
   let html = `<div class="modal-header"><h3>Kontak Saya</h3></div><div class="modal-body">`;
@@ -1468,7 +1473,6 @@ function openNewGroupModal() {
   });
 }
 
-// Tambahkan update status akun lokal agar nama di menu ganti akun terupdate
 const _oldUpdateUI = updateProfileUI;
 updateProfileUI = function() {
   _oldUpdateUI();
@@ -1479,7 +1483,6 @@ updateProfileUI = function() {
       if (a.username === STATE.me.username) { a.displayName = STATE.me.displayName; a.photoURL = STATE.me.photoURL; found = true; }
     });
     if (!found) {
-       // Jika login tidak lewat form (misal auto login), tambahkan
        accounts.push({ username: STATE.me.username, password: '', displayName: STATE.me.displayName, photoURL: STATE.me.photoURL });
        if(accounts.length>2) accounts.shift();
     }
