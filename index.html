@@ -429,7 +429,7 @@ img,video{display:block;max-width:100%;}
       <div id="select-container" class="hidden">
         <div class="select-actions">
           <button class="btn btn-soft" id="btn-select-all">Pilih Semua</button>
-          <button class="btn btn-danger" id="btn-hide-selected">Sembunyikan</button>
+          <button class="btn btn-danger" id="btn-delete-selected">Hapus</button>
           <button class="btn btn-soft" id="btn-cancel-select">Batal</button>
         </div>
       </div>
@@ -793,14 +793,28 @@ function listenChats() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
   STATE.unsubChats = onSnapshot(q, snap => {
     const all = [];
-    const hidden = STATE.me.hiddenChats || [];
+    let needsUnhide = [];
+    
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
-      if (!c.isBanned && (!hidden.includes(c.id) || (c.pendingFor && c.pendingFor.includes(STATE.uid)))) {
-        all.push(c);
+      // Jika chat ada di hiddenChats, tapi ada pesan baru masuk dari orang lain, maka otomatis munculkan (unhide)
+      if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(c.id)) {
+        if (c.lastMessage && c.lastMessage.senderId && c.lastMessage.senderId !== STATE.uid) {
+          needsUnhide.push(c.id);
+        }
       }
+      all.push(c);
     });
+
+    // Update state dan DB jika ada chat yang perlu di-unhide karena pesan baru
+    if (needsUnhide.length > 0) {
+      STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => !needsUnhide.includes(id));
+      updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(...needsUnhide) }).catch(()=>{});
+    }
+
     STATE.chats = all;
+    
+    // Sortir: Self chat di atas, lalu berdasarkan waktu update terbaru
     STATE.chats.sort((a, b) => {
       if (a.type === 'self') return -1;
       if (b.type === 'self') return 1;
@@ -824,20 +838,21 @@ $('#btn-select-mode').addEventListener('click', () => {
 });
 $('#btn-cancel-select').addEventListener('click', () => $('#btn-select-mode').click());
 $('#btn-select-all').addEventListener('click', () => {
-  if (STATE.selectedChats.size === STATE.chats.length) STATE.selectedChats.clear();
-  else STATE.chats.forEach(c => STATE.selectedChats.add(c.id));
+  const visibleChats = STATE.chats.filter(c => !STATE.me.hiddenChats?.includes(c.id));
+  if (STATE.selectedChats.size === visibleChats.length) STATE.selectedChats.clear();
+  else visibleChats.forEach(c => STATE.selectedChats.add(c.id));
   renderChats();
 });
-$('#btn-hide-selected').addEventListener('click', async () => {
+$('#btn-delete-selected').addEventListener('click', async () => {
   if (STATE.selectedChats.size === 0) { toast('Pilih chat dulu'); return; }
-  if (!confirm(`Sembunyikan ${STATE.selectedChats.size} chat?`)) return;
+  if (!confirm(`Hapus ${STATE.selectedChats.size} chat dari halaman utama?`)) return;
   try {
     const arr = Array.from(STATE.selectedChats);
     await updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayUnion(...arr) });
     STATE.me.hiddenChats = [...(STATE.me.hiddenChats || []), ...arr];
-    toast('Chat disembunyikan');
+    toast('Chat dihapus dari halaman utama');
     $('#btn-select-mode').click();
-    listenChats();
+    renderChats();
   } catch (e) { toast('Gagal: ' + e.message); }
 });
 
@@ -865,12 +880,25 @@ function chatDisplayPhoto(chat) {
 function renderChats() {
   const list = $('#list-chats');
   const filter = ($('#search-input').value || '').toLowerCase().trim();
+  
+  // Filter Logic: 
+  // 1. Jika ada pencarian, tampilkan semua yang cocok (termasuk yang dihapus/hidden)
+  // 2. Jika tidak ada pencarian, sembunyikan yang ada di hiddenChats
   const items = STATE.chats.filter(c => {
-    if (!filter) return true;
-    return chatDisplayName(c).toLowerCase().includes(filter);
+    const isHidden = STATE.me.hiddenChats?.includes(c.id);
+    const matchesSearch = !filter || chatDisplayName(c).toLowerCase().includes(filter);
+    
+    if (filter) {
+      return matchesSearch;
+    } else {
+      return !isHidden;
+    }
   });
 
-  if (!items.length) { list.innerHTML = `<div class="empty">Belum ada chat.</div>`; return; }
+  if (!items.length) { 
+    list.innerHTML = `<div class="empty">Belum ada chat.</div>`; 
+    return; 
+  }
   
   list.innerHTML = items.map(chat => {
     const name = chatDisplayName(chat);
@@ -1251,6 +1279,13 @@ async function openChat(chatId) {
 }
 
 function proceedOpenChat(chatId, chat) {
+  // Logic: Buka chat dari hidden (jika dibuka via pencarian/kontak)
+  if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chatId)) {
+    STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chatId);
+    updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(chatId) }).catch(()=>{});
+    renderChats(); // Render ulang agar muncul di halaman utama
+  }
+
   STATE.currentChat = { id: chatId, ...chat }; STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar();
   const name = chatDisplayName(chat); const photo = chatDisplayPhoto(chat); const tick = getChatTick(chat);
   $('#chat-name').innerHTML = esc(name) + tick;
@@ -1372,6 +1407,14 @@ async function sendMessage(text, type = 'text', mediaUrl = null) {
     const isAdmin = chat.createdBy === STATE.uid || (chat.admins || []).includes(STATE.uid);
     if (!isAdmin) { toast('Hanya Admin yang bisa chat di grup ini'); return; }
   }
+
+  // Logic: Jika mengirim pesan, hapus dari hiddenChats (jika ada)
+  if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chat.id)) {
+    STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chat.id);
+    updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(chat.id) }).catch(()=>{});
+    renderChats(); // Render ulang agar muncul di halaman utama
+  }
+
   const payload = {
     senderId: STATE.uid, senderName: STATE.me.displayName, text: text.trim(), type: type, status: 'sent',
     createdAt: serverTimestamp(), replyTo: STATE.replyTo ? { text: STATE.replyTo.text || '📎', senderName: STATE.replyTo.senderName } : null,
@@ -1675,6 +1718,7 @@ $('#fab').addEventListener('click', () => {
 });
 
 function openContactsModal() {
+  // Tampilkan semua chat direct yang bukan pending (termasuk yang ada di hiddenChats)
   const contacts = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0));
   
   let html = `<div class="modal-header"><h3>Kontak Saya</h3></div><div class="modal-body">`;
