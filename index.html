@@ -310,9 +310,12 @@ img,video{display:block;max-width:100%;}
 .status-action-bar {
   padding: 10px;
   pointer-events: auto; /* Aktifkan klik untuk tombol */
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
 
-.btn-viewers, .btn-reply {
+.btn-viewers {
   background: rgba(0,0,0,0.6);
   color: #fff;
   border: 1px solid rgba(255,255,255,0.3);
@@ -323,6 +326,20 @@ img,video{display:block;max-width:100%;}
   backdrop-filter: blur(4px);
   cursor: pointer;
   font-weight: 600;
+}
+
+.btn-reply {
+  width: 100%;
+  max-width: 300px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 24px;
+  padding: 12px 20px;
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  backdrop-filter: blur(4px);
+  cursor: pointer;
 }
 
 .status-caption {
@@ -668,7 +685,6 @@ const SVG_GLOBE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="widt
 const SVG_LOCK = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
 const SVG_TRASH = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
 const SVG_MUTE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
-const SVG_USER_EYE = `<svg class="svg-icon" viewBox="0 0 24 24" style="width:18px;height:18px;margin-right:5px"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>`; // Ikon siluet orang
 
 const STATE = {
   uid: null, me: null,
@@ -1125,9 +1141,12 @@ function openStatusViewer(statuses) {
     // Action Bar (Viewers / Reply)
     let actionHTML = '';
     if (isMine) {
-      actionHTML = `<div class="status-action-bar"><button class="btn-viewers" id="sv-viewers-btn">${SVG_USER_EYE} ${ (s.viewers||[]).length }</button></div>`;
+      actionHTML = `<div class="status-action-bar"><button class="btn-viewers" id="sv-viewers-btn">
+        <svg class="svg-icon" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        ${(s.viewers||[]).length}
+      </button></div>`;
     } else {
-      actionHTML = `<div class="status-action-bar"><button class="btn-reply" id="sv-reply-btn">Balas</button></div>`;
+      actionHTML = `<div class="status-action-bar"><button class="btn-reply" id="sv-reply-btn">Balas...</button></div>`;
     }
 
     // Caption
@@ -1149,32 +1168,33 @@ function openStatusViewer(statuses) {
         const viewers = [];
         for (const uid of s.viewers) {
           const uSnap = await getDoc(doc(db, 'users', uid));
-          if (uSnap.exists()) viewers.push(uSnap.data());
+          if (uSnap.exists()) viewers.push({ uid, ...uSnap.data() });
         }
-        const listHtml = viewers.map(v => `<div class="search-result"><div class="info"><strong>${esc(v.displayName)}</strong><span>@${esc(v.username)}</span></div></div>`).join('');
-        showModal(`<div class="modal-header"><h3>Dilihat oleh (${viewers.length})</h3></div><div class="modal-body">${listHtml}</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`);
+        const listHtml = viewers.map(v => `
+          <div class="search-result" data-viewer-uid="${v.uid}">
+            ${avatarHTML(v.displayName, v.photoURL, 'sm')}
+            <div class="info"><strong>${esc(v.displayName)}</strong><span>@${esc(v.username)}</span></div>
+          </div>
+        `).join('');
+
+        showModal(`<div class="modal-header"><h3>Dilihat oleh (${viewers.length})</h3></div><div class="modal-body">${listHtml}</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, root => {
+          root.querySelectorAll('[data-viewer-uid]').forEach(el => {
+            el.onclick = () => {
+              closeModal();
+              closeViewer();
+              startChatWith(el.dataset.viewerUid);
+            };
+          });
+        });
       };
     } else {
       document.getElementById('sv-reply-btn').onclick = async (e) => {
         e.stopPropagation();
         closeViewer();
-        const sUser = s.userId;
-        const chatsSnap = await getDocs(query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid)));
-        let chatId = null;
-        for (const d of chatsSnap.docs) {
-          if (d.data().type === 'direct' && d.data().members.includes(sUser)) {
-            chatId = d.id; break;
-          }
-        }
-        if (chatId) {
-          openChat(chatId);
-          setTimeout(() => {
-            const inp = $('#chat-input');
-            if (inp) { inp.value = `Membalas status: "${s.content || '📎 Media'}"\n`; inp.focus(); }
-          }, 500);
-        } else {
-          toast('Tidak dapat menemukan chat dengan pengguna ini');
-        }
+        await startChatWith(s.userId, {
+          text: s.content || '📷 Media',
+          senderName: s.userName
+        });
       };
     }
 
@@ -1858,15 +1878,31 @@ function openNewChatModal() {
   });
 }
 
-async function startChatWith(uid) {
+async function startChatWith(uid, replyContext = null) {
   closeModal();
+  let chatId = null;
   const s = await getDocs(query(collection(db,'chats'),where('members','array-contains',STATE.uid)));
-  for(const d of s.docs){ if(d.data().type==='direct' && (d.data().members||[]).includes(uid)){ openChat(d.id); return; } }
-  const t = (await getDoc(doc(db,'users',uid))).data();
-  const docRef = await addDoc(collection(db,'chats'),{
-    type:'direct',members:[STATE.uid,uid],memberNames:{[STATE.uid]:STATE.me.displayName,[uid]:t.displayName},memberPhotos:{[STATE.uid]:STATE.me.photoURL||'',[uid]:t.photoURL||''},memberUsernames:{[STATE.uid]:STATE.me.username,[uid]:t.username},memberVerified:{[STATE.uid]:STATE.me.isVerified||false,[uid]:t.isVerified||false},pendingFor:t.privacy?.whoCanMessage==='contacts'?[uid]:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()
-  });
-  openChat(docRef.id);
+  for(const d of s.docs){
+    if(d.data().type==='direct' && (d.data().members||[]).includes(uid)){ chatId = d.id; break; }
+  }
+  
+  if (!chatId) {
+    const t = (await getDoc(doc(db,'users',uid))).data();
+    const docRef = await addDoc(collection(db,'chats'),{
+      type:'direct',members:[STATE.uid,uid],memberNames:{[STATE.uid]:STATE.me.displayName,[uid]:t.displayName},memberPhotos:{[STATE.uid]:STATE.me.photoURL||'',[uid]:t.photoURL||''},memberUsernames:{[STATE.uid]:STATE.me.username,[uid]:t.username},memberVerified:{[STATE.uid]:STATE.me.isVerified||false,[uid]:t.isVerified||false},pendingFor:t.privacy?.whoCanMessage==='contacts'?[uid]:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()
+    });
+    chatId = docRef.id;
+  }
+  
+  await openChat(chatId);
+  
+  if (replyContext) {
+    STATE.replyTo = replyContext;
+    $('#reply-name').textContent = replyContext.senderName;
+    $('#reply-text').textContent = replyContext.text;
+    $('#reply-bar').classList.remove('hidden');
+    setTimeout(() => $('#chat-input').focus(), 300);
+  }
 }
 
 function openNewGroupModal() {
