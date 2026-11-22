@@ -1463,4 +1463,261 @@ async function openGroupSettings(chatId) {
         e.stopPropagation(); 
         const uid = btn.dataset.toggleAdmin; const isAdm = btn.dataset.isAdmin === 'true';
         if (isAdm) { await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) }); toast('Admin dicabut'); }
-        else { await updateDoc(doc(db, 'chats', chatId
+        else { await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) }); toast('Jadi Admin'); await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} Admin`, createdAt: serverTimestamp() }); }
+        closeModal();
+      };
+    });
+
+    root.querySelectorAll('.member-item').forEach(item => {
+      item.onclick = (e) => {
+        if (e.target.closest('button')) return; 
+        const targetUid = item.dataset.uid;
+        if (targetUid === STATE.uid) { toast('Ini akun kamu'); return; }
+        closeModal();
+        startChatWith(targetUid);
+      };
+    });
+
+    root.querySelector('#gs-leave').onclick = async () => {
+      if (!confirm('Keluar?')) return;
+      const mn = { ...c.memberNames }; delete mn[STATE.uid]; const mp = { ...c.memberPhotos }; delete mp[STATE.uid]; const mu = { ...c.memberUsernames }; delete mu[STATE.uid]; const un = { ...c.unread }; delete un[STATE.uid];
+      await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(STATE.uid), admins: arrayRemove(STATE.uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
+      await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} keluar dari grup`, createdAt: serverTimestamp() });
+      toast('Keluar'); closeModal(); $('#chat-back').click();
+    };
+    if (isOwner) {
+      root.querySelector('#gs-disband').onclick = async () => {
+        if (!confirm('Bubarkan?')) return;
+        try {
+          const msgs = await getDocs(collection(db, 'chats', chatId, 'messages')); const batch = writeBatch(db);
+          msgs.forEach(m => batch.delete(m.ref)); batch.delete(doc(db, 'chats', chatId)); await batch.commit();
+          toast('Dibubarkan'); closeModal(); $('#chat-back').click();
+        } catch(e) { toast('Gagal: '+e.message); }
+      };
+    }
+  });
+}
+
+$('#chat-menu').addEventListener('click', () => {
+  const isGroup = STATE.currentChat?.type === 'group';
+  showModal(`
+    <div class="modal-header"><h3>Opsi Chat</h3></div>
+    <div class="menu-list">
+      ${isGroup ? `<button class="menu-item" id="cm-add-member"><span class="ico">${SVG_GROUP}</span>Tambah Anggota</button>` : ''}
+      <button class="menu-item" id="cm-mute"><span class="ico">${SVG_MUTE}</span>Bisukan / Aktifkan</button>
+      <button class="menu-item" id="cm-lock"><span class="ico">${SVG_LOCK}</span>Kunci dengan PIN</button>
+      <button class="menu-item" id="cm-clear" style="color:#e5484d"><span class="ico">${SVG_TRASH}</span>Kosongkan Chat</button>
+    </div>
+  `, root => {
+    root.querySelector('#cm-mute').onclick = async () => {
+      const isMuted = (STATE.currentChat.mutedBy||[]).includes(STATE.uid);
+      await updateDoc(doc(db,'chats',STATE.currentChat.id),{mutedBy:isMuted?arrayRemove(STATE.uid):arrayUnion(STATE.uid)});
+      toast(isMuted?'Aktif':'Dibisukan'); closeModal();
+    };
+    root.querySelector('#cm-lock').onclick = () => {
+      showModal(`<div class="modal-header"><h3>Kunci PIN</h3></div><div class="modal-body"><input type="password" id="pin-in" maxlength="6" placeholder="PIN 4-6 angka" class="input-wrap" style="padding:10px;width:100%"></div><div class="modal-footer"><button class="btn btn-soft" id="p-cancel">Batal</button><button class="btn btn-primary" id="p-save">Simpan</button></div>`, r2 => {
+        r2.querySelector('#p-cancel').onclick = closeModal;
+        r2.querySelector('#p-save').onclick = async () => { const p = r2.querySelector('#pin-in').value; if(/^\d{4,6}$/.test(p)){await updateDoc(doc(db,'chats',STATE.currentChat.id),{[`pins.${STATE.uid}`]:p});closeModal();toast('Terkunci');}else toast('Format salah'); };
+      });
+    };
+    root.querySelector('#cm-clear').onclick = async () => {
+      if(!confirm('Hapus semua pesan?')) return;
+      const s = await getDocs(collection(db,'chats',STATE.currentChat.id,'messages')); const b = writeBatch(db); s.forEach(d=>b.delete(d.ref)); await b.commit();
+      await updateDoc(doc(db,'chats',STATE.currentChat.id),{lastMessage:null}); toast('Chat kosong'); closeModal();
+    };
+    if(isGroup) {
+      root.querySelector('#cm-add-member').onclick = () => {
+        if (STATE.currentChat.whoCanAddMembers === 'admins') {
+          const isAdm = STATE.currentChat.createdBy === STATE.uid || (STATE.currentChat.admins||[]).includes(STATE.uid);
+          if (!isAdm) { toast('Hanya Admin yang bisa tambah anggota'); return; }
+        }
+        closeModal(); openAddMemberModal();
+      };
+    }
+  });
+});
+
+function openAddMemberModal() {
+  showModal(`<div class="modal-header"><h3>Tambah Anggota</h3></div><div class="modal-body"><input type="text" id="am-search" placeholder="Cari username…" class="input-wrap" style="padding:10px;width:100%"><div id="am-results"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, root => {
+    const input = root.querySelector('#am-search'); const res = root.querySelector('#am-results');
+    let t; input.addEventListener('input', () => {
+      clearTimeout(t); t = setTimeout(async () => {
+        const q = input.value.toLowerCase().trim(); if(q.length<2) return;
+        const snap = await getDocs(query(collection(db,'users'),where('username','>=',q),where('username','<=',q+'\uf8ff'),limit(5)));
+        res.innerHTML = snap.docs.map(d => {
+          const u = d.data();
+          if (STATE.currentChat.members.includes(d.id)) return `<div class="search-result"><div class="info"><strong>${esc(u.displayName)}</strong><span>Sudah di grup</span></div></div>`;
+          return `<div class="search-result" data-add="${d.id}" data-name="${esc(u.displayName)}" data-photo="${esc(u.photoURL||'')}" data-uname="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`;
+        }).join('');
+        res.querySelectorAll('[data-add]').forEach(el => {
+          el.onclick = async () => {
+            const uid = el.dataset.add;
+            const names = { ...STATE.currentChat.memberNames, [uid]: el.dataset.name };
+            const photos = { ...STATE.currentChat.memberPhotos, [uid]: el.dataset.photo };
+            const unames = { ...STATE.currentChat.memberUsernames, [uid]: el.dataset.uname };
+            await updateDoc(doc(db,'chats',STATE.currentChat.id), { members: arrayUnion(uid), memberNames: names, memberPhotos: photos, memberUsernames: unames });
+            await addDoc(collection(db,'chats',STATE.currentChat.id,'messages'), { type:'system', text:`${STATE.me.displayName} menambahkan ${el.dataset.name}`, createdAt: serverTimestamp() });
+            toast('Ditambahkan'); closeModal();
+          };
+        });
+      }, 300);
+    });
+  });
+}
+
+$('#btn-edit-profile').addEventListener('click', () => {
+  showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
+    r.querySelector('#es').onclick = async () => { await updateDoc(doc(db,'users',STATE.uid),{displayName:r.querySelector('#en').value.trim(),bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=r.querySelector('#en').value; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); closeModal(); };
+  });
+});
+$('#btn-change-photo').addEventListener('click', () => $('#photo-input').click());
+$('#photo-input').addEventListener('change', async e => {
+  const f = e.target.files?.[0]; if(!f) return; toast('Upload…');
+  try{ const url = await uploadToCloudinary(f); await updateDoc(doc(db,'users',STATE.uid),{photoURL:url}); STATE.me.photoURL=url; updateProfileUI(); toast('Berhasil'); }catch(err){toast(err.message);}
+  e.target.value='';
+});
+$('#priv-who').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.whoCanMessage':e.target.value}));
+
+$('#btn-enable-notif').addEventListener('click', () => {
+  if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
+  Notification.requestPermission().then(permission => {
+    if (permission === 'granted') { setupFCM(); toast('Notifikasi diaktifkan!'); }
+    else toast('Notifikasi ditolak');
+  });
+});
+
+$$('.nav-btn').forEach(b => b.addEventListener('click', () => {
+  $$('.nav-btn').forEach(x=>x.classList.toggle('active',x===b)); $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+b.dataset.tab)); $('#content').scrollTop=0;
+}));
+
+$$('.seg-btn').forEach(b => b.addEventListener('click', () => {
+  $$('.seg-btn').forEach(x=>x.classList.toggle('active',x===b)); $('#form-login').classList.toggle('hidden',b.dataset.auth!=='login'); $('#form-register').classList.toggle('hidden',b.dataset.auth!=='register');
+}));
+
+$('#form-login').addEventListener('submit', async e => { 
+  e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; 
+  try{
+    await loginUser($('#login-user').value,$('#login-pass').value);
+    const uname = $('#login-user').value.toLowerCase().trim();
+    const pass = $('#login-pass').value;
+    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+    accounts = accounts.filter(a => a.username !== uname); 
+    accounts.push({ username: uname, password: pass, displayName: uname, photoURL: '' }); 
+    if (accounts.length > 2) accounts.shift(); 
+    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
+  }catch(err){toast('Gagal: '+err.message);} 
+  b.disabled=false; b.textContent='Masuk'; 
+});
+
+$('#form-register').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-register'); b.disabled=true; b.textContent='…'; try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Buat Akun'; });
+
+$('#fab').addEventListener('click', () => {
+  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list">
+    <button class="menu-item" id="mn-contact"><span class="ico">${SVG_CONTACT}</span>Kontak</button>
+    <button class="menu-item" id="mnc"><span class="ico"><svg class="svg-icon-outline" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg></span>Chat Baru</button>
+    <button class="menu-item" id="mng"><span class="ico">${SVG_GROUP}</span>Buat Grup</button>
+    <button class="menu-item" id="mns"><span class="ico">${SVG_GLOBE}</span>Buat Status</button>
+  </div>`, r=>{
+    r.querySelector('#mn-contact').onclick = () => { closeModal(); openContactsModal(); };
+    r.querySelector('#mnc').onclick = () => { closeModal(); openNewChatModal(); };
+    r.querySelector('#mng').onclick = () => { closeModal(); openNewGroupModal(); };
+    r.querySelector('#mns').onclick = () => { closeModal(); openNewStatusModal(); };
+  });
+});
+
+function openContactsModal() {
+  const contacts = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0));
+  
+  let html = `<div class="modal-header"><h3>Kontak Saya</h3></div><div class="modal-body">`;
+  if (contacts.length === 0) {
+    html += `<p class="muted small center">Belum ada kontak. Mulai chat dengan orang lain terlebih dahulu.</p>`;
+  } else {
+    html += contacts.map(chat => {
+      const otherUid = chat.members.find(u => u !== STATE.uid);
+      const name = chat.memberNames?.[otherUid] || 'Pengguna';
+      const photo = chat.memberPhotos?.[otherUid];
+      const uname = chat.memberUsernames?.[otherUid] || '';
+      return `<div class="search-result" data-contact="${chat.id}">
+        ${avatarHTML(name, photo, 'sm')}
+        <div class="info"><strong>${esc(name)}</strong><span>@${esc(uname)}</span></div>
+        <button class="btn btn-soft sm" style="padding:6px 12px;font-size:12px">Chat</button>
+      </div>`;
+    }).join('');
+  }
+  html += `</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`;
+  
+  showModal(html, r => {
+    r.querySelectorAll('[data-contact]').forEach(el => {
+      el.onclick = () => { closeModal(); openChat(el.dataset.contact); };
+    });
+  });
+}
+
+function openNewChatModal() {
+  showModal(`<div class="modal-header"><h3>Chat Baru</h3></div><div class="modal-body"><input id="sc-u" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari username…"><div id="sc-r" style="margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r=>{
+    const inp = r.querySelector('#sc-u'); const res = r.querySelector('#sc-r');
+    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
+      if(inp.value.length<2){res.innerHTML='';return;}
+      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(10)));
+      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(u.uid===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
+      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>startChatWith(el.dataset.uid);});
+    },300); });
+  });
+}
+
+async function startChatWith(uid) {
+  closeModal();
+  const s = await getDocs(query(collection(db,'chats'),where('members','array-contains',STATE.uid)));
+  for(const d of s.docs){ if(d.data().type==='direct' && (d.data().members||[]).includes(uid)){ openChat(d.id); return; } }
+  const t = (await getDoc(doc(db,'users',uid))).data();
+  const docRef = await addDoc(collection(db,'chats'),{
+    type:'direct',members:[STATE.uid,uid],memberNames:{[STATE.uid]:STATE.me.displayName,[uid]:t.displayName},memberPhotos:{[STATE.uid]:STATE.me.photoURL||'',[uid]:t.photoURL||''},memberUsernames:{[STATE.uid]:STATE.me.username,[uid]:t.username},memberVerified:{[STATE.uid]:STATE.me.isVerified||false,[uid]:t.isVerified||false},pendingFor:t.privacy?.whoCanMessage==='contacts'?[uid]:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()
+  });
+  openChat(docRef.id);
+}
+
+function openNewGroupModal() {
+  showModal(`<div class="modal-header"><h3>Buat Grup</h3></div><div class="modal-body"><input id="g-n" class="input-wrap" style="padding:10px;width:100%;margin-bottom:10px" placeholder="Nama Grup"><input id="g-s" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari anggota…"><div id="g-r"></div><div id="g-sel" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="g-c">Buat</button></div>`, r=>{
+    const sel = new Map(); const inp = r.querySelector('#g-s'); const res = r.querySelector('#g-r');
+    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
+      if(inp.value.length<2){res.innerHTML='';return;}
+      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(5)));
+      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(d.id===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}" data-n="${esc(u.displayName)}" data-p="${esc(u.photoURL||'')}" data-un="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
+      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>{
+        sel.set(el.dataset.uid, {name:el.dataset.n, photo:el.dataset.p, uname:el.dataset.un});
+        const c = document.createElement('span'); c.className='alias-chip'; c.textContent=el.dataset.n+' ×'; c.onclick=()=>{sel.delete(el.dataset.uid);c.remove();}; r.querySelector('#g-sel').appendChild(c);
+        inp.value=''; res.innerHTML='';
+      }});
+    },300); });
+    r.querySelector('#g-c').onclick = async () => {
+      const name = r.querySelector('#g-n').value.trim(); if(!name||sel.size<1) return toast('Isi nama & anggota');
+      const members = [STATE.uid, ...sel.keys()];
+      const mn = {[STATE.uid]:STATE.me.displayName}; const mp = {[STATE.uid]:STATE.me.photoURL||''}; const mu = {[STATE.uid]:STATE.me.username};
+      sel.forEach((v,k)=>{mn[k]=v.name;mp[k]=v.photo;mu[k]=v.uname;});
+      const ref = await addDoc(collection(db,'chats'),{type:'group',name,members,memberNames:mn,memberPhotos:mp,memberUsernames:mu,createdBy:STATE.uid,admins:[],onlyAdminsCanChat:false,whoCanAddMembers:'everyone',pendingFor:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()});
+      toast('Grup dibuat'); closeModal(); openChat(ref.id);
+    };
+  });
+}
+
+const _oldUpdateUI = updateProfileUI;
+updateProfileUI = function() {
+  _oldUpdateUI();
+  if (STATE.me) {
+    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+    let found = false;
+    accounts.forEach(a => {
+      if (a.username === STATE.me.username) { a.displayName = STATE.me.displayName; a.photoURL = STATE.me.photoURL; found = true; }
+    });
+    if (!found) {
+       accounts.push({ username: STATE.me.username, password: '', displayName: STATE.me.displayName, photoURL: STATE.me.photoURL });
+       if(accounts.length>2) accounts.shift();
+    }
+    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
+  }
+}
+
+showScreen('screen-auth');
+</script>
+</body>
+</html>
