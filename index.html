@@ -43,7 +43,6 @@ img,video{display:block;max-width:100%;}
 .truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;}
 .muted{color:var(--muted);}.small{font-size:12px;}.center{text-align:center;}
 
-/* SVG Helper Classes */
 .svg-icon { width: 20px; height: 20px; display: inline-block; vertical-align: middle; fill: currentColor; flex-shrink: 0; }
 .svg-icon-outline { width: 24px; height: 24px; display: inline-block; vertical-align: middle; stroke: currentColor; fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
 
@@ -253,14 +252,13 @@ img,video{display:block;max-width:100%;}
 .search-result .info strong{display:flex;align-items:center;gap:4px;font-size:14.5px;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
-/* STATUS VIEWER DENGAN SUPPORT VIDEO & PROGRESS BAR (FULL SCREEN) */
+/* STATUS VIEWER */
 .status-viewer{position:absolute;inset:0;background:#000;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
 .status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);z-index:100;position:absolute;top:0;left:0;right:0;}
 .status-viewer .sv-header .info{flex:1;}
 .status-viewer .sv-header strong{display:flex;align-items:center;gap:5px;font-size:14px;}
 .status-viewer .sv-header small{display:block;font-size:11px;opacity:.75;}
 
-/* Body untuk Full Screen Media */
 .status-viewer .sv-body{
   flex:1;
   display:flex;
@@ -275,7 +273,6 @@ img,video{display:block;max-width:100%;}
   background:#000;
 }
 
-/* Media (Gambar/Video) agar mengisi layar penuh (Top/Bottom) */
 .status-viewer .sv-body img,
 .status-viewer .sv-body video {
   width:100%;
@@ -298,23 +295,24 @@ img,video{display:block;max-width:100%;}
   overflow-y: auto;
 }
 
-/* Area Bawah Status (Tombol & Caption) - Z-INDEX TINGGI AGAR BISA DIKLIK */
 .status-bottom-area {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 60; /* LEBIH TINGGI DARI NAV ZONE (50) */
-  pointer-events: none; /* Biarkan area kosong tembus klik */
+  z-index: 60;
+  pointer-events: none;
 }
 
 .status-action-bar {
   padding: 10px;
-  pointer-events: auto; /* Aktifkan klik untuk tombol */
+  pointer-events: auto;
   width: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
+  gap: 10px;
 }
 
 .btn-viewers {
@@ -331,9 +329,9 @@ img,video{display:block;max-width:100%;}
 }
 
 .btn-reply {
-  width: 100%;
-  max-width: 300px;
-  background: rgba(40, 40, 40, 0.85); /* Warna gelap transparan mirip gambar referensi */
+  flex: 1;
+  max-width: 280px;
+  background: rgba(40, 40, 40, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
   padding: 12px 20px;
@@ -342,6 +340,36 @@ img,video{display:block;max-width:100%;}
   text-align: center;
   backdrop-filter: blur(4px);
   cursor: pointer;
+}
+
+/* ❤️ TOMBOL LIKE STATUS */
+.status-like-btn {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  background: rgba(40,40,40,.85);
+  border: 1px solid rgba(255,255,255,.2);
+  display: grid; place-items: center;
+  backdrop-filter: blur(4px);
+  cursor: pointer; padding: 0;
+  flex-shrink: 0;
+  transition: background .2s, transform .12s;
+}
+.status-like-btn svg {
+  width: 24px; height: 24px;
+  fill: none;
+  stroke: rgba(255,255,255,.85);
+  stroke-width: 2;
+  transition: fill .2s, stroke .2s;
+}
+.status-like-btn.liked svg { fill: #fff; stroke: #fff; }
+.status-like-btn:active { transform: scale(.9); }
+
+/* ❤️ IKON LOVE PUTIH DI DAFTAR PENONTON (pojok kanan) */
+.viewer-like-icon {
+  width: 18px; height: 18px;
+  fill: #fff;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .status-caption {
@@ -358,7 +386,6 @@ img,video{display:block;max-width:100%;}
   line-height: 1.5;
 }
 
-/* Progress Bar */
 .status-progress-container {
   position: absolute;
   top: env(safe-area-inset-top);
@@ -381,18 +408,16 @@ img,video{display:block;max-width:100%;}
   width: 0%;
 }
 
-/* Navigation Areas (Z-INDEX DI BAWAH TOMBOL) */
 .status-nav-zone {
   position: absolute;
   top: calc(env(safe-area-inset-top) + 60px);
   bottom: 0;
-  z-index: 50; 
+  z-index: 50;
   cursor: pointer;
 }
 .status-nav-zone.left { left: 0; width: 30%; }
 .status-nav-zone.right { right: 0; width: 70%; }
 
-/* BOTTOM SHEET PENONTON STATUS (Gaya WhatsApp) */
 .viewers-overlay {
   position: absolute;
   inset: 0;
@@ -749,7 +774,6 @@ const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L
 
 const SVG_GROUP = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`;
 const SVG_CONTACT = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm7-9h-2v2h2v2h-2v2h2v2h-2v2h2v2h-2v2h2V5z"/></svg>`;
-const SVG_GLOBE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg>`;
 const SVG_LOCK = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
 const SVG_TRASH = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
 const SVG_MUTE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
@@ -818,6 +842,7 @@ function showModal(html, onMount) {
   if (onMount) onMount(root);
 }
 function closeModal() { const root = $('#modal-root'); root.innerHTML = ''; root.classList.add('hidden'); }
+window.closeModal = closeModal;
 
 function showNotif(title, body, chatId) {
   if ('Notification' in window && Notification.permission === 'granted') {
@@ -911,7 +936,6 @@ function listenChats() {
     
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
-      // Jika chat ada di hiddenChats, tapi ada pesan baru masuk dari orang lain, maka otomatis munculkan (unhide)
       if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(c.id)) {
         if (c.lastMessage && c.lastMessage.senderId && c.lastMessage.senderId !== STATE.uid) {
           needsUnhide.push(c.id);
@@ -920,15 +944,12 @@ function listenChats() {
       all.push(c);
     });
 
-    // Update state dan DB jika ada chat yang perlu di-unhide karena pesan baru
     if (needsUnhide.length > 0) {
       STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => !needsUnhide.includes(id));
       updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(...needsUnhide) }).catch(()=>{});
     }
 
     STATE.chats = all;
-    
-    // Sortir: Self chat di atas, lalu berdasarkan waktu update terbaru
     STATE.chats.sort((a, b) => {
       if (a.type === 'self') return -1;
       if (b.type === 'self') return 1;
@@ -995,9 +1016,6 @@ function renderChats() {
   const list = $('#list-chats');
   const filter = ($('#search-input').value || '').toLowerCase().trim();
   
-  // Filter Logic: 
-  // 1. Jika ada pencarian, tampilkan semua yang cocok (termasuk yang dihapus/hidden)
-  // 2. Jika tidak ada pencarian, sembunyikan yang ada di hiddenChats
   const items = STATE.chats.filter(c => {
     const isHidden = STATE.me.hiddenChats?.includes(c.id);
     const matchesSearch = !filter || chatDisplayName(c).toLowerCase().includes(filter);
@@ -1085,7 +1103,6 @@ function renderStatuses() {
   
   if (!otherStatuses.length) { list.innerHTML = `<div class="empty">Belum ada status dari kontakmu.</div>`; return; }
 
-  // Group other statuses by userId
   const grouped = {};
   otherStatuses.forEach(s => {
     if (!grouped[s.userId]) grouped[s.userId] = [];
@@ -1093,10 +1110,9 @@ function renderStatuses() {
   });
 
   const groupsArray = Object.values(grouped).map(g => {
-    g.sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0)); // oldest to newest
+    g.sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
     return g;
   }).sort((a, b) => {
-    // sort groups by the latest update
     const aLatest = a[a.length - 1].createdAt?.toMillis() || 0;
     const bLatest = b[b.length - 1].createdAt?.toMillis() || 0;
     return bLatest - aLatest;
@@ -1114,7 +1130,8 @@ function openMyStatusesModal() {
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid).sort((a,b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
   showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => {
     const label = s.type === 'video' ? '🎥 Video' : (s.type === 'image' ? '📷 Foto' : '📝 Teks');
-    return `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${label}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">${SVG_TRASH}</button></div>`;
+    const likeCount = (s.likes || []).length;
+    return `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${label}</strong><span>${esc(fmtRel(s.createdAt))}${likeCount ? ' • ❤️ ' + likeCount : ''}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">${SVG_TRASH}</button></div>`;
   }).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
     root.querySelector('#ms-close').onclick = closeModal;
     root.querySelector('#ms-add').onclick = () => { closeModal(); openNewStatusModal(); };
@@ -1133,14 +1150,15 @@ $('#list-status').addEventListener('click', e => {
   if (userStatuses.length) openStatusViewer(userStatuses);
 });
 
-/* FITUR STATUS VIEWER (PROGRESS BAR & GROUPING) */
+/* FITUR STATUS VIEWER + LIKE + FIX BUG PAUSE */
 function openStatusViewer(statuses) {
   STATE.currentStatusGroup = statuses;
   STATE.currentStatusIndex = 0;
 
-  const wrap = document.createElement('div'); wrap.className = 'status-viewer'; wrap.id = 'status-viewer-overlay';
+  const wrap = document.createElement('div');
+  wrap.className = 'status-viewer';
+  wrap.id = 'status-viewer-overlay';
 
-  // Render progress bars
   const progressHTML = statuses.map((_, i) => `
     <div class="status-progress-segment">
       <div class="status-progress-fill" id="sp-fill-${i}"></div>
@@ -1152,14 +1170,16 @@ function openStatusViewer(statuses) {
     <div class="sv-header" id="sv-header"></div>
     <div class="sv-body" id="sv-body"></div>
     <div class="status-bottom-area" id="status-bottom-area"></div>
-    
-    <!-- Overlay Penonton (Gaya WhatsApp) -->
+
     <div class="viewers-overlay" id="viewers-overlay">
       <div class="viewers-sheet">
         <div class="viewers-header">
           <span id="viewers-title">Dilihat oleh</span>
           <button class="icon-btn" id="viewers-close" style="color:#fff">
-            <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            <svg class="svg-icon-outline" viewBox="0 0 24 24">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
           </button>
         </div>
         <div class="viewers-list" id="viewers-list"></div>
@@ -1173,31 +1193,20 @@ function openStatusViewer(statuses) {
 
   const loadStatus = (index) => {
     clearTimeout(STATE.statusTimer);
-    if (index >= STATE.currentStatusGroup.length) {
-      closeViewer();
-      return;
-    }
+    if (index >= STATE.currentStatusGroup.length) { closeViewer(); return; }
 
     const s = STATE.currentStatusGroup[index];
     const isMine = s.userId === STATE.uid;
 
-    // Reset and set progress bars
+    // Reset progress bar
     STATE.currentStatusGroup.forEach((_, i) => {
       const fill = document.getElementById(`sp-fill-${i}`);
       if (!fill) return;
-      if (i < index) {
-        fill.style.width = '100%';
-        fill.style.transition = 'none';
-      } else if (i === index) {
-        fill.style.width = '0%';
-        fill.style.transition = 'none';
-      } else {
-        fill.style.width = '0%';
-        fill.style.transition = 'none';
-      }
+      fill.style.transition = 'none';
+      fill.style.width = i < index ? '100%' : '0%';
     });
 
-    // Update header
+    // Header
     const header = document.getElementById('sv-header');
     header.innerHTML = `
       ${avatarHTML(s.userName, s.userPhoto, 'sm')}
@@ -1208,71 +1217,128 @@ function openStatusViewer(statuses) {
     header.querySelector('#sv-close').onclick = closeViewer;
     if (isMine) {
       header.querySelector('#sv-delete').onclick = async () => {
-        if(confirm('Hapus status ini?')){ await deleteDoc(doc(db,'status',s.id)); closeViewer(); }
+        if (confirm('Hapus status ini?')) { await deleteDoc(doc(db, 'status', s.id)); closeViewer(); }
       };
     }
 
-    // Update body (FULL SCREEN MEDIA ONLY)
+    // Body
     const body = document.getElementById('sv-body');
     let mediaHTML = `<div class="sv-text-content"><p>${esc(s.content)}</p></div>`;
-    if (s.type === 'image' && s.photoURL) {
-      mediaHTML = `<img src="${esc(s.photoURL)}">`;
-    } else if (s.type === 'video' && s.photoURL) {
-      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>`;
-    }
+    if (s.type === 'image' && s.photoURL) mediaHTML = `<img src="${esc(s.photoURL)}">`;
+    else if (s.type === 'video' && s.photoURL) mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>`;
     body.innerHTML = mediaHTML;
 
-    // Update Bottom Area (Buttons & Caption)
+    // Bottom action bar
     const bottomArea = document.getElementById('status-bottom-area');
     let actionHTML = '';
     if (isMine) {
-      actionHTML = `<div class="status-action-bar"><button class="btn-viewers" id="sv-viewers-btn">
-        <svg class="svg-icon" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-        ${(s.viewers||[]).length}
-      </button></div>`;
+      actionHTML = `<div class="status-action-bar">
+        <button class="btn-viewers" id="sv-viewers-btn">
+          <svg class="svg-icon" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          ${(s.viewers||[]).length}
+        </button>
+      </div>`;
     } else {
-      actionHTML = `<div class="status-action-bar"><button class="btn-reply" id="sv-reply-btn">Balas...</button></div>`;
+      // ❤️ TOMBOL LIKE di samping tombol balas
+      const isLiked = (s.likes || []).includes(STATE.uid);
+      actionHTML = `<div class="status-action-bar">
+        <button class="btn-reply" id="sv-reply-btn">Balas...</button>
+        <button class="status-like-btn ${isLiked ? 'liked' : ''}" id="sv-like-btn" title="Suka">
+          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+      </div>`;
     }
 
-    // Caption
     let captionHTML = '';
-    if (s.type !== 'text' && s.content) {
-      captionHTML = `<div class="status-caption">${esc(s.content)}</div>`;
-    }
-
+    if (s.type !== 'text' && s.content) captionHTML = `<div class="status-caption">${esc(s.content)}</div>`;
     bottomArea.innerHTML = actionHTML + captionHTML;
 
-    // Event Listeners for Buttons
     if (isMine) {
+      // 🔧 FIX: simpan posisi progress saat buka viewers, resume saat ditutup
       document.getElementById('sv-viewers-btn').onclick = async (e) => {
         e.stopPropagation();
-        
-        // Pause status progress while viewing
+
+        // Pause timer & video
         clearTimeout(STATE.statusTimer);
-        const video = document.getElementById('sv-video');
-        if (video) video.pause();
+        const pauseVideo = document.getElementById('sv-video');
+        if (pauseVideo) pauseVideo.pause();
+
+        // Bekukan fill di posisi visual saat ini
+        const curFill = document.getElementById(`sp-fill-${index}`);
+        if (curFill) {
+          const computed = getComputedStyle(curFill).width;
+          const parentW = curFill.parentElement.offsetWidth;
+          const pct = parentW > 0 ? (parseFloat(computed) / parentW) * 100 : 0;
+          curFill.style.transition = 'none';
+          curFill.style.width = pct + '%';
+          void curFill.offsetWidth;
+        }
 
         const viewersList = document.getElementById('viewers-list');
         const viewersTitle = document.getElementById('viewers-title');
         const overlay = document.getElementById('viewers-overlay');
 
-        viewersList.innerHTML = `<p style="padding: 20px; text-align: center; color: #aaa;">Memuat...</p>`;
+        viewersList.innerHTML = `<p style="padding:20px;text-align:center;color:#aaa;">Memuat...</p>`;
         overlay.classList.add('show');
-        overlay.onclick = (ev) => { if(ev.target === overlay) overlay.classList.remove('show'); };
-        document.getElementById('viewers-close').onclick = () => overlay.classList.remove('show');
 
-        if (!s.viewers || s.viewers.length === 0) {
+        // Fungsi resume saat overlay ditutup
+        const resumeProgress = () => {
+          const resumeVideo = document.getElementById('sv-video');
+          const curStatus = STATE.currentStatusGroup[index];
+          if (resumeVideo && curStatus && curStatus.type === 'video') {
+            resumeVideo.play().catch(() => {});
+          } else {
+            const f = document.getElementById(`sp-fill-${index}`);
+            if (f) {
+              const curPct = parseFloat(f.style.width) || 0;
+              const remaining = 4 * (100 - curPct) / 100;
+              f.style.transition = `width ${remaining}s linear`;
+              f.style.width = '100%';
+              clearTimeout(STATE.statusTimer);
+              STATE.statusTimer = setTimeout(() => nextStatus(), remaining * 1000);
+            }
+          }
+        };
+
+        const closeViewersOverlay = () => {
+          overlay.classList.remove('show');
+          resumeProgress(); // 🔧 lanjutkan progress
+        };
+
+        overlay.onclick = (ev) => { if (ev.target === overlay) closeViewersOverlay(); };
+        document.getElementById('viewers-close').onclick = closeViewersOverlay;
+
+        // Ambil data terbaru (likes & viewers bisa berubah)
+        let fresh = s;
+        try {
+          const freshSnap = await getDoc(doc(db, 'status', s.id));
+          if (freshSnap.exists()) fresh = freshSnap.data();
+        } catch (err) {}
+
+        const viewerUids = fresh.viewers || [];
+        const likeUids = fresh.likes || [];
+
+        if (viewerUids.length === 0) {
           viewersTitle.textContent = 'Dilihat oleh 0';
-          viewersList.innerHTML = `<p style="padding: 20px; text-align: center; color: #aaa;">Belum ada tayangan</p>`;
+          viewersList.innerHTML = `<p style="padding:20px;text-align:center;color:#aaa;">Belum ada tayangan</p>`;
           return;
         }
 
         const viewers = [];
-        for (const uid of s.viewers) {
-          const uSnap = await getDoc(doc(db, 'users', uid));
-          if (uSnap.exists()) viewers.push({ uid, ...uSnap.data() });
+        for (const uid of viewerUids) {
+          try {
+            const uSnap = await getDoc(doc(db, 'users', uid));
+            if (uSnap.exists()) viewers.push({ uid, ...uSnap.data() });
+          } catch (err) {}
         }
-        
+
+        // Urutkan: yang like di atas
+        viewers.sort((a, b) => {
+          const aL = likeUids.includes(a.uid) ? 1 : 0;
+          const bL = likeUids.includes(b.uid) ? 1 : 0;
+          return bL - aL;
+        });
+
         viewersTitle.textContent = `Dilihat oleh ${viewers.length}`;
         viewersList.innerHTML = viewers.map(v => `
           <div class="viewer-item" data-viewer-uid="${v.uid}">
@@ -1281,6 +1347,9 @@ function openStatusViewer(statuses) {
               <strong>${esc(v.displayName)}</strong>
               <span>@${esc(v.username)}</span>
             </div>
+            ${likeUids.includes(v.uid)
+              ? '<svg class="viewer-like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
+              : ''}
           </div>
         `).join('');
 
@@ -1293,22 +1362,38 @@ function openStatusViewer(statuses) {
         });
       };
     } else {
+      // Tombol Balas
       document.getElementById('sv-reply-btn').onclick = async (e) => {
         e.stopPropagation();
         closeViewer();
-        await startChatWith(s.userId, {
-          text: s.content || '📷 Media',
-          senderName: s.userName
-        });
+        await startChatWith(s.userId, { text: s.content || '📷 Media', senderName: s.userName });
+      };
+
+      // ❤️ LIKE: toggle like/unlike
+      document.getElementById('sv-like-btn').onclick = async (e) => {
+        e.stopPropagation();
+        const btn = e.currentTarget;
+        const isCurrentlyLiked = btn.classList.contains('liked');
+        try {
+          if (isCurrentlyLiked) {
+            await updateDoc(doc(db, 'status', s.id), { likes: arrayRemove(STATE.uid) });
+            btn.classList.remove('liked');
+            s.likes = (s.likes || []).filter(u => u !== STATE.uid);
+          } else {
+            await updateDoc(doc(db, 'status', s.id), { likes: arrayUnion(STATE.uid) });
+            btn.classList.add('liked');
+            s.likes = [...(s.likes || []), STATE.uid];
+          }
+        } catch (err) { toast('Gagal: ' + err.message); }
       };
     }
 
-    // Mark as viewed
+    // Tandai sudah dilihat
     if (!isMine && !(s.viewers || []).includes(STATE.uid)) {
-      updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) }).catch(()=>{});
+      updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) }).catch(() => {});
     }
 
-    // Start progress
+    // Mulai progress
     const fill = document.getElementById(`sp-fill-${index}`);
     const video = document.getElementById('sv-video');
 
@@ -1316,20 +1401,18 @@ function openStatusViewer(statuses) {
       video.onloadedmetadata = () => {
         fill.style.transition = 'none';
         fill.style.width = '0%';
-        void fill.offsetWidth; // force reflow
+        void fill.offsetWidth;
         video.play().catch(() => {});
         video.ontimeupdate = () => {
           if (!video.duration) return;
-          const pct = (video.currentTime / video.duration) * 100;
-          fill.style.width = pct + '%';
+          fill.style.width = (video.currentTime / video.duration) * 100 + '%';
         };
         video.onended = () => nextStatus();
       };
     } else {
-      // Text or Image: 4 seconds
       fill.style.transition = 'none';
       fill.style.width = '0%';
-      void fill.offsetWidth; // force reflow
+      void fill.offsetWidth;
       fill.style.transition = 'width 4s linear';
       fill.style.width = '100%';
       STATE.statusTimer = setTimeout(() => nextStatus(), 4000);
@@ -1337,33 +1420,26 @@ function openStatusViewer(statuses) {
   };
 
   const nextStatus = () => {
-    const video = document.getElementById('sv-video');
-    if (video) { video.pause(); video.ontimeupdate = null; video.onended = null; }
+    const v = document.getElementById('sv-video');
+    if (v) { v.pause(); v.ontimeupdate = null; v.onended = null; }
     STATE.currentStatusIndex++;
     loadStatus(STATE.currentStatusIndex);
   };
-
   const prevStatus = () => {
-    const video = document.getElementById('sv-video');
-    if (video) { video.pause(); video.ontimeupdate = null; video.onended = null; }
-    if (STATE.currentStatusIndex > 0) {
-      STATE.currentStatusIndex--;
-      loadStatus(STATE.currentStatusIndex);
-    } else {
-      loadStatus(0); // restart if at beginning
-    }
+    const v = document.getElementById('sv-video');
+    if (v) { v.pause(); v.ontimeupdate = null; v.onended = null; }
+    if (STATE.currentStatusIndex > 0) { STATE.currentStatusIndex--; loadStatus(STATE.currentStatusIndex); }
+    else loadStatus(0);
   };
-
   const closeViewer = () => {
     clearTimeout(STATE.statusTimer);
-    const video = document.getElementById('sv-video');
-    if (video) { video.pause(); video.ontimeupdate = null; video.onended = null; }
+    const v = document.getElementById('sv-video');
+    if (v) { v.pause(); v.ontimeupdate = null; v.onended = null; }
     wrap.remove();
   };
 
   document.getElementById('sp-prev').onclick = prevStatus;
   document.getElementById('sp-next').onclick = nextStatus;
-
   loadStatus(0);
 }
 
@@ -1382,7 +1458,7 @@ function openNewStatusModal() {
       fi.onchange = e => { 
         photoFile = e.target.files?.[0]; 
         if(photoFile){ 
-          if(photoFile.size > 52428800) { // 50MB limit
+          if(photoFile.size > 52428800) {
             toast('Ukuran maksimal 50MB'); 
             photoFile=null; 
           } else { 
@@ -1412,7 +1488,8 @@ function openNewStatusModal() {
         
         await addDoc(collection(db,'status'),{
           userId:STATE.uid, userName:STATE.me.displayName, userPhoto:STATE.me.photoURL||'',
-          type: type, content:text, photoURL:url, viewers:[],
+          type: type, content:text, photoURL:url,
+          viewers:[], likes:[],                    // ❤️ likes baru
           createdAt:serverTimestamp(), expiresAt:Timestamp.fromMillis(Date.now()+86400000)
         });
         
@@ -1489,11 +1566,10 @@ async function openChat(chatId, replyContext = null) {
 }
 
 function proceedOpenChat(chatId, chat, replyContext = null) {
-  // Logic: Buka chat dari hidden (jika dibuka via pencarian/kontak)
   if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chatId)) {
     STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chatId);
     updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(chatId) }).catch(()=>{});
-    renderChats(); // Render ulang agar muncul di halaman utama
+    renderChats();
   }
 
   STATE.currentChat = { id: chatId, ...chat }; 
@@ -1611,7 +1687,6 @@ function renderMessages() {
   const chat = STATE.currentChat; if (!chat) return;
   const box = $('#chat-body'); const msgs = chat.messages || [];
   
-  // Teks Enkripsi End-to-End
   const encryptionNotice = `<div class="encryption-notice"><svg class="svg-icon" viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;vertical-align:middle"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> Pesan anda sudah terenkripsi secara end-to-end. Siapa pun tidak dapat melihat pesan Anda bahkan ChatGo Tidak dapat melihat nya kecuali pesan yang anda kirim mengandung kekarasan atau pelecehan lalu mereka melaporkan nya jika anda korban, harap laporkan itu kepada kami</div>`;
 
   if (!msgs.length) { 
@@ -1635,7 +1710,6 @@ function renderMessages() {
 async function sendMessage(text, type = 'text', mediaUrl = null) {
   const chat = STATE.currentChat; if (!chat || (!text.trim() && !mediaUrl)) return;
   
-  // Validasi Batas Karakter
   if (text.length > 45536) {
     toast('Pesan terlalu panjang (maks 45.536 karakter)');
     return;
@@ -1646,11 +1720,10 @@ async function sendMessage(text, type = 'text', mediaUrl = null) {
     if (!isAdmin) { toast('Hanya Admin yang bisa chat di grup ini'); return; }
   }
 
-  // Logic: Jika mengirim pesan, hapus dari hiddenChats (jika ada)
   if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chat.id)) {
     STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chat.id);
     updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(chat.id) }).catch(()=>{});
-    renderChats(); // Render ulang agar muncul di halaman utama
+    renderChats();
   }
 
   const payload = {
@@ -1906,157 +1979,351 @@ $('#photo-input').addEventListener('change', async e => {
   try{ const url = await uploadToCloudinary(f); await updateDoc(doc(db,'users',STATE.uid),{photoURL:url}); STATE.me.photoURL=url; updateProfileUI(); toast('Berhasil'); }catch(err){toast(err.message);}
   e.target.value='';
 });
-$('#priv-who').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.whoCanMessage':e.target.value}));
 
-$('#btn-enable-notif').addEventListener('click', () => {
-  if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') { setupFCM(); toast('Notifikasi diaktifkan!'); }
-    else toast('Notifikasi ditolak');
-  });
-});
+/* ============ HANDLER YANG HILANG (direkonstruksi) ============ */
 
-$$('.nav-btn').forEach(b => b.addEventListener('click', () => {
-  $$('.nav-btn').forEach(x=>x.classList.toggle('active',x===b)); $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+b.dataset.tab)); $('#content').scrollTop=0;
-}));
+// Search input
+$('#search-input').addEventListener('input', () => renderChats());
 
-$$('.seg-btn').forEach(b => b.addEventListener('click', () => {
-  $$('.seg-btn').forEach(x=>x.classList.toggle('active',x===b)); $('#form-login').classList.toggle('hidden',b.dataset.auth!=='login'); $('#form-register').classList.toggle('hidden',b.dataset.auth!=='register');
-}));
-
-$('#form-login').addEventListener('submit', async e => { 
-  e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; 
-  try{
-    await loginUser($('#login-user').value,$('#login-pass').value);
-    const uname = $('#login-user').value.toLowerCase().trim();
-    const pass = $('#login-pass').value;
-    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    accounts = accounts.filter(a => a.username !== uname); 
-    accounts.push({ username: uname, password: pass, displayName: uname, photoURL: '' }); 
-    if (accounts.length > 2) accounts.shift(); 
-    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
-  }catch(err){toast('Gagal: '+err.message);} 
-  b.disabled=false; b.textContent='Masuk'; 
-});
-
-$('#form-register').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-register'); b.disabled=true; b.textContent='…'; try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Buat Akun'; });
-
+// FAB
 $('#fab').addEventListener('click', () => {
-  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list">
-    <button class="menu-item" id="mn-contact"><span class="ico">${SVG_CONTACT}</span>Kontak</button>
-    <button class="menu-item" id="mnc"><span class="ico"><svg class="svg-icon-outline" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg></span>Chat Baru</button>
-    <button class="menu-item" id="mng"><span class="ico">${SVG_GROUP}</span>Buat Grup</button>
-    <button class="menu-item" id="mns"><span class="ico">${SVG_GLOBE}</span>Buat Status</button>
-  </div>`, r=>{
-    r.querySelector('#mn-contact').onclick = () => { closeModal(); openContactsModal(); };
-    r.querySelector('#mnc').onclick = () => { closeModal(); openNewChatModal(); };
-    r.querySelector('#mng').onclick = () => { closeModal(); openNewGroupModal(); };
-    r.querySelector('#mns').onclick = () => { closeModal(); openNewStatusModal(); };
+  showModal(`
+    <div class="modal-header"><h3>Buat Baru</h3></div>
+    <div class="menu-list">
+      <button class="menu-item" id="fab-new-chat"><span class="ico">${SVG_CONTACT}</span>Chat Baru</button>
+      <button class="menu-item" id="fab-new-group"><span class="ico">${SVG_GROUP}</span>Grup Baru</button>
+    </div>
+  `, r => {
+    r.querySelector('#fab-new-chat').onclick = () => { closeModal(); openNewChatModal(); };
+    r.querySelector('#fab-new-group').onclick = () => { closeModal(); openNewGroupModal(); };
   });
 });
 
-function openContactsModal() {
-  // Tampilkan semua chat direct yang bukan pending (termasuk yang ada di hiddenChats)
-  const contacts = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0));
-  
-  let html = `<div class="modal-header"><h3>Kontak Saya</h3></div><div class="modal-body">`;
-  if (contacts.length === 0) {
-    html += `<p class="muted small center">Belum ada kontak. Mulai chat dengan orang lain terlebih dahulu.</p>`;
-  } else {
-    html += contacts.map(chat => {
-      const otherUid = chat.members.find(u => u !== STATE.uid);
-      const name = chat.memberNames?.[otherUid] || 'Pengguna';
-      const photo = chat.memberPhotos?.[otherUid];
-      const uname = chat.memberUsernames?.[otherUid] || '';
-      return `<div class="search-result" data-contact="${chat.id}">
-        ${avatarHTML(name, photo, 'sm')}
-        <div class="info"><strong>${esc(name)}</strong><span>@${esc(uname)}</span></div>
-        <button class="btn btn-soft sm" style="padding:6px 12px;font-size:12px">Chat</button>
-      </div>`;
-    }).join('');
+// Tab navigation
+$$('.nav-btn').forEach(btn => {
+  btn.onclick = () => {
+    $$('.nav-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    $$('.tab-panel').forEach(p => p.classList.remove('active'));
+    const target = $('#tab-' + btn.dataset.tab);
+    if (target) target.classList.add('active');
+    // FAB hanya tampil di tab chats
+    $('#fab').classList.toggle('hidden', btn.dataset.tab !== 'chats' || STATE.isSelectMode);
+  };
+});
+
+// Auth segmented
+$$('.seg-btn').forEach(btn => {
+  btn.onclick = () => {
+    $$('.seg-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const mode = btn.dataset.auth;
+    $('#form-login').classList.toggle('hidden', mode !== 'login');
+    $('#form-register').classList.toggle('hidden', mode !== 'register');
+  };
+});
+
+// Login form
+$('#form-login').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const u = $('#login-user').value.trim();
+  const p = $('#login-pass').value;
+  const btn = $('#btn-login');
+  btn.disabled = true; btn.textContent = 'Masuk…';
+  try {
+    await loginUser(u, p);
+    // Simpan kredensial untuk switch akun
+    const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+    const uname = u.toLowerCase();
+    const idx = accounts.findIndex(a => a.username === uname);
+    if (idx < 0) {
+      accounts.push({ username: uname, password: p, displayName: uname });
+    } else {
+      accounts[idx].password = p;
+    }
+    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts.slice(-2)));
+  } catch (err) {
+    toast('Gagal: ' + (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' ? 'Username/password salah' : err.message));
+  } finally {
+    btn.disabled = false; btn.textContent = 'Masuk';
   }
-  html += `</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`;
-  
-  showModal(html, r => {
-    r.querySelectorAll('[data-contact]').forEach(el => {
-      el.onclick = () => { closeModal(); openChat(el.dataset.contact); };
+});
+
+// Register form
+$('#form-register').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const name = $('#reg-name').value.trim();
+  const u = $('#reg-user').value.trim();
+  const p = $('#reg-pass').value;
+  const btn = $('#btn-register');
+  btn.disabled = true; btn.textContent = 'Mendaftar…';
+  try {
+    await registerUser(name, u, p);
+    const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+    const uname = u.toLowerCase();
+    if (!accounts.find(a => a.username === uname)) {
+      accounts.push({ username: uname, password: p, displayName: name });
+      localStorage.setItem('chatgo_accounts', JSON.stringify(accounts.slice(-2)));
+    }
+  } catch (err) {
+    toast('Gagal: ' + err.message);
+  } finally {
+    btn.disabled = false; btn.textContent = 'Buat Akun';
+  }
+});
+
+// Username availability check
+let regUserTimer;
+$('#reg-user').addEventListener('input', (e) => {
+  const v = e.target.value.toLowerCase().trim();
+  const hint = $('#reg-hint');
+  clearTimeout(regUserTimer);
+  if (!v) { hint.textContent = '3-20 karakter (huruf kecil, angka, _)'; hint.className = 'hint'; return; }
+  if (!/^[a-z0-9_]{3,20}$/.test(v)) { hint.textContent = 'Format tidak valid'; hint.className = 'hint err'; return; }
+  hint.textContent = 'Memeriksa…'; hint.className = 'hint';
+  regUserTimer = setTimeout(async () => {
+    try {
+      const snap = await getDoc(doc(db, 'usernames', v));
+      if (snap.exists()) { hint.textContent = 'Username sudah dipakai'; hint.className = 'hint err'; }
+      else { hint.textContent = '@' + v + ' tersedia'; hint.className = 'hint ok'; }
+    } catch { hint.textContent = '3-20 karakter (huruf kecil, angka, _)'; hint.className = 'hint'; }
+  }, 400);
+});
+
+// Privacy change
+$('#priv-who').addEventListener('change', async (e) => {
+  try {
+    await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.whoCanMessage': e.target.value });
+    STATE.me.privacy = { ...(STATE.me.privacy || {}), whoCanMessage: e.target.value };
+    toast('Privasi disimpan');
+  } catch (err) { toast('Gagal: ' + err.message); }
+});
+
+// Enable notif
+$('#btn-enable-notif').addEventListener('click', async () => {
+  await setupFCM();
+  if (Notification.permission === 'granted') toast('Notifikasi diaktifkan');
+  else if (Notification.permission === 'denied') toast('Notifikasi ditolak browser');
+  else toast('Izin notifikasi tidak diberikan');
+});
+
+// Blocked list
+$('#btn-blocked-list').addEventListener('click', async () => {
+  const blocked = STATE.me.blocked || [];
+  if (!blocked.length) {
+    showModal(`<div class="modal-header"><h3>Daftar Diblokir</h3></div><div class="modal-body"><p class="muted small center">Belum ada pengguna yang diblokir.</p></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`);
+    return;
+  }
+  const users = [];
+  for (const uid of blocked) {
+    try {
+      const s = await getDoc(doc(db, 'users', uid));
+      if (s.exists()) users.push({ uid, ...s.data() });
+    } catch {}
+  }
+  showModal(`<div class="modal-header"><h3>Daftar Diblokir (${users.length})</h3></div><div class="modal-body">${users.map(u => `<div class="search-result">${avatarHTML(u.displayName, u.photoURL, 'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div><button class="btn btn-soft sm" data-unblock="${u.uid}">Buka</button></div>`).join('')}</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r => {
+    r.querySelectorAll('[data-unblock]').forEach(b => b.onclick = async () => {
+      await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayRemove(b.dataset.unblock) });
+      STATE.me.blocked = (STATE.me.blocked || []).filter(u => u !== b.dataset.unblock);
+      const row = b.closest('.search-result'); if (row) row.remove();
+      toast('Dibuka');
     });
   });
+});
+
+// Mulai/ buka chat dengan user lain
+async function startChatWith(otherUid, replyContext = null) {
+  if (!otherUid || otherUid === STATE.uid) return;
+
+  // Cari chat langsung yang sudah ada
+  const existing = STATE.chats.find(c =>
+    c.type === 'direct' &&
+    (c.members || []).includes(otherUid) &&
+    (c.members || []).includes(STATE.uid)
+  );
+
+  if (existing) {
+    if (STATE.me.hiddenChats?.includes(existing.id)) {
+      updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(existing.id) }).catch(()=>{});
+      STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== existing.id);
+      renderChats();
+    }
+    proceedOpenChat(existing.id, existing, replyContext);
+    return;
+  }
+
+  // Buat chat baru
+  let userSnap;
+  try { userSnap = await getDoc(doc(db, 'users', otherUid)); }
+  catch { toast('Gagal memuat pengguna'); return; }
+  if (!userSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
+  const other = userSnap.data();
+
+  if ((other.blocked || []).includes(STATE.uid)) { toast('Tidak dapat mengirim pesan'); return; }
+  if (other.privacy?.whoCanMessage === 'nobody') { toast('Pengguna menutup permintaan pesan'); return; }
+
+  const pendingFor = other.privacy?.whoCanMessage === 'contacts' ? [otherUid] : [];
+
+  try {
+    const chatRef = await addDoc(collection(db, 'chats'), {
+      type: 'direct',
+      members: [STATE.uid, otherUid],
+      memberNames: { [STATE.uid]: STATE.me.displayName, [otherUid]: other.displayName },
+      memberPhotos: { [STATE.uid]: STATE.me.photoURL || '', [otherUid]: other.photoURL || '' },
+      memberUsernames: { [STATE.uid]: STATE.me.username, [otherUid]: other.username },
+      memberVerified: { [otherUid]: other.isVerified || false },
+      pendingFor: pendingFor,
+      lastMessage: null,
+      unread: {},
+      createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
+    });
+
+    await new Promise(r => setTimeout(r, 500));
+    const fresh = await getDoc(chatRef);
+    if (fresh.exists()) {
+      proceedOpenChat(chatRef.id, { id: chatRef.id, ...fresh.data() }, replyContext);
+    }
+  } catch (e) { toast('Gagal: ' + e.message); }
 }
 
+// Modal buat chat baru
 function openNewChatModal() {
-  showModal(`<div class="modal-header"><h3>Chat Baru</h3></div><div class="modal-body"><input id="sc-u" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari username…"><div id="sc-r" style="margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r=>{
-    const inp = r.querySelector('#sc-u'); const res = r.querySelector('#sc-r');
-    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
-      if(inp.value.length<2){res.innerHTML='';return;}
-      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(10)));
-      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(u.uid===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
-      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>startChatWith(el.dataset.uid);});
-    },300); });
+  showModal(`
+    <div class="modal-header"><h3>Chat Baru</h3></div>
+    <div class="modal-body">
+      <input type="text" id="nc-search" placeholder="Cari username…" class="input-wrap" style="padding:10px;width:100%">
+      <div id="nc-results" style="margin-top:10px"></div>
+    </div>
+    <div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>
+  `, root => {
+    const input = root.querySelector('#nc-search');
+    const res = root.querySelector('#nc-results');
+    let t;
+    input.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(async () => {
+        const q = input.value.toLowerCase().trim();
+        if (q.length < 2) { res.innerHTML = '<p class="muted small center" style="padding:10px">Ketik minimal 2 karakter</p>'; return; }
+        try {
+          const snap = await getDocs(query(
+            collection(db, 'users'),
+            where('username', '>=', q),
+            where('username', '<=', q + '\uf8ff'),
+            limit(10)
+          ));
+          res.innerHTML = snap.docs.filter(d => d.id !== STATE.uid).map(d => {
+            const u = d.data();
+            return `<div class="search-result" data-start-chat="${d.id}">${avatarHTML(u.displayName, u.photoURL, 'sm')}<div class="info"><strong>${esc(u.displayName)}${u.isVerified?BLUE_TICK_SVG:''}</strong><span>@${esc(u.username)}</span></div></div>`;
+          }).join('') || '<p class="muted small center" style="padding:10px">Tidak ditemukan</p>';
+          res.querySelectorAll('[data-start-chat]').forEach(el => {
+            el.onclick = () => { closeModal(); startChatWith(el.dataset.startChat); };
+          });
+        } catch(e) { res.innerHTML = '<p class="muted small center" style="padding:10px">Gagal mencari</p>'; }
+      }, 300);
+    });
+    input.focus();
   });
 }
 
-async function startChatWith(uid, replyContext = null) {
-  closeModal();
-  let chatId = null;
-  const s = await getDocs(query(collection(db,'chats'),where('members','array-contains',STATE.uid)));
-  for(const d of s.docs){
-    if(d.data().type==='direct' && (d.data().members||[]).includes(uid)){ chatId = d.id; break; }
-  }
-  
-  if (!chatId) {
-    const t = (await getDoc(doc(db,'users',uid))).data();
-    const docRef = await addDoc(collection(db,'chats'),{
-      type:'direct',members:[STATE.uid,uid],memberNames:{[STATE.uid]:STATE.me.displayName,[uid]:t.displayName},memberPhotos:{[STATE.uid]:STATE.me.photoURL||'',[uid]:t.photoURL||''},memberUsernames:{[STATE.uid]:STATE.me.username,[uid]:t.username},memberVerified:{[STATE.uid]:STATE.me.isVerified||false,[uid]:t.isVerified||false},pendingFor:t.privacy?.whoCanMessage==='contacts'?[uid]:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()
-    });
-    chatId = docRef.id;
-  }
-  
-  await openChat(chatId, replyContext);
-}
-
+// Modal buat grup baru
 function openNewGroupModal() {
-  showModal(`<div class="modal-header"><h3>Buat Grup</h3></div><div class="modal-body"><input id="g-n" class="input-wrap" style="padding:10px;width:100%;margin-bottom:10px" placeholder="Nama Grup"><input id="g-s" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari anggota…"><div id="g-r"></div><div id="g-sel" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="g-c">Buat</button></div>`, r=>{
-    const sel = new Map(); const inp = r.querySelector('#g-s'); const res = r.querySelector('#g-r');
-    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
-      if(inp.value.length<2){res.innerHTML='';return;}
-      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(5)));
-      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(d.id===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}" data-n="${esc(u.displayName)}" data-p="${esc(u.photoURL||'')}" data-un="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
-      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>{
-        sel.set(el.dataset.uid, {name:el.dataset.n, photo:el.dataset.p, uname:el.dataset.un});
-        const c = document.createElement('span'); c.className='alias-chip'; c.textContent=el.dataset.n+' ×'; c.onclick=()=>{sel.delete(el.dataset.uid);c.remove();}; r.querySelector('#g-sel').appendChild(c);
-        inp.value=''; res.innerHTML='';
-      }});
-    },300); });
-    r.querySelector('#g-c').onclick = async () => {
-      const name = r.querySelector('#g-n').value.trim(); if(!name||sel.size<1) return toast('Isi nama & anggota');
-      const members = [STATE.uid, ...sel.keys()];
-      const mn = {[STATE.uid]:STATE.me.displayName}; const mp = {[STATE.uid]:STATE.me.photoURL||''}; const mu = {[STATE.uid]:STATE.me.username};
-      sel.forEach((v,k)=>{mn[k]=v.name;mp[k]=v.photo;mu[k]=v.uname;});
-      const ref = await addDoc(collection(db,'chats'),{type:'group',name,members,memberNames:mn,memberPhotos:mp,memberUsernames:mu,createdBy:STATE.uid,admins:[],onlyAdminsCanChat:false,whoCanAddMembers:'everyone',pendingFor:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()});
-      toast('Grup dibuat'); closeModal(); openChat(ref.id);
+  showModal(`
+    <div class="modal-header"><h3>Grup Baru</h3></div>
+    <div class="modal-body">
+      <label class="field"><span>Nama Grup</span>
+        <input id="ng-name" class="input-wrap" style="padding:10px;width:100%" placeholder="Nama grup">
+      </label>
+      <label class="field"><span>Cari anggota</span>
+        <input id="ng-search" class="input-wrap" style="padding:10px;width:100%" placeholder="Username…">
+      </label>
+      <div id="ng-selected" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+      <div id="ng-results"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-soft" onclick="closeModal()">Batal</button>
+      <button class="btn btn-primary" id="ng-create">Buat Grup</button>
+    </div>
+  `, root => {
+    const selected = new Map();
+    const input = root.querySelector('#ng-search');
+    const res = root.querySelector('#ng-results');
+    const selBox = root.querySelector('#ng-selected');
+    let t;
+    
+    const renderSel = () => {
+      selBox.innerHTML = Array.from(selected.values()).map(u => 
+        `<span class="alias-chip">${esc(u.displayName)} <b style="cursor:pointer;color:var(--danger)" data-rm="${u.uid}">×</b></span>`
+      ).join('');
+      selBox.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { selected.delete(b.dataset.rm); renderSel(); });
+    };
+    
+    input.addEventListener('input', () => {
+      clearTimeout(t);
+      t = setTimeout(async () => {
+        const q = input.value.toLowerCase().trim();
+        if (q.length < 2) { res.innerHTML = ''; return; }
+        try {
+          const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(8)));
+          res.innerHTML = snap.docs.filter(d => d.id !== STATE.uid && !selected.has(d.id)).map(d => {
+            const u = d.data();
+            return `<div class="search-result" data-pick="${d.id}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`;
+          }).join('') || '<p class="muted small center" style="padding:10px">Tidak ditemukan</p>';
+          res.querySelectorAll('[data-pick]').forEach(el => {
+            el.onclick = () => {
+              const u = snap.docs.find(d => d.id === el.dataset.pick)?.data();
+              if (u) {
+                selected.set(el.dataset.pick, { uid: el.dataset.pick, ...u });
+                renderSel(); input.value = ''; res.innerHTML = '';
+              }
+            };
+          });
+        } catch(e) { res.innerHTML = ''; }
+      }, 300);
+    });
+    
+    root.querySelector('#ng-create').onclick = async () => {
+      const name = root.querySelector('#ng-name').value.trim();
+      if (!name) return toast('Nama grup wajib');
+      if (selected.size === 0) return toast('Pilih minimal 1 anggota');
+      
+      const members = [STATE.uid, ...Array.from(selected.keys())];
+      const memberNames = { [STATE.uid]: STATE.me.displayName };
+      const memberPhotos = { [STATE.uid]: STATE.me.photoURL || '' };
+      const memberUsernames = { [STATE.uid]: STATE.me.username };
+      selected.forEach(u => {
+        memberNames[u.uid] = u.displayName;
+        memberPhotos[u.uid] = u.photoURL || '';
+        memberUsernames[u.uid] = u.username;
+      });
+      
+      const btn = root.querySelector('#ng-create');
+      btn.disabled = true; btn.textContent = 'Membuat…';
+      
+      try {
+        const ref = await addDoc(collection(db, 'chats'), {
+          type: 'group', name, members,
+          memberNames, memberPhotos, memberUsernames,
+          createdBy: STATE.uid, admins: [],
+          onlyAdminsCanChat: false, whoCanAddMembers: 'everyone',
+          unread: {}, createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
+          lastMessage: { text: 'Grup dibuat', senderId: STATE.uid, senderName: STATE.me.displayName, createdAt: serverTimestamp() }
+        });
+        await addDoc(collection(db, 'chats', ref.id, 'messages'), {
+          type: 'system', text: `${STATE.me.displayName} membuat grup`, createdAt: serverTimestamp()
+        });
+        toast('Grup dibuat');
+        closeModal();
+        await new Promise(r => setTimeout(r, 500));
+        const fresh = await getDoc(ref);
+        if (fresh.exists()) proceedOpenChat(ref.id, { id: ref.id, ...fresh.data() });
+      } catch(e) {
+        toast('Gagal: ' + e.message);
+        btn.disabled = false; btn.textContent = 'Buat Grup';
+      }
     };
   });
 }
-
-const _oldUpdateUI = updateProfileUI;
-updateProfileUI = function() {
-  _oldUpdateUI();
-  if (STATE.me) {
-    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    let found = false;
-    accounts.forEach(a => {
-      if (a.username === STATE.me.username) { a.displayName = STATE.me.displayName; a.photoURL = STATE.me.photoURL; found = true; }
-    });
-    if (!found) {
-       accounts.push({ username: STATE.me.username, password: '', displayName: STATE.me.displayName, photoURL: STATE.me.photoURL });
-       if(accounts.length>2) accounts.shift();
-    }
-    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
-  }
-}
-
-showScreen('screen-auth');
 </script>
 </body>
 </html>
