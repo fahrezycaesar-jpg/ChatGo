@@ -252,14 +252,15 @@ img,video{display:block;max-width:100%;}
 .search-result .info strong{display:flex;align-items:center;gap:4px;font-size:14.5px;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
-/* STATUS VIEWER DENGAN SUPPORT VIDEO & PROGRESS BAR */
+/* STATUS VIEWER DENGAN SUPPORT VIDEO & PROGRESS BAR (FULL SCREEN) */
 .status-viewer{position:absolute;inset:0;background:#111;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
 .status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);z-index:10;}
 .status-viewer .sv-header .info{flex:1;}
 .status-viewer .sv-header strong{display:flex;align-items:center;gap:5px;font-size:14px;}
 .status-viewer .sv-header small{display:block;font-size:11px;opacity:.75;}
-.status-viewer .sv-body{flex:1;display:grid;place-items:center;padding:24px;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow-y:auto;position:relative;z-index:1;}
-.status-viewer .sv-body img, .status-viewer .sv-body video{max-height:100%;max-width:100%;border-radius:12px;object-fit:contain;}
+.status-viewer .sv-body{flex:1;display:flex;align-items:center;justify-content:center;padding:0;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow:hidden;position:relative;z-index:1;background:#000;}
+.status-viewer .sv-body img, .status-viewer .sv-body video{width:100%;height:100%;max-height:none;max-width:none;border-radius:0;object-fit:contain;}
+.status-viewer .sv-body > p { padding: 24px; margin: 0; width: 100%; }
 
 /* Progress Bar */
 .status-progress-container {
@@ -1006,13 +1007,13 @@ function openStatusViewer(statuses) {
       };
     }
 
-    // Update body
+    // Update body (FULL SCREEN MEDIA)
     const body = document.getElementById('sv-body');
     let mediaHTML = `<p>${esc(s.content)}</p>`;
     if (s.type === 'image' && s.photoURL) {
-      mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : '');
+      mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<p style="position:absolute; bottom:40px; left:20px; right:20px; text-shadow:0 2px 6px rgba(0,0,0,0.9); font-size:18px; margin:0; z-index:2; background:rgba(0,0,0,0.4); padding:10px; border-radius:10px;">${esc(s.content)}</p>` : '');
     } else if (s.type === 'video' && s.photoURL) {
-      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>` + (s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : '');
+      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>` + (s.content ? `<p style="position:absolute; bottom:40px; left:20px; right:20px; text-shadow:0 2px 6px rgba(0,0,0,0.9); font-size:18px; margin:0; z-index:2; background:rgba(0,0,0,0.4); padding:10px; border-radius:10px;">${esc(s.content)}</p>` : '');
     }
     body.innerHTML = mediaHTML;
 
