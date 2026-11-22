@@ -145,17 +145,6 @@ img{display:block;max-width:100%;}
 .status-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);}
 .status-badge{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:99px;background:var(--primary-soft);color:var(--primary-dark);flex-shrink:0;}
 
-.req-item{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow-sm);}
-.req-head{display:flex;align-items:center;gap:12px;}
-.req-head-info{flex:1;min-width:0;}
-.req-head-info strong{display:block;font-size:15px;font-weight:700;}
-.req-head-info span{display:block;margin-top:1px;font-size:12px;color:var(--primary-dark);font-weight:600;}
-.req-msg{margin:12px 0 14px;padding:11px 13px;background:#f4f8f7;border-radius:13px;font-size:13.5px;line-height:1.5;color:#3d4f4a;}
-.req-actions{display:flex;gap:10px;}
-.req-actions .btn{flex:1;padding:12px 10px;font-size:13.5px;border-radius:13px;}
-.btn-accept{background:linear-gradient(135deg,var(--primary-2),var(--primary-dark));color:#fff;box-shadow:0 8px 18px rgba(10,124,102,.24);}
-.btn-reject{background:#fdecec;color:var(--danger);}
-
 .profile-card{padding:22px 18px 20px;text-align:center;background:linear-gradient(180deg,#ffffff,#f8fdfb);}
 .profile-card h3{margin:14px 0 2px;font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:5px;}
 .profile-card .uname{margin:0;font-size:13px;color:var(--primary-dark);font-weight:700;}
@@ -172,17 +161,12 @@ img{display:block;max-width:100%;}
 .row .chev{color:#bccbc7;font-size:16px;font-weight:700;}
 .row.danger{color:var(--danger);}
 .row select{border:0;background:#f1f5f3;border-radius:10px;padding:9px 10px;font-size:12.5px;font-weight:700;color:#3d4f4a;max-width:160px;}
-.switch{-webkit-appearance:none;appearance:none;width:46px;height:27px;flex-shrink:0;border-radius:99px;background:#dbe5e1;position:relative;cursor:pointer;transition:background .2s;}
-.switch::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.22);transition:transform .2s;}
-.switch:checked{background:linear-gradient(135deg,var(--primary-2),var(--primary-dark));}
-.switch:checked::after{transform:translateX(19px);}
 
-.bottom-nav{position:relative;z-index:20;display:grid;grid-template-columns:repeat(4,1fr);gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -8px 22px rgba(16,64,54,.07);}
+.bottom-nav{position:relative;z-index:20;display:grid;grid-template-columns:repeat(3,1fr);gap:2px;padding:6px 6px calc(6px + env(safe-area-inset-bottom));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);box-shadow:0 -8px 22px rgba(16,64,54,.07);}
 .nav-btn{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:7px 2px;border-radius:13px;font-size:10.5px;font-weight:800;letter-spacing:.2px;color:#8b9a96;transition:color .18s,background .18s;}
 .nav-btn .ico{font-size:18px;line-height:1;filter:grayscale(1);opacity:.62;transition:.18s;}
 .nav-btn.active{color:var(--primary-dark);background:var(--primary-soft);}
 .nav-btn.active .ico{filter:none;opacity:1;transform:translateY(-1px);}
-.nav-btn .badge{position:absolute;top:3px;right:calc(50% - 22px);min-width:17px;height:17px;font-size:10px;padding:0 5px;}
 .fab{position:absolute;z-index:15;right:16px;bottom:calc(var(--nav-h) + 18px + env(safe-area-inset-bottom));width:56px;height:56px;display:grid;place-items:center;border-radius:50%;font-size:27px;font-weight:400;line-height:1;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:var(--shadow-lg);transition:transform .14s ease,box-shadow .18s;}
 .fab:active{transform:scale(.92);box-shadow:0 8px 18px rgba(10,124,102,.3);}
 
@@ -206,13 +190,26 @@ img{display:block;max-width:100%;}
 .msg.sys .bubble{background:rgba(255,255,255,.7);color:#555;font-size:12px;font-style:italic;text-align:center;border-radius:10px; box-shadow:none; padding:5px 12px; cursor:default;}
 .bubble .meta{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:3px;font-size:10px;opacity:.75;white-space:nowrap;}
 .msg.out .bubble .meta{color:rgba(255,255,255,.9);}
+/* FITUR 3: Centang Biru */
 .checks{font-size:11px;letter-spacing:-1px;color:rgba(255,255,255,.65);}
-.checks.read{color:#d8fff2;}
+.checks.read{color:#34B7F1;} /* Warna biru centang */
 .deleted{font-style:italic;opacity:.72;}
 .reply-preview{padding:6px 10px;margin-bottom:6px;border-left:3px solid rgba(255,255,255,.7);background:rgba(255,255,255,.15);border-radius:6px;font-size:12.5px;opacity:.9;}
 .msg.in .reply-preview{border-left-color:var(--primary);background:#f0f6f4;color:#3d4f4a;}
 .sender-name{font-size:11px;font-weight:800;opacity:.75;margin-bottom:2px;display:flex;align-items:center;gap:4px;}
 .chat-img{max-width:100%;border-radius:10px;margin-top:5px;}
+
+/* FITUR 1: Indikator Mengetik */
+.typing-indicator {
+  align-self: flex-start; padding: 8px 14px; background: #fff; border-radius: 18px;
+  border-top-left-radius: 4px; font-size: 12px; color: #7c8c88; font-style: italic;
+  box-shadow: 0 2px 5px rgba(0,0,0,.05); margin-bottom: 5px; display: flex; align-items: center; gap: 5px;
+}
+.typing-dots { display: flex; gap: 3px; }
+.typing-dots span { width: 4px; height: 4px; background: #7c8c88; border-radius: 50%; animation: bounce 1.4s infinite ease-in-out both; }
+.typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+@keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
 .chat-input-bar{position:relative;z-index:6;display:flex;align-items:center;gap:7px;padding:9px 10px calc(9px + env(safe-area-inset-bottom));background:#fff;border-top:1px solid var(--line);box-shadow:0 -6px 18px rgba(16,64,54,.06);}
 .chat-input-wrap{flex:1;min-width:0;background:#f1f5f3;border:1.5px solid transparent;border-radius:24px;padding:0 16px;transition:background .18s,border-color .18s;}
@@ -222,6 +219,12 @@ img{display:block;max-width:100%;}
 .soft-btn:active{transform:scale(.93);background:#e5ecea;}
 .send-btn{width:45px;height:45px;flex-shrink:0;display:grid;place-items:center;border-radius:50%;font-size:16px;color:#fff;background:linear-gradient(140deg,var(--primary-2),var(--primary-dark));box-shadow:0 8px 18px rgba(10,124,102,.32);transition:transform .12s;}
 .send-btn:active{transform:scale(.92);}
+
+/* FITUR 4: UI Orang Asing */
+.stranger-bar { padding: 15px; background: #fff; border-top: 1px solid var(--line); text-align: center; }
+.stranger-bar p { margin: 0 0 12px; font-size: 13px; color: var(--muted); font-weight: 600; }
+.stranger-actions { display: flex; gap: 10px; }
+.stranger-actions .btn { flex: 1; padding: 10px; font-size: 14px; }
 
 .reply-bar{display:flex;align-items:center;gap:10px;padding:8px 14px;background:#f4f8f7;border-top:1px solid var(--line);}
 .reply-bar .reply-content{flex:1;min-width:0;border-left:3px solid var(--primary);padding-left:10px;}
@@ -266,7 +269,7 @@ img{display:block;max-width:100%;}
 .settings-header { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); margin-bottom: 10px; }
 .settings-header .avatar { width: 70px; height: 70px; font-size: 24px; }
 .settings-group-title { font-size: 18px; font-weight: 800; margin: 0; text-align: center; }
-.member-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f1f6f4; }
+.member-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid #f1f6f4; cursor: pointer; }
 .member-item:last-child { border-bottom: none; }
 .member-info { flex: 1; min-width: 0; }
 .member-info strong { display: flex; align-items: center; gap: 4px; font-size: 14.5px; }
@@ -275,6 +278,9 @@ img{display:block;max-width:100%;}
 </style>
 </head>
 <body>
+
+<!-- SUARA PESAN (FITUR 2) -->
+<audio id="msg-sound" src="https://assets.mixkit.co/active_storage/sfx/2358/2358-preview.mp3" preload="auto"></audio>
 
 <div class="app-shell" id="app-shell">
 
@@ -327,8 +333,8 @@ img{display:block;max-width:100%;}
         </div>
         <div class="topbar-actions" id="topbar-actions">
           <button type="button" class="icon-btn ghost-light" id="btn-select-mode" title="Pilih Chat">☑️</button>
-          <button type="button" class="icon-btn ghost-light" id="btn-focus" title="Mode Fokus">🌙</button>
-          <button type="button" class="icon-btn ghost-light" id="btn-logout" title="Keluar">⏻</button>
+          <!-- FITUR 7: Ganti Logout jadi Ganti Akun -->
+          <button type="button" class="icon-btn ghost-light" id="btn-switch-account" title="Ganti Akun">👥</button>
         </div>
       </div>
       
@@ -367,11 +373,6 @@ img{display:block;max-width:100%;}
         <div id="list-status"></div>
       </div>
 
-      <div class="tab-panel" id="tab-requests">
-        <p class="section-title">Permintaan Pesan</p>
-        <div id="list-requests"></div>
-      </div>
-
       <div class="tab-panel" id="tab-profile">
         <div class="card profile-card">
           <div class="avatar lg" id="me-avatar" style="--a:#12b886;--b:#0a7c66">R</div>
@@ -385,7 +386,7 @@ img{display:block;max-width:100%;}
           </div>
         </div>
 
-        <p class="section-title">Privasi &amp; Fokus</p>
+        <p class="section-title">Privasi</p>
         <div class="card list-card">
           <label class="row">
             <span>Siapa yang bisa kirim pesan</span>
@@ -395,9 +396,6 @@ img{display:block;max-width:100%;}
               <option value="nobody">Tutup permintaan</option>
             </select>
           </label>
-          <label class="row"><span>Sembunyikan status online</span><input type="checkbox" class="switch" id="priv-online"></label>
-          <label class="row"><span>Sembunyikan centang biru</span><input type="checkbox" class="switch" id="priv-receipt"></label>
-          <label class="row"><span>Mode Fokus (DND)</span><input type="checkbox" class="switch" id="priv-focus"></label>
           <label class="row"><span>Notifikasi HP</span><button class="btn btn-soft sm" id="btn-enable-notif" style="padding:5px 10px;font-size:11px">Aktifkan</button></label>
         </div>
 
@@ -406,19 +404,17 @@ img{display:block;max-width:100%;}
           <button type="button" class="row" id="btn-blocked-list">
             <span><span class="row-ico">🚫</span>Daftar Diblokir</span><span class="chev">›</span>
           </button>
-          <button type="button" class="row danger" id="btn-logout-2">
-            <span><span class="row-ico">⏻</span>Keluar Akun</span><span class="chev">›</span>
-          </button>
+          <!-- Fitur Logout dihapus dari UI, diganti nanti -->
         </div>
       </div>
     </main>
 
     <button type="button" class="fab" id="fab" aria-label="Aksi baru">+</button>
 
+    <!-- FITUR 10: Permintaan dihapus -->
     <nav class="bottom-nav">
       <button type="button" class="nav-btn active" data-tab="chats"><span class="ico">💬</span><span>Chat</span></button>
       <button type="button" class="nav-btn" data-tab="status"><span class="ico">◍</span><span>Status</span></button>
-      <button type="button" class="nav-btn" data-tab="requests"><span class="ico">✉</span><span>Permintaan</span><em class="badge hidden" id="req-badge">0</em></button>
       <button type="button" class="nav-btn" data-tab="profile"><span class="ico">👤</span><span>Profil</span></button>
     </nav>
   </section>
@@ -434,6 +430,16 @@ img{display:block;max-width:100%;}
       <button type="button" class="icon-btn ghost-light" id="chat-menu">⋮</button>
     </header>
     <div class="chat-body" id="chat-body"></div>
+    
+    <!-- FITUR 4: Banner Orang Asing -->
+    <div id="stranger-bar" class="stranger-bar hidden">
+      <p>Anda belum pernah mengirim pesan kepada pengguna ini.</p>
+      <div class="stranger-actions">
+        <button class="btn btn-danger" id="btn-stranger-block">Blokir</button>
+        <button class="btn btn-primary" id="btn-stranger-accept">Terima Pesan</button>
+      </div>
+    </div>
+
     <div class="reply-bar hidden" id="reply-bar">
       <div class="reply-content">
         <strong id="reply-name">—</strong>
@@ -485,7 +491,7 @@ const db = initializeFirestore(app, {
   useFetchStreams: false
 });
 
-/* ===== CLOUDINARY ===== */
+/* CLOUDINARY */
 const CLOUDINARY_CLOUD_NAME = "dyytjk3ho";
 const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
@@ -501,38 +507,23 @@ async function uploadToCloudinary(file) {
   return data.secure_url;
 }
 
-/* ===== FCM SETUP ===== */
+/* FCM */
 const VAPID_KEY = "BFtpTtm7Kp50VoK7EnSl7Kf-ix9EZ5NFiaXDQWHaohOFFpdb4gBcbDwH4Dv-s88x96uedrM_9HH2Vmccy0Nx4cc";
 const messaging = getMessaging(app);
 
 async function setupFCM() {
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    console.warn('Push notifications tidak didukung browser ini.');
-    return;
-  }
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
   try {
-    // MEMANGGIL FILE sw.js SESUAI PERMINTAAN
     const registration = await navigator.serviceWorker.register('./sw.js'); 
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      const token = await getToken(messaging, { 
-        vapidKey: VAPID_KEY,
-        serviceWorkerRegistration: registration 
-      });
-      if (token) {
-        console.log('FCM Token didapat:', token);
-        if (STATE.uid) {
-          await updateDoc(doc(db, 'users', STATE.uid), { fcmToken: token });
-        }
-      }
+      const token = await getToken(messaging, { vapidKey: VAPID_KEY, serviceWorkerRegistration: registration });
+      if (token && STATE.uid) await updateDoc(doc(db, 'users', STATE.uid), { fcmToken: token });
     }
-  } catch (error) {
-    console.error('Gagal setup FCM:', error);
-  }
+  } catch (error) { console.error('Gagal setup FCM:', error); }
 }
 
 onMessage(messaging, (payload) => {
-  console.log('Pesan masuk saat web terbuka:', payload);
   const title = payload.notification?.title || "ChatGo";
   const body = payload.notification?.body || "Pesan baru";
   showNotif(title, body, payload.data?.chatId);
@@ -542,10 +533,11 @@ const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L
 
 const STATE = {
   uid: null, me: null,
-  chats: [], requests: [], statuses: [],
+  chats: [], statuses: [],
   currentChat: null, replyTo: null, timerSec: 0,
-  unsubChats: null, unsubMsgs: null, unsubRequests: null, unsubStatuses: null,
-  isSelectMode: false, selectedChats: new Set()
+  unsubChats: null, unsubMsgs: null, unsubStatuses: null, unsubTyping: null,
+  isSelectMode: false, selectedChats: new Set(),
+  typingTimeout: null, isTypingActive: false
 };
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -562,6 +554,9 @@ let toastTimer;
 function toast(msg) {
   const el = $('#toast'); el.textContent = msg; el.classList.add('show');
   clearTimeout(toastTimer); toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+}
+function playMsgSound() {
+  try { $('#msg-sound').currentTime = 0; $('#msg-sound').play(); } catch(e){}
 }
 
 function showScreen(id) {
@@ -603,22 +598,14 @@ function closeModal() { const root = $('#modal-root'); root.innerHTML = ''; root
 function showNotif(title, body, chatId) {
   if ('Notification' in window && Notification.permission === 'granted') {
     const notif = new Notification(title, {
-      body: body,
-      icon: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(title) + '&background=0fa585&color=fff',
-      tag: chatId,
-      renotify: true
+      body: body, icon: 'https://ui-avatars.com/api/?name=' + encodeURIComponent(title) + '&background=0fa585&color=fff',
+      tag: chatId, renotify: true
     });
-    notif.onclick = function() {
-      window.focus();
-      if (chatId) openChat(chatId);
-      this.close();
-    };
+    notif.onclick = function() { window.focus(); if (chatId) openChat(chatId); this.close(); };
   }
 }
 
-/* ============================================================
-   AUTH
-   ============================================================ */
+/* AUTH */
 async function registerUser(displayName, username, password) {
   const uname = username.toLowerCase().trim();
   if (!/^[a-z0-9_]{3,20}$/.test(uname)) throw new Error('Username harus 3-20 karakter');
@@ -631,7 +618,7 @@ async function registerUser(displayName, username, password) {
   await setDoc(doc(db, 'usernames', uname), { uid, createdAt: serverTimestamp() });
   await setDoc(doc(db, 'users', uid), {
     displayName: displayName.trim(), username: uname, bio: '', photoURL: '',
-    privacy: { whoCanMessage: 'everyone', hideOnline: false, hideReceipt: false, focus: false },
+    privacy: { whoCanMessage: 'everyone' },
     blocked: [], hiddenChats: [], isVerified: false, isBanned: false, createdAt: serverTimestamp()
   });
   await addDoc(collection(db, 'chats'), {
@@ -662,7 +649,7 @@ async function loadProfileAndShow(user) {
   updateProfileUI();
   showScreen('screen-home');
   attachListeners();
-  setupFCM(); // Panggil setup FCM setelah login berhasil
+  setupFCM();
 }
 
 onAuthStateChanged(auth, async user => {
@@ -682,19 +669,15 @@ function updateProfileUI() {
   if ($('#me-alias')) $('#me-alias').textContent = '@' + me.username;
   setAvatarEl($('#my-status-avatar'), me.displayName, me.photoURL);
   setAvatarEl($('#me-avatar'), me.displayName, me.photoURL, 'lg');
-  const p = me.privacy || {};
-  if($('#priv-who')) $('#priv-who').value = p.whoCanMessage || 'everyone';
-  if($('#priv-online')) $('#priv-online').checked = !!p.hideOnline;
-  if($('#priv-receipt')) $('#priv-receipt').checked = !!p.hideReceipt;
-  if($('#priv-focus')) $('#priv-focus').checked = !!p.focus;
+  if($('#priv-who')) $('#priv-who').value = me.privacy?.whoCanMessage || 'everyone';
 }
 
 function detachListeners() {
-  ['unsubChats','unsubRequests','unsubStatuses','unsubMsgs'].forEach(k => {
+  ['unsubChats','unsubStatuses','unsubMsgs','unsubTyping'].forEach(k => {
     if (STATE[k]) { try { STATE[k](); } catch(e){} STATE[k] = null; }
   });
 }
-function attachListeners() { detachListeners(); listenChats(); listenRequests(); listenStatuses(); }
+function attachListeners() { detachListeners(); listenChats(); listenStatuses(); }
 
 function listenChats() {
   const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
@@ -703,7 +686,8 @@ function listenChats() {
     const hidden = STATE.me.hiddenChats || [];
     snap.forEach(d => {
       const c = { id: d.id, ...d.data() };
-      if (!c.isBanned && !(c.pendingFor || []).includes(STATE.uid) && !hidden.includes(c.id)) {
+      // Tampilkan chat jika tidak di-hidden ATAU jika dia pending (butuh interaksi terima/blokir)
+      if (!c.isBanned && (!hidden.includes(c.id) || (c.pendingFor && c.pendingFor.includes(STATE.uid)))) {
         all.push(c);
       }
     });
@@ -729,18 +713,12 @@ $('#btn-select-mode').addEventListener('click', () => {
   $('#list-chats').classList.toggle('select-mode-active', STATE.isSelectMode);
   renderChats();
 });
-
 $('#btn-cancel-select').addEventListener('click', () => $('#btn-select-mode').click());
-
 $('#btn-select-all').addEventListener('click', () => {
-  if (STATE.selectedChats.size === STATE.chats.length) {
-    STATE.selectedChats.clear();
-  } else {
-    STATE.chats.forEach(c => STATE.selectedChats.add(c.id));
-  }
+  if (STATE.selectedChats.size === STATE.chats.length) STATE.selectedChats.clear();
+  else STATE.chats.forEach(c => STATE.selectedChats.add(c.id));
   renderChats();
 });
-
 $('#btn-hide-selected').addEventListener('click', async () => {
   if (STATE.selectedChats.size === 0) { toast('Pilih chat dulu'); return; }
   if (!confirm(`Sembunyikan ${STATE.selectedChats.size} chat?`)) return;
@@ -780,19 +758,22 @@ function renderChats() {
   const filter = ($('#search-input').value || '').toLowerCase().trim();
   const items = STATE.chats.filter(c => {
     if (!filter) return true;
-    return chatDisplayName(c).toLowerCase().includes(filter) || (c.name || '').toLowerCase().includes(filter);
+    return chatDisplayName(c).toLowerCase().includes(filter);
   });
 
-  if (!items.length) {
-    list.innerHTML = `<div class="empty">Belum ada chat.<br>Ketuk <b>+</b> untuk mulai chat baru.</div>`;
-    return;
-  }
+  if (!items.length) { list.innerHTML = `<div class="empty">Belum ada chat.</div>`; return; }
+  
   list.innerHTML = items.map(chat => {
     const name = chatDisplayName(chat);
     const photo = chatDisplayPhoto(chat);
     const tick = getChatTick(chat);
     const last = chat.lastMessage;
-    const preview = last ? (last.senderId === STATE.uid ? 'Kamu: ' : '') + (last.text || '📎 Media') : 'Belum ada pesan';
+    const isPending = chat.pendingFor && chat.pendingFor.includes(STATE.uid);
+    
+    // FITUR 4: Preview chat untuk orang asing
+    let preview = last ? (last.senderId === STATE.uid ? 'Kamu: ' : '') + (last.text || '📎 Media') : 'Belum ada pesan';
+    if (isPending) preview = '<span style="color:var(--danger);font-weight:bold;">Permintaan pesan masuk</span>';
+    
     const time = last?.createdAt ? fmtTime(last.createdAt) : (chat.updatedAt ? fmtTime(chat.updatedAt) : '');
     const unread = (chat.unread || {})[STATE.uid] || 0;
     const icons = [chat.type === 'self' ? '📝' : '', chat.type === 'group' ? '👥' : ''].filter(Boolean).map(i => `<span class="tag">${i}</span>`).join('');
@@ -807,8 +788,8 @@ function renderChats() {
           <span class="chat-time">${esc(time)}</span>
         </div>
         <div class="chat-preview">
-          <span class="truncate">${esc(preview)}</span>
-          ${(!STATE.isSelectMode && unread) ? `<em class="badge">${unread}</em>` : ''}
+          <span class="truncate">${preview}</span>
+          ${(!STATE.isSelectMode && unread && !isPending) ? `<em class="badge">${unread}</em>` : ''}
         </div>
       </div>
     </div>`;
@@ -816,8 +797,7 @@ function renderChats() {
 }
 
 $('#list-chats').addEventListener('click', e => {
-  const item = e.target.closest('[data-chat]');
-  if (!item) return;
+  const item = e.target.closest('[data-chat]'); if (!item) return;
   const chatId = item.dataset.chat;
   if (STATE.isSelectMode) {
     if (STATE.selectedChats.has(chatId)) STATE.selectedChats.delete(chatId);
@@ -828,67 +808,37 @@ $('#list-chats').addEventListener('click', e => {
   }
 });
 
-function listenRequests() {
-  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
-  STATE.unsubRequests = onSnapshot(q, snap => {
-    STATE.requests = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(c => !c.isBanned && (c.pendingFor || []).includes(STATE.uid));
-    renderRequests();
-  });
-}
-function renderRequests() {
-  const list = $('#list-requests'); const badge = $('#req-badge');
-  if (!STATE.requests.length) { list.innerHTML = `<div class="empty">Tidak ada permintaan pesan baru.</div>`; }
-  else {
-    list.innerHTML = STATE.requests.map(req => {
-      const initiator = (req.members || []).find(u => u !== STATE.uid);
-      const name = req.memberNames?.[initiator] || 'Pengguna';
-      const tick = (req.memberVerified && req.memberVerified[initiator]) ? BLUE_TICK_SVG : '';
-      return `<div class="req-item" data-req="${req.id}">
-        <div class="req-head">${avatarHTML(name, req.memberPhotos?.[initiator])}<div class="req-head-info"><strong class="truncate">${esc(name)} ${tick}</strong><span>@${esc(req.memberUsernames?.[initiator] || 'pengguna')}</span></div></div>
-        <p class="req-msg">${esc(req.lastMessage?.text || 'Halo, boleh kenalan?')}</p>
-        <div class="req-actions">
-          <button type="button" class="btn btn-reject" data-act="reject">Tolak &amp; Blokir</button>
-          <button type="button" class="btn btn-accept" data-act="accept">Terima</button>
-        </div>
-      </div>`;
-    }).join('');
-  }
-  badge.textContent = STATE.requests.length; badge.classList.toggle('hidden', STATE.requests.length === 0);
-}
-$('#list-requests').addEventListener('click', async e => {
-  const btn = e.target.closest('button[data-act]'); if (!btn) return;
-  const reqId = btn.closest('[data-req]').dataset.req;
-  if (btn.dataset.act === 'accept') { await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid) }); openChat(reqId); }
-  else {
-    await updateDoc(doc(db, 'chats', reqId), { pendingFor: arrayRemove(STATE.uid), rejected: arrayUnion(STATE.uid) });
-    const req = STATE.requests.find(r => r.id === reqId);
-    if (req) { const o = (req.members || []).find(u => u !== STATE.uid); if(o) await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(o) }); }
-    await deleteDoc(doc(db, 'chats', reqId)); toast('Permintaan ditolak');
-  }
-});
-
+/* FITUR 5 & 6: Status hanya dari kontak & kedaluwarsa */
 function listenStatuses() {
   const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
   STATE.unsubStatuses = onSnapshot(q, snap => {
     const now = Date.now();
-    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(s => !s.isBanned && s.expiresAt?.toMillis?.() > now);
+    // Dapatkan daftar UID teman chat (direct)
+    const contactUids = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0)).map(c => c.members.find(u => u !== STATE.uid));
+    
+    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() }))
+      .filter(s => s.expiresAt?.toMillis?.() > now)
+      .filter(s => s.userId === STATE.uid || contactUids.includes(s.userId)); // Hanya tampilkan status sendiri & kontak
     renderStatuses();
   });
 }
+
 function renderStatuses() {
   const list = $('#list-status');
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
   const otherStatuses = STATE.statuses.filter(s => s.userId !== STATE.uid);
   const myCard = $('#status-add');
   if (myStatuses.length > 0) {
-    myCard.innerHTML = `<div class="status-ring" style="padding:2px;background:linear-gradient(140deg,#13c08d,#0a7c66);border-radius:50%;box-shadow:none">${avatarHTML(myStatuses[0].userName, myStatuses[0].userPhoto, '', 'my-status-avatar')}</div><div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">${myStatuses.length} pembaruan · ketuk untuk kelola</p></div><span class="plus-dot">+</span>`;
+    myCard.innerHTML = `<div class="status-ring" style="padding:2px;background:linear-gradient(140deg,#13c08d,#0a7c66);border-radius:50%;box-shadow:none">${avatarHTML(myStatuses[0].userName, myStatuses[0].userPhoto, '', 'my-status-avatar')}</div><div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">${myStatuses.length} pembaruan</p></div><span class="plus-dot">+</span>`;
   } else {
     myCard.innerHTML = `${avatarHTML(STATE.me.displayName, STATE.me.photoURL, '', 'my-status-avatar')}<div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">Ketuk untuk menambah</p></div><span class="plus-dot">+</span>`;
   }
   myCard.onclick = openMyStatusesModal;
-  if (!otherStatuses.length) { list.innerHTML = `<div class="empty">Belum ada status lain.</div>`; return; }
+  if (!otherStatuses.length) { list.innerHTML = `<div class="empty">Belum ada status dari kontakmu.</div>`; return; }
   list.innerHTML = otherStatuses.map(s => `<div class="status-item" data-status="${s.id}"><div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong class="truncate">${esc(s.userName)}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><span class="status-badge">${s.type === 'image' ? '📷' : '📝'}</span></div>`).join('');
 }
+
+/* FUNGSI STATUS MODAL & VIEWER (SAMA SEPERTI SEBELUMNYA) */
 function openMyStatusesModal() {
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
   showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${esc(s.type === 'image' ? '📷 Foto' : '📝 Teks')}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">🗑</button></div>`).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
@@ -909,9 +859,8 @@ function openStatusViewer(s) {
   wrap.querySelector('#sv-close').onclick = async () => { if(!isMine){try{await updateDoc(doc(db,'status',s.id),{viewers:arrayUnion(STATE.uid)});}catch{}} wrap.remove(); };
   if(isMine) wrap.querySelector('#sv-delete').onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',s.id));wrap.remove();} };
 }
-
 function openNewStatusModal() {
-  showModal(`<div class="modal-header"><h3>Buat Status</h3></div><div class="modal-body"><label class="field"><span>Status teks</span><div class="input-wrap"><input id="status-text" type="text" maxlength="120" placeholder="Apa yang kamu pikirkan?"></div></label><p class="muted small">Atau unggah foto (opsional).</p><button type="button" class="btn btn-soft" id="status-photo-btn">📷 Pilih Foto</button></div><div class="modal-footer"><button class="btn btn-soft" id="status-cancel">Batal</button><button class="btn btn-primary" id="status-save">Bagikan</button></div>`, root => {
+  showModal(`<div class="modal-header"><h3>Buat Status</h3></div><div class="modal-body"><label class="field"><span>Status teks</span><div class="input-wrap"><input id="status-text" type="text" maxlength="120" placeholder="Apa yang kamu pikirkan?"></div></label><p class="muted small">Atau unggah foto.</p><button type="button" class="btn btn-soft" id="status-photo-btn">📷 Pilih Foto</button></div><div class="modal-footer"><button class="btn btn-soft" id="status-cancel">Batal</button><button class="btn btn-primary" id="status-save">Bagikan</button></div>`, root => {
     let photoFile = null;
     root.querySelector('#status-cancel').onclick = closeModal;
     root.querySelector('#status-photo-btn').onclick = () => {
@@ -932,8 +881,50 @@ function openNewStatusModal() {
   });
 }
 
-/* --- CHAT SCREEN --- */
-$('#chat-back').addEventListener('click', () => { if(STATE.unsubMsgs){STATE.unsubMsgs();STATE.unsubMsgs=null;} STATE.currentChat=null; showScreen('screen-home'); });
+/* FITUR 7: GANTI AKUN */
+$('#btn-switch-account').addEventListener('click', () => {
+  const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+  const cur = accounts.find(a => a.username === STATE.me.username);
+  
+  let html = `<div class="modal-header"><h3>Ganti Akun</h3></div><div class="modal-body"><p class="muted small">Maksimal 2 akun tersimpan.</p>`;
+  
+  html += accounts.map(acc => `
+    <div class="search-result" style="border-bottom:1px solid #eee;">
+      ${avatarHTML(acc.displayName, acc.photoURL, 'sm')}
+      <div class="info"><strong>${esc(acc.displayName)}</strong><span>@${esc(acc.username)} ${acc.username === STATE.me.username ? '(Aktif)' : ''}</span></div>
+      ${acc.username !== STATE.me.username ? `<button class="btn btn-soft sm" data-switch="${esc(acc.username)}" style="padding:6px 12px;font-size:12px">Masuk</button>` : ''}
+    </div>
+  `).join('');
+
+  if (accounts.length < 2) {
+    html += `<button class="btn btn-primary" id="btn-add-acc" style="margin-top:10px">+ Tambah Akun Lain</button>`;
+  }
+
+  html += `</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`;
+
+  showModal(html, root => {
+    if (root.querySelector('#btn-add-acc')) {
+      root.querySelector('#btn-add-acc').onclick = () => { closeModal(); signOut(auth); toast('Silakan login dengan akun kedua.'); };
+    }
+    root.querySelectorAll('[data-switch]').forEach(b => {
+      b.onclick = () => {
+        const target = accounts.find(a => a.username === b.dataset.switch);
+        if (!target) return;
+        closeModal();
+        signOut(auth).then(() => {
+          signInWithEmailAndPassword(auth, emailFor(target.username), target.password).catch(err => toast('Gagal masuk: ' + err.message));
+        });
+      };
+    });
+  });
+});
+
+/* CHAT SCREEN */
+$('#chat-back').addEventListener('click', () => { 
+  if(STATE.unsubMsgs){STATE.unsubMsgs();STATE.unsubMsgs=null;}
+  if(STATE.unsubTyping){STATE.unsubTyping();STATE.unsubTyping=null;}
+  STATE.currentChat=null; showScreen('screen-home'); 
+});
 $('#chat-header').addEventListener('click', (e) => {
   if (e.target.closest('#chat-back') || e.target.closest('#chat-menu')) return;
   if (STATE.currentChat && STATE.currentChat.type === 'group') openGroupSettings(STATE.currentChat.id);
@@ -959,17 +950,111 @@ function proceedOpenChat(chatId, chat) {
   $('#chat-name').innerHTML = esc(name) + tick;
   $('#chat-sub').textContent = chat.type === 'self' ? 'Catatan pribadi' : (chat.type === 'group' ? (chat.members?.length || 0) + ' anggota' : '@' + (chat.memberUsernames?.[chat.members.find(u => u !== STATE.uid)] || '—'));
   setAvatarEl($('#chat-avatar'), name, photo, 'sm');
-  if ((chat.unread || {})[STATE.uid]) updateDoc(doc(db, 'chats', chatId), { ['unread.'+STATE.uid]: 0 });
+  
+  // FITUR 4: Cek Stranger (pendingFor)
+  const isPending = chat.pendingFor && chat.pendingFor.includes(STATE.uid);
+  if (isPending) {
+    $('#stranger-bar').classList.remove('hidden');
+    $('#composer').classList.add('hidden');
+    if ((chat.unread || {})[STATE.uid]) updateDoc(doc(db, 'chats', chatId), { ['unread.'+STATE.uid]: 0 });
+  } else {
+    $('#stranger-bar').classList.add('hidden');
+    $('#composer').classList.remove('hidden');
+    if ((chat.unread || {})[STATE.uid]) updateDoc(doc(db, 'chats', chatId), { ['unread.'+STATE.uid]: 0 });
+  }
+
   showScreen('screen-chat');
   if (STATE.unsubMsgs) STATE.unsubMsgs();
+  if (STATE.unsubTyping) STATE.unsubTyping();
   listenMessages(chatId);
+  listenTyping(chatId);
 }
+
+/* FITUR 4: TERIMA / BLOKIR */
+$('#btn-stranger-accept').addEventListener('click', async () => {
+  if (!STATE.currentChat) return;
+  await updateDoc(doc(db, 'chats', STATE.currentChat.id), { pendingFor: arrayRemove(STATE.uid) });
+  STATE.currentChat.pendingFor = []; // update lokal
+  $('#stranger-bar').classList.add('hidden');
+  $('#composer').classList.remove('hidden');
+  toast('Pesan diterima');
+});
+$('#btn-stranger-block').addEventListener('click', async () => {
+  if (!STATE.currentChat) return;
+  const otherUid = (STATE.currentChat.members || []).find(u => u !== STATE.uid);
+  await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(otherUid) });
+  await deleteDoc(doc(db, 'chats', STATE.currentChat.id));
+  toast('Pesan diblokir'); $('#chat-back').click();
+});
+
+/* FITUR 1: TYPING INDICATOR */
+function listenTyping(chatId) {
+  const q = collection(db, 'chats', chatId, 'typing');
+  STATE.unsubTyping = onSnapshot(q, snap => {
+    const now = Date.now();
+    let isTyping = false; let typingName = '';
+    
+    snap.forEach(d => {
+      if (d.id !== STATE.uid) {
+        const data = d.data();
+        const time = data.timestamp ? (data.timestamp.toMillis ? data.timestamp.toMillis() : Date.now()) : Date.now();
+        if (now - time < 3000) { // Aktif jika < 3 detik
+          isTyping = true;
+          typingName = data.name;
+        }
+      }
+    });
+
+    const exist = $('#typing-ui');
+    if (isTyping) {
+      const text = STATE.currentChat.type === 'group' ? `${esc(typingName)} sedang mengetik...` : 'sedang mengetik...';
+      if (exist) {
+        exist.querySelector('span').textContent = text;
+      } else {
+        const div = document.createElement('div');
+        div.id = 'typing-ui';
+        div.className = 'typing-indicator';
+        div.innerHTML = `<span>${text}</span><div class="typing-dots"><span></span><span></span><span></span></div>`;
+        $('#chat-body').appendChild(div);
+        $('#chat-body').scrollTop = $('#chat-body').scrollHeight;
+      }
+    } else if (exist) {
+      exist.remove();
+    }
+  });
+}
+
+let typingTimer;
+$('#chat-input').addEventListener('input', () => {
+  if (!STATE.currentChat || STATE.currentChat.pendingFor?.includes(STATE.uid)) return;
+  
+  if (!STATE.isTypingActive) {
+    STATE.isTypingActive = true;
+    const typingRef = doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid);
+    setDoc(typingRef, { name: STATE.me.displayName, timestamp: serverTimestamp() });
+  }
+
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(async () => {
+    STATE.isTypingActive = false;
+    if (STATE.currentChat) {
+      try { await deleteDoc(doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid)); } catch(e){}
+    }
+  }, 2000);
+});
 
 function listenMessages(chatId) {
   const q = query(collection(db, 'chats', chatId, 'messages'), orderBy('createdAt', 'asc'), limit(300));
   STATE.unsubMsgs = onSnapshot(q, snap => {
     const now = Date.now();
-    STATE.currentChat.messages = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(m => !(m.deletedFor||[]).includes(STATE.uid) && (!m.expiresAt || m.expiresAt.toMillis() > now));
+    const newMsgs = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(m => !(m.deletedFor||[]).includes(STATE.uid) && (!m.expiresAt || m.expiresAt.toMillis() > now));
+    
+    // FITUR 2: Sound saat pesan masuk
+    if (STATE.currentChat.messages && newMsgs.length > STATE.currentChat.messages.length) {
+       const last = newMsgs[newMsgs.length - 1];
+       if (last.senderId !== STATE.uid && last.type !== 'system') playMsgSound();
+    }
+    STATE.currentChat.messages = newMsgs;
     renderMessages();
   });
 }
@@ -983,6 +1068,7 @@ function renderMessages() {
       return `<div class="msg sys"><div class="bubble">${esc(m.text)}</div></div>`;
     }
     const isOut = m.senderId === STATE.uid; const time = fmtTime(m.createdAt);
+    // FITUR 3: Centang Biru
     const check = isOut ? (m.status === 'read' ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
     const sender = (!isOut && chat.type === 'group') ? `<div class="sender-name">${esc(m.senderName || '')}</div>` : '';
     let body = m.isDeletedForEveryone ? '<span class="deleted">Dihapus</span>' : esc(m.text || '');
@@ -1007,6 +1093,10 @@ async function sendMessage(text, type = 'text', mediaUrl = null) {
   if (mediaUrl) payload.mediaUrl = mediaUrl;
   if (STATE.timerSec) payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
   await addDoc(collection(db, 'chats', chat.id, 'messages'), payload);
+  
+  // FITUR 2: Sound saat kirim
+  playMsgSound();
+
   const unread = {}; (chat.members || []).filter(u => u !== STATE.uid).forEach(u => unread['unread.'+u] = ((chat.unread||{})[u]||0)+1);
   await updateDoc(doc(db, 'chats', chat.id), { lastMessage: { text: type==='image'?'📷 Foto':payload.text, senderId: STATE.uid, senderName: STATE.me.displayName, createdAt: serverTimestamp() }, updatedAt: serverTimestamp(), ...unread });
   STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
@@ -1018,7 +1108,7 @@ $('#chat-media-input').addEventListener('change', async e => {
   const file = e.target.files?.[0]; if (!file) return;
   if (file.size > 10485760) { toast('Maks 10MB'); e.target.value=''; return; }
   toast('Mengunggah…');
-  try { const url = await uploadToCloudinary(file); await sendMessage('', 'image', url); toast('Terkirim'); } catch(err){ toast('Gagal: '+err.message); }
+  try { const url = await uploadToCloudinary(file); await sendMessage('', 'image', url); } catch(err){ toast('Gagal: '+err.message); }
   e.target.value='';
 });
 
@@ -1036,7 +1126,7 @@ $('#chat-body').addEventListener('click', async e => {
 $('#reply-cancel').addEventListener('click', () => { STATE.replyTo = null; hideReplyBar(); });
 function hideReplyBar() { $('#reply-bar').classList.add('hidden'); }
 
-/* --- GROUP SETTINGS & MANAGEMENT --- */
+/* GROUP SETTINGS & MANAGEMENT */
 async function openGroupSettings(chatId) {
   const snap = await getDoc(doc(db, 'chats', chatId));
   const c = snap.data();
@@ -1056,7 +1146,8 @@ async function openGroupSettings(chatId) {
         actions = `<button class="btn btn-soft sm" data-toggle-admin="${uid}" data-is-admin="${isUserAdmin}" style="padding:6px 10px;font-size:11px;margin-right:5px">${isUserAdmin?'Cabut Admin':'Jadikan Admin'}</button>` + actions;
       }
     }
-    return `<div class="member-item">${avatarHTML(name, c.memberPhotos?.[uid], 'sm')}<div class="member-info"><strong>${esc(name)} ${uid===STATE.uid?'(Kamu)':''} ${badge}</strong></div>${actions}</div>`;
+    // FITUR 11: Klik anggota untuk ke chat pribadi
+    return `<div class="member-item" data-uid="${uid}">${avatarHTML(name, c.memberPhotos?.[uid], 'sm')}<div class="member-info"><strong>${esc(name)} ${uid===STATE.uid?'(Kamu)':''} ${badge}</strong></div>${actions}</div>`;
   }).join('');
 
   showModal(`
@@ -1122,8 +1213,10 @@ async function openGroupSettings(chatId) {
     if(toggleAdminChat) toggleAdminChat.onchange = async (e) => { await updateDoc(doc(db, 'chats', chatId), { onlyAdminsCanChat: e.target.checked }); toast('Pengaturan diperbarui'); };
     const selAdd = root.querySelector('#gs-who-can-add');
     if(selAdd) selAdd.onchange = async (e) => { await updateDoc(doc(db, 'chats', chatId), { whoCanAddMembers: e.target.value }); toast('Pengaturan diperbarui'); };
+    
     root.querySelectorAll('[data-kick]').forEach(btn => {
-      btn.onclick = async () => {
+      btn.onclick = async (e) => {
+        e.stopPropagation(); // Cegah trigger klik member-item
         const uid = btn.dataset.kick; if (!confirm('Keluarkan?')) return;
         const mn = { ...c.memberNames }; delete mn[uid]; const mp = { ...c.memberPhotos }; delete mp[uid]; const mu = { ...c.memberUsernames }; delete mu[uid]; const un = { ...c.unread }; delete un[uid];
         await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(uid), admins: arrayRemove(uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
@@ -1131,14 +1224,28 @@ async function openGroupSettings(chatId) {
         toast('Dikeluarkan'); closeModal();
       };
     });
+    
     root.querySelectorAll('[data-toggle-admin]').forEach(btn => {
-      btn.onclick = async () => {
+      btn.onclick = async (e) => {
+        e.stopPropagation(); // Cegah trigger klik member-item
         const uid = btn.dataset.toggleAdmin; const isAdm = btn.dataset.isAdmin === 'true';
         if (isAdm) { await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) }); toast('Admin dicabut'); }
         else { await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) }); toast('Jadi Admin'); await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} Admin`, createdAt: serverTimestamp() }); }
         closeModal();
       };
     });
+
+    // FITUR 11: Klik member untuk chat
+    root.querySelectorAll('.member-item').forEach(item => {
+      item.onclick = (e) => {
+        if (e.target.closest('button')) return; // Abaikan jika klik tombol aksi
+        const targetUid = item.dataset.uid;
+        if (targetUid === STATE.uid) { toast('Ini akun kamu'); return; }
+        closeModal();
+        startChatWith(targetUid);
+      };
+    });
+
     root.querySelector('#gs-leave').onclick = async () => {
       if (!confirm('Keluar?')) return;
       const mn = { ...c.memberNames }; delete mn[STATE.uid]; const mp = { ...c.memberPhotos }; delete mp[STATE.uid]; const mu = { ...c.memberUsernames }; delete mu[STATE.uid]; const un = { ...c.unread }; delete un[STATE.uid];
@@ -1226,6 +1333,7 @@ function openAddMemberModal() {
   });
 }
 
+/* PROFILE & PRIVACY (DND, Online, Receipt removed) */
 $('#btn-edit-profile').addEventListener('click', () => {
   showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
     r.querySelector('#es').onclick = async () => { await updateDoc(doc(db,'users',STATE.uid),{displayName:r.querySelector('#en').value.trim(),bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=r.querySelector('#en').value; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); closeModal(); };
@@ -1238,12 +1346,6 @@ $('#photo-input').addEventListener('change', async e => {
   e.target.value='';
 });
 $('#priv-who').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.whoCanMessage':e.target.value}));
-$('#priv-online').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.hideOnline':e.target.checked}));
-$('#priv-receipt').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.hideReceipt':e.target.checked}));
-$('#priv-focus').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.focus':e.target.checked}));
-$('#btn-focus').addEventListener('click', () => { const v = !STATE.me.privacy?.focus; updateDoc(doc(db,'users',STATE.uid),{'privacy.focus':v}); STATE.me.privacy.focus=v; $('#priv-focus').checked=v; toast(v?'Fokus Aktif':'Nonaktif'); });
-async function doLogout() { detachListeners(); await signOut(auth); }
-$('#btn-logout').onclick = doLogout; $('#btn-logout-2').onclick = doLogout;
 
 $('#btn-enable-notif').addEventListener('click', () => {
   if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
@@ -1261,16 +1363,63 @@ $$('.seg-btn').forEach(b => b.addEventListener('click', () => {
   $$('.seg-btn').forEach(x=>x.classList.toggle('active',x===b)); $('#form-login').classList.toggle('hidden',b.dataset.auth!=='login'); $('#form-register').classList.toggle('hidden',b.dataset.auth!=='register');
 }));
 
-$('#form-login').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; try{await loginUser($('#login-user').value,$('#login-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Masuk'; });
+$('#form-login').addEventListener('submit', async e => { 
+  e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; 
+  try{
+    await loginUser($('#login-user').value,$('#login-pass').value);
+    // Simpan ke localstorage untuk multi-akun
+    const uname = $('#login-user').value.toLowerCase().trim();
+    const pass = $('#login-pass').value;
+    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+    accounts = accounts.filter(a => a.username !== uname); // hapus duplikat
+    accounts.push({ username: uname, password: pass, displayName: uname, photoURL: '' }); // data basic
+    if (accounts.length > 2) accounts.shift(); // maksimal 2
+    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
+  }catch(err){toast('Gagal: '+err.message);} 
+  b.disabled=false; b.textContent='Masuk'; 
+});
+
 $('#form-register').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-register'); b.disabled=true; b.textContent='…'; try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Buat Akun'; });
 
+/* FAB MENU (Tambah Kontak) */
 $('#fab').addEventListener('click', () => {
-  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list"><button class="menu-item" id="mnc">💬 Chat Baru</button><button class="menu-item" id="mng">👥 Buat Grup</button><button class="menu-item" id="mns">◍ Buat Status</button></div>`, r=>{
+  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list"><button class="menu-item" id="mn-contact">📖 Kontak</button><button class="menu-item" id="mnc">💬 Chat Baru</button><button class="menu-item" id="mng">👥 Buat Grup</button><button class="menu-item" id="mns">◍ Buat Status</button></div>`, r=>{
+    r.querySelector('#mn-contact').onclick = () => { closeModal(); openContactsModal(); };
     r.querySelector('#mnc').onclick = () => { closeModal(); openNewChatModal(); };
     r.querySelector('#mng').onclick = () => { closeModal(); openNewGroupModal(); };
     r.querySelector('#mns').onclick = () => { closeModal(); openNewStatusModal(); };
   });
 });
+
+/* FITUR 8: MENU KONTAK */
+function openContactsModal() {
+  // Filter hanya chat direct yang sudah diterima (tidak pending)
+  const contacts = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0));
+  
+  let html = `<div class="modal-header"><h3>Kontak Saya</h3></div><div class="modal-body">`;
+  if (contacts.length === 0) {
+    html += `<p class="muted small center">Belum ada kontak. Mulai chat dengan orang lain terlebih dahulu.</p>`;
+  } else {
+    html += contacts.map(chat => {
+      const otherUid = chat.members.find(u => u !== STATE.uid);
+      const name = chat.memberNames?.[otherUid] || 'Pengguna';
+      const photo = chat.memberPhotos?.[otherUid];
+      const uname = chat.memberUsernames?.[otherUid] || '';
+      return `<div class="search-result" data-contact="${chat.id}">
+        ${avatarHTML(name, photo, 'sm')}
+        <div class="info"><strong>${esc(name)}</strong><span>@${esc(uname)}</span></div>
+        <button class="btn btn-soft sm" style="padding:6px 12px;font-size:12px">Chat</button>
+      </div>`;
+    }).join('');
+  }
+  html += `</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`;
+  
+  showModal(html, r => {
+    r.querySelectorAll('[data-contact]').forEach(el => {
+      el.onclick = () => { closeModal(); openChat(el.dataset.contact); };
+    });
+  });
+}
 
 function openNewChatModal() {
   showModal(`<div class="modal-header"><h3>Chat Baru</h3></div><div class="modal-body"><input id="sc-u" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari username…"><div id="sc-r" style="margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r=>{
@@ -1317,6 +1466,25 @@ function openNewGroupModal() {
       toast('Grup dibuat'); closeModal(); openChat(ref.id);
     };
   });
+}
+
+// Tambahkan update status akun lokal agar nama di menu ganti akun terupdate
+const _oldUpdateUI = updateProfileUI;
+updateProfileUI = function() {
+  _oldUpdateUI();
+  if (STATE.me) {
+    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
+    let found = false;
+    accounts.forEach(a => {
+      if (a.username === STATE.me.username) { a.displayName = STATE.me.displayName; a.photoURL = STATE.me.photoURL; found = true; }
+    });
+    if (!found) {
+       // Jika login tidak lewat form (misal auto login), tambahkan
+       accounts.push({ username: STATE.me.username, password: '', displayName: STATE.me.displayName, photoURL: STATE.me.photoURL });
+       if(accounts.length>2) accounts.shift();
+    }
+    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
+  }
 }
 
 showScreen('screen-auth');
