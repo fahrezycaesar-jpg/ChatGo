@@ -255,7 +255,7 @@ img,video{display:block;max-width:100%;}
 
 /* STATUS VIEWER DENGAN SUPPORT VIDEO & PROGRESS BAR (FULL SCREEN) */
 .status-viewer{position:absolute;inset:0;background:#000;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
-.status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);z-index:10;position:absolute;top:0;left:0;right:0;}
+.status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);z-index:100;position:absolute;top:0;left:0;right:0;}
 .status-viewer .sv-header .info{flex:1;}
 .status-viewer .sv-header strong{display:flex;align-items:center;gap:5px;font-size:14px;}
 .status-viewer .sv-header small{display:block;font-size:11px;opacity:.75;}
@@ -287,6 +287,7 @@ img,video{display:block;max-width:100%;}
 .status-viewer .sv-text-content {
   padding: 24px;
   width: 100%;
+  height: 100%;
   text-align: center;
   font-size: 24px;
   font-weight: 700;
@@ -294,17 +295,18 @@ img,video{display:block;max-width:100%;}
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: auto;
 }
 
-/* Area Bawah Status (Tombol & Caption) */
+/* Area Bawah Status (Tombol & Caption) - Z-INDEX TINGGI AGAR BISA DIKLIK */
 .status-bottom-area {
   position: absolute;
   bottom: 0; left: 0; right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  z-index: 10;
-  pointer-events: none; /* Biarkan klik tembus ke area navigasi */
+  z-index: 60; /* LEBIH TINGGI DARI NAV ZONE (50) */
+  pointer-events: none; /* Biarkan area kosong tembus klik */
 }
 
 .status-action-bar {
@@ -331,8 +333,8 @@ img,video{display:block;max-width:100%;}
 .btn-reply {
   width: 100%;
   max-width: 300px;
-  background: rgba(255, 255, 255, 0.15);
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  background: rgba(40, 40, 40, 0.85); /* Warna gelap transparan mirip gambar referensi */
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 24px;
   padding: 12px 20px;
   color: #fff;
@@ -345,10 +347,10 @@ img,video{display:block;max-width:100%;}
 .status-caption {
   position: relative;
   width: 100%;
-  background: rgba(0, 0, 0, 0.65); /* Hitam transparan */
+  background: rgba(0, 0, 0, 0.65);
   backdrop-filter: blur(5px);
   padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
-  border-radius: 20px 20px 0 0; /* Sisi atas berujung/lengkung */
+  border-radius: 20px 20px 0 0;
   color: #fff;
   font-size: 15px;
   text-align: center;
@@ -379,12 +381,12 @@ img,video{display:block;max-width:100%;}
   width: 0%;
 }
 
-/* Navigation Areas */
+/* Navigation Areas (Z-INDEX DI BAWAH TOMBOL) */
 .status-nav-zone {
   position: absolute;
   top: calc(env(safe-area-inset-top) + 60px);
   bottom: 0;
-  z-index: 50;
+  z-index: 50; 
   cursor: pointer;
 }
 .status-nav-zone.left { left: 0; width: 30%; }
@@ -1083,6 +1085,7 @@ function openStatusViewer(statuses) {
     <div class="status-progress-container" id="sp-container">${progressHTML}</div>
     <div class="sv-header" id="sv-header"></div>
     <div class="sv-body" id="sv-body"></div>
+    <div class="status-bottom-area" id="status-bottom-area"></div> <!-- Area Tombol Dipindah ke Luar sv-body -->
     <div class="status-nav-zone left" id="sp-prev"></div>
     <div class="status-nav-zone right" id="sp-next"></div>
   `;
@@ -1129,7 +1132,7 @@ function openStatusViewer(statuses) {
       };
     }
 
-    // Update body (FULL SCREEN MEDIA)
+    // Update body (FULL SCREEN MEDIA ONLY)
     const body = document.getElementById('sv-body');
     let mediaHTML = `<div class="sv-text-content"><p>${esc(s.content)}</p></div>`;
     if (s.type === 'image' && s.photoURL) {
@@ -1137,8 +1140,10 @@ function openStatusViewer(statuses) {
     } else if (s.type === 'video' && s.photoURL) {
       mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>`;
     }
+    body.innerHTML = mediaHTML;
 
-    // Action Bar (Viewers / Reply)
+    // Update Bottom Area (Buttons & Caption)
+    const bottomArea = document.getElementById('status-bottom-area');
     let actionHTML = '';
     if (isMine) {
       actionHTML = `<div class="status-action-bar"><button class="btn-viewers" id="sv-viewers-btn">
@@ -1155,7 +1160,7 @@ function openStatusViewer(statuses) {
       captionHTML = `<div class="status-caption">${esc(s.content)}</div>`;
     }
 
-    body.innerHTML = mediaHTML + `<div class="status-bottom-area">${actionHTML}${captionHTML}</div>`;
+    bottomArea.innerHTML = actionHTML + captionHTML;
 
     // Event Listeners for Buttons
     if (isMine) {
@@ -1369,7 +1374,7 @@ $('#chat-header').addEventListener('click', (e) => {
   if (STATE.currentChat && STATE.currentChat.type === 'group') openGroupSettings(STATE.currentChat.id);
 });
 
-async function openChat(chatId) {
+async function openChat(chatId, replyContext = null) {
   const snap = await getDoc(doc(db, 'chats', chatId));
   if (!snap.exists()) return;
   const data = snap.data();
@@ -1377,13 +1382,13 @@ async function openChat(chatId) {
   if (data.pins && data.pins[STATE.uid]) {
     showModal(`<div class="modal-header"><h3>Chat Terkunci ${SVG_LOCK}</h3></div><div class="modal-body"><label class="field"><span>PIN</span><div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6"></div></label></div><div class="modal-footer"><button class="btn btn-soft" id="unlock-cancel">Batal</button><button class="btn btn-primary" id="unlock-btn">Buka</button></div>`, r => {
       r.querySelector('#unlock-cancel').onclick = closeModal;
-      r.querySelector('#unlock-btn').onclick = () => { if(r.querySelector('#unlock-pin').value === data.pins[STATE.uid]) { closeModal(); proceedOpenChat(chatId, data); } else toast('PIN salah'); };
+      r.querySelector('#unlock-btn').onclick = () => { if(r.querySelector('#unlock-pin').value === data.pins[STATE.uid]) { closeModal(); proceedOpenChat(chatId, data, replyContext); } else toast('PIN salah'); };
     }); return;
   }
-  proceedOpenChat(chatId, data);
+  proceedOpenChat(chatId, data, replyContext);
 }
 
-function proceedOpenChat(chatId, chat) {
+function proceedOpenChat(chatId, chat, replyContext = null) {
   // Logic: Buka chat dari hidden (jika dibuka via pencarian/kontak)
   if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chatId)) {
     STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chatId);
@@ -1391,7 +1396,18 @@ function proceedOpenChat(chatId, chat) {
     renderChats(); // Render ulang agar muncul di halaman utama
   }
 
-  STATE.currentChat = { id: chatId, ...chat }; STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar();
+  STATE.currentChat = { id: chatId, ...chat }; 
+  STATE.replyTo = replyContext; 
+  STATE.timerSec = 0; 
+  
+  if (replyContext) {
+    $('#reply-name').textContent = replyContext.senderName;
+    $('#reply-text').textContent = replyContext.text;
+    $('#reply-bar').classList.remove('hidden');
+  } else {
+    hideReplyBar();
+  }
+
   const name = chatDisplayName(chat); const photo = chatDisplayPhoto(chat); const tick = getChatTick(chat);
   $('#chat-name').innerHTML = esc(name) + tick;
   $('#chat-sub').textContent = chat.type === 'self' ? 'Catatan pribadi' : (chat.type === 'group' ? (chat.members?.length || 0) + ' anggota' : '@' + (chat.memberUsernames?.[chat.members.find(u => u !== STATE.uid)] || '—'));
@@ -1413,6 +1429,8 @@ function proceedOpenChat(chatId, chat) {
   if (STATE.unsubTyping) STATE.unsubTyping();
   listenMessages(chatId);
   listenTyping(chatId);
+  
+  if (replyContext) setTimeout(() => $('#chat-input').focus(), 300);
 }
 
 $('#btn-stranger-accept').addEventListener('click', async () => {
@@ -1894,15 +1912,7 @@ async function startChatWith(uid, replyContext = null) {
     chatId = docRef.id;
   }
   
-  await openChat(chatId);
-  
-  if (replyContext) {
-    STATE.replyTo = replyContext;
-    $('#reply-name').textContent = replyContext.senderName;
-    $('#reply-text').textContent = replyContext.text;
-    $('#reply-bar').classList.remove('hidden');
-    setTimeout(() => $('#chat-input').focus(), 300);
-  }
+  await openChat(chatId, replyContext);
 }
 
 function openNewGroupModal() {
