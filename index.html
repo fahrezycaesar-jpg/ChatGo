@@ -126,7 +126,7 @@ img,video{display:block;max-width:100%;}
 .chat-checkbox { width: 20px; height: 20px; border-radius: 50%; border: 2px solid #ccc; display: none; flex-shrink: 0; }
 .select-mode-active .chat-checkbox { display: block; }
 .chat-item.selected .chat-checkbox { background: var(--primary); border-color: var(--primary); position:relative;}
-.chat-item.selected .chat-checkbox::after { content:"✓"; position:absolute; color:#fff; font-size:12px; font-weight:bold; top:-2px; left:4px;}
+.chat-item.selected .chat-checkbox::after { content:"✓"; position:absolute; color:#fff; font-size:12px;font-weight:bold; top:-2px; left:4px;}
 .chat-item-body{flex:1;min-width:0;}
 .chat-top{display:flex;align-items:baseline;gap:8px;}
 .chat-name{flex:1;min-width:0;display:flex;align-items:center;gap:6px;font-size:15px;font-weight:700;}
@@ -391,6 +391,72 @@ img,video{display:block;max-width:100%;}
 }
 .status-nav-zone.left { left: 0; width: 30%; }
 .status-nav-zone.right { right: 0; width: 70%; }
+
+/* BOTTOM SHEET PENONTON STATUS (Gaya WhatsApp) */
+.viewers-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 120;
+  display: none;
+  flex-direction: column;
+  justify-content: flex-end;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.viewers-overlay.show {
+  display: flex;
+  opacity: 1;
+}
+.viewers-sheet {
+  background: #1e1e1e;
+  border-radius: 20px 20px 0 0;
+  max-height: 60vh;
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.viewers-overlay.show .viewers-sheet {
+  transform: translateY(0);
+}
+.viewers-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-weight: 700;
+  font-size: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+}
+.viewers-list {
+  padding: 10px 0;
+  overflow-y: auto;
+  flex: 1;
+}
+.viewer-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.viewer-item:active {
+  background: rgba(255,255,255,0.1);
+}
+.viewer-info strong {
+  display: block;
+  font-size: 14.5px;
+  color: #fff;
+}
+.viewer-info span {
+  display: block;
+  font-size: 12px;
+  color: #aaa;
+}
 
 .tick-svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; fill: #1D9BF0; flex-shrink: 0; }
 
@@ -1085,7 +1151,21 @@ function openStatusViewer(statuses) {
     <div class="status-progress-container" id="sp-container">${progressHTML}</div>
     <div class="sv-header" id="sv-header"></div>
     <div class="sv-body" id="sv-body"></div>
-    <div class="status-bottom-area" id="status-bottom-area"></div> <!-- Area Tombol Dipindah ke Luar sv-body -->
+    <div class="status-bottom-area" id="status-bottom-area"></div>
+    
+    <!-- Overlay Penonton (Gaya WhatsApp) -->
+    <div class="viewers-overlay" id="viewers-overlay">
+      <div class="viewers-sheet">
+        <div class="viewers-header">
+          <span id="viewers-title">Dilihat oleh</span>
+          <button class="icon-btn" id="viewers-close" style="color:#fff">
+            <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+          </button>
+        </div>
+        <div class="viewers-list" id="viewers-list"></div>
+      </div>
+    </div>
+
     <div class="status-nav-zone left" id="sp-prev"></div>
     <div class="status-nav-zone right" id="sp-next"></div>
   `;
@@ -1166,30 +1246,50 @@ function openStatusViewer(statuses) {
     if (isMine) {
       document.getElementById('sv-viewers-btn').onclick = async (e) => {
         e.stopPropagation();
+        
+        // Pause status progress while viewing
+        clearTimeout(STATE.statusTimer);
+        const video = document.getElementById('sv-video');
+        if (video) video.pause();
+
+        const viewersList = document.getElementById('viewers-list');
+        const viewersTitle = document.getElementById('viewers-title');
+        const overlay = document.getElementById('viewers-overlay');
+
+        viewersList.innerHTML = `<p style="padding: 20px; text-align: center; color: #aaa;">Memuat...</p>`;
+        overlay.classList.add('show');
+        overlay.onclick = (ev) => { if(ev.target === overlay) overlay.classList.remove('show'); };
+        document.getElementById('viewers-close').onclick = () => overlay.classList.remove('show');
+
         if (!s.viewers || s.viewers.length === 0) {
-          toast('Belum ada yang melihat status ini');
+          viewersTitle.textContent = 'Dilihat oleh 0';
+          viewersList.innerHTML = `<p style="padding: 20px; text-align: center; color: #aaa;">Belum ada tayangan</p>`;
           return;
         }
+
         const viewers = [];
         for (const uid of s.viewers) {
           const uSnap = await getDoc(doc(db, 'users', uid));
           if (uSnap.exists()) viewers.push({ uid, ...uSnap.data() });
         }
-        const listHtml = viewers.map(v => `
-          <div class="search-result" data-viewer-uid="${v.uid}">
+        
+        viewersTitle.textContent = `Dilihat oleh ${viewers.length}`;
+        viewersList.innerHTML = viewers.map(v => `
+          <div class="viewer-item" data-viewer-uid="${v.uid}">
             ${avatarHTML(v.displayName, v.photoURL, 'sm')}
-            <div class="info"><strong>${esc(v.displayName)}</strong><span>@${esc(v.username)}</span></div>
+            <div class="viewer-info">
+              <strong>${esc(v.displayName)}</strong>
+              <span>@${esc(v.username)}</span>
+            </div>
           </div>
         `).join('');
 
-        showModal(`<div class="modal-header"><h3>Dilihat oleh (${viewers.length})</h3></div><div class="modal-body">${listHtml}</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, root => {
-          root.querySelectorAll('[data-viewer-uid]').forEach(el => {
-            el.onclick = () => {
-              closeModal();
-              closeViewer();
-              startChatWith(el.dataset.viewerUid);
-            };
-          });
+        viewersList.querySelectorAll('.viewer-item').forEach(el => {
+          el.onclick = () => {
+            overlay.classList.remove('show');
+            closeViewer();
+            startChatWith(el.dataset.viewerUid);
+          };
         });
       };
     } else {
