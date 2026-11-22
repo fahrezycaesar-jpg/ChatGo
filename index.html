@@ -252,14 +252,48 @@ img,video{display:block;max-width:100%;}
 .search-result .info strong{display:flex;align-items:center;gap:4px;font-size:14.5px;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
-/* STATUS VIEWER DENGAN SUPPORT VIDEO */
-.status-viewer{position:absolute;inset:0;background:#111;color:#fff;z-index:90;display:flex;flex-direction:column;}
-.status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 14px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);}
+/* STATUS VIEWER DENGAN SUPPORT VIDEO & PROGRESS BAR */
+.status-viewer{position:absolute;inset:0;background:#111;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
+.status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);z-index:10;}
 .status-viewer .sv-header .info{flex:1;}
 .status-viewer .sv-header strong{display:flex;align-items:center;gap:5px;font-size:14px;}
 .status-viewer .sv-header small{display:block;font-size:11px;opacity:.75;}
-.status-viewer .sv-body{flex:1;display:grid;place-items:center;padding:24px;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow-y:auto;}
+.status-viewer .sv-body{flex:1;display:grid;place-items:center;padding:24px;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow-y:auto;position:relative;z-index:1;}
 .status-viewer .sv-body img, .status-viewer .sv-body video{max-height:100%;max-width:100%;border-radius:12px;object-fit:contain;}
+
+/* Progress Bar */
+.status-progress-container {
+  position: absolute;
+  top: env(safe-area-inset-top);
+  left: 0; right: 0;
+  display: flex;
+  gap: 4px;
+  padding: 10px 16px 0;
+  z-index: 100;
+}
+.status-progress-segment {
+  flex: 1;
+  height: 3px;
+  background: rgba(255,255,255,0.3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.status-progress-fill {
+  height: 100%;
+  background: #fff;
+  width: 0%;
+}
+
+/* Navigation Areas */
+.status-nav-zone {
+  position: absolute;
+  top: calc(env(safe-area-inset-top) + 60px);
+  bottom: 0;
+  z-index: 50;
+  cursor: pointer;
+}
+.status-nav-zone.left { left: 0; width: 30%; }
+.status-nav-zone.right { right: 0; width: 70%; }
 
 .tick-svg { width: 18px; height: 18px; display: inline-block; vertical-align: middle; fill: #1D9BF0; flex-shrink: 0; }
 
@@ -563,7 +597,8 @@ const STATE = {
   currentChat: null, replyTo: null, timerSec: 0,
   unsubChats: null, unsubMsgs: null, unsubStatuses: null, unsubTyping: null,
   isSelectMode: false, selectedChats: new Set(),
-  typingTimeout: null, isTypingActive: false
+  typingTimeout: null, isTypingActive: false,
+  currentStatusGroup: [], currentStatusIndex: 0, statusTimer: null
 };
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -849,56 +884,200 @@ function renderStatuses() {
   const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
   const otherStatuses = STATE.statuses.filter(s => s.userId !== STATE.uid);
   const myCard = $('#status-add');
+  
   if (myStatuses.length > 0) {
     myCard.innerHTML = `<div class="status-ring" style="padding:2px;background:linear-gradient(140deg,#13c08d,#0a7c66);border-radius:50%;box-shadow:none">${avatarHTML(myStatuses[0].userName, myStatuses[0].userPhoto, '', 'my-status-avatar')}</div><div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">${myStatuses.length} pembaruan</p></div><span class="plus-dot">+</span>`;
   } else {
     myCard.innerHTML = `${avatarHTML(STATE.me.displayName, STATE.me.photoURL, '', 'my-status-avatar')}<div class="status-info"><strong>Status saya</strong><p class="muted small" style="margin:2px 0 0">Ketuk untuk menambah</p></div><span class="plus-dot">+</span>`;
   }
   myCard.onclick = openMyStatusesModal;
-  if (!otherStatuses.length) { list.innerHTML = `<div class="empty">Belum ada status dari kontakmu.</div>`; return; }
   
-  list.innerHTML = otherStatuses.map(s => {
-    const icon = s.type === 'video' ? '🎥' : (s.type === 'image' ? '📷' : '📝');
-    return `<div class="status-item" data-status="${s.id}"><div class="status-ring ${(s.viewers || []).includes(STATE.uid) ? 'seen' : ''}">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong class="truncate">${esc(s.userName)}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><span class="status-badge">${icon}</span></div>`;
+  if (!otherStatuses.length) { list.innerHTML = `<div class="empty">Belum ada status dari kontakmu.</div>`; return; }
+
+  // Group other statuses by userId
+  const grouped = {};
+  otherStatuses.forEach(s => {
+    if (!grouped[s.userId]) grouped[s.userId] = [];
+    grouped[s.userId].push(s);
+  });
+
+  const groupsArray = Object.values(grouped).map(g => {
+    g.sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0)); // oldest to newest
+    return g;
+  }).sort((a, b) => {
+    // sort groups by the latest update
+    const aLatest = a[a.length - 1].createdAt?.toMillis() || 0;
+    const bLatest = b[b.length - 1].createdAt?.toMillis() || 0;
+    return bLatest - aLatest;
+  });
+
+  list.innerHTML = groupsArray.map(group => {
+    const latest = group[group.length - 1];
+    const hasUnviewed = group.some(s => !(s.viewers || []).includes(STATE.uid));
+    const icon = latest.type === 'video' ? '🎥' : (latest.type === 'image' ? '📷' : '📝');
+    return `<div class="status-item" data-userid="${latest.userId}"><div class="status-ring ${hasUnviewed ? '' : 'seen'}">${avatarHTML(latest.userName, latest.userPhoto)}</div><div class="status-info"><strong class="truncate">${esc(latest.userName)}</strong><span>${esc(fmtRel(latest.createdAt))}</span></div><span class="status-badge">${icon}</span></div>`;
   }).join('');
 }
 
 function openMyStatusesModal() {
-  const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
+  const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid).sort((a,b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
   showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => {
     const label = s.type === 'video' ? '🎥 Video' : (s.type === 'image' ? '📷 Foto' : '📝 Teks');
     return `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${label}</strong><span>${esc(fmtRel(s.createdAt))}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">${SVG_TRASH}</button></div>`;
   }).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
     root.querySelector('#ms-close').onclick = closeModal;
     root.querySelector('#ms-add').onclick = () => { closeModal(); openNewStatusModal(); };
-    root.querySelectorAll('[data-ms-view]').forEach(b => b.onclick = () => { const s = STATE.statuses.find(x => x.id === b.dataset.msView); if(s){closeModal();openStatusViewer(s);} });
+    root.querySelectorAll('[data-ms-view]').forEach(b => b.onclick = () => { 
+        const s = STATE.statuses.find(x => x.id === b.dataset.msView); 
+        if(s){ closeModal(); openStatusViewer(myStatuses); } 
+    });
     root.querySelectorAll('[data-ms-del]').forEach(b => b.onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',b.dataset.msDel));closeModal();} });
   });
 }
+
 $('#list-status').addEventListener('click', e => {
-  const item = e.target.closest('[data-status]'); if (!item) return;
-  const s = STATE.statuses.find(x => x.id === item.dataset.status); if (s) openStatusViewer(s);
+  const item = e.target.closest('[data-userid]'); if (!item) return;
+  const userId = item.dataset.userid;
+  const userStatuses = STATE.statuses.filter(s => s.userId === userId).sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
+  if (userStatuses.length) openStatusViewer(userStatuses);
 });
 
-/* FITUR VIDEO DI STATUS VIEWER */
-function openStatusViewer(s) {
-  const isMine = s.userId === STATE.uid; const wrap = document.createElement('div'); wrap.className = 'status-viewer';
-  
-  let mediaHTML = `<p>${esc(s.content)}</p>`;
-  if (s.type === 'image' && s.photoURL) {
-    mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : '');
-  } else if (s.type === 'video' && s.photoURL) {
-    mediaHTML = `<video src="${esc(s.photoURL)}" controls autoplay playsinline></video>` + (s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : '');
-  }
+/* FITUR STATUS VIEWER (PROGRESS BAR & GROUPING) */
+function openStatusViewer(statuses) {
+  STATE.currentStatusGroup = statuses;
+  STATE.currentStatusIndex = 0;
 
-  wrap.innerHTML = `<div class="sv-header">${avatarHTML(s.userName, s.userPhoto, 'sm')}<div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">${SVG_TRASH}</button>` : ''}<button class="icon-btn ghost-light" id="sv-close"><svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></div><div class="sv-body">${mediaHTML}</div>`;
-  
+  const wrap = document.createElement('div'); wrap.className = 'status-viewer'; wrap.id = 'status-viewer-overlay';
+
+  // Render progress bars
+  const progressHTML = statuses.map((_, i) => `
+    <div class="status-progress-segment">
+      <div class="status-progress-fill" id="sp-fill-${i}"></div>
+    </div>
+  `).join('');
+
+  wrap.innerHTML = `
+    <div class="status-progress-container" id="sp-container">${progressHTML}</div>
+    <div class="sv-header" id="sv-header"></div>
+    <div class="sv-body" id="sv-body"></div>
+    <div class="status-nav-zone left" id="sp-prev"></div>
+    <div class="status-nav-zone right" id="sp-next"></div>
+  `;
   document.body.appendChild(wrap);
-  wrap.querySelector('#sv-close').onclick = async () => { 
-    if(!isMine){try{await updateDoc(doc(db,'status',s.id),{viewers:arrayUnion(STATE.uid)});}catch{}} 
-    wrap.remove(); 
+
+  const loadStatus = (index) => {
+    clearTimeout(STATE.statusTimer);
+    if (index >= STATE.currentStatusGroup.length) {
+      closeViewer();
+      return;
+    }
+
+    const s = STATE.currentStatusGroup[index];
+    const isMine = s.userId === STATE.uid;
+
+    // Reset and set progress bars
+    STATE.currentStatusGroup.forEach((_, i) => {
+      const fill = document.getElementById(`sp-fill-${i}`);
+      if (!fill) return;
+      if (i < index) {
+        fill.style.width = '100%';
+        fill.style.transition = 'none';
+      } else if (i === index) {
+        fill.style.width = '0%';
+        fill.style.transition = 'none';
+      } else {
+        fill.style.width = '0%';
+        fill.style.transition = 'none';
+      }
+    });
+
+    // Update header
+    const header = document.getElementById('sv-header');
+    header.innerHTML = `
+      ${avatarHTML(s.userName, s.userPhoto, 'sm')}
+      <div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>
+      ${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">${SVG_TRASH}</button>` : ''}
+      <button class="icon-btn ghost-light" id="sv-close"><svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
+    `;
+    header.querySelector('#sv-close').onclick = closeViewer;
+    if (isMine) {
+      header.querySelector('#sv-delete').onclick = async () => {
+        if(confirm('Hapus status ini?')){ await deleteDoc(doc(db,'status',s.id)); closeViewer(); }
+      };
+    }
+
+    // Update body
+    const body = document.getElementById('sv-body');
+    let mediaHTML = `<p>${esc(s.content)}</p>`;
+    if (s.type === 'image' && s.photoURL) {
+      mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : '');
+    } else if (s.type === 'video' && s.photoURL) {
+      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>` + (s.content ? `<p style="margin-top:16px;font-size:16px">${esc(s.content)}</p>` : '');
+    }
+    body.innerHTML = mediaHTML;
+
+    // Mark as viewed
+    if (!isMine && !(s.viewers || []).includes(STATE.uid)) {
+      updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) }).catch(()=>{});
+    }
+
+    // Start progress
+    const fill = document.getElementById(`sp-fill-${index}`);
+    const video = document.getElementById('sv-video');
+
+    if (s.type === 'video' && video) {
+      video.onloadedmetadata = () => {
+        fill.style.transition = 'none';
+        fill.style.width = '0%';
+        void fill.offsetWidth; // force reflow
+        video.play().catch(() => {});
+        video.ontimeupdate = () => {
+          if (!video.duration) return;
+          const pct = (video.currentTime / video.duration) * 100;
+          fill.style.width = pct + '%';
+        };
+        video.onended = () => nextStatus();
+      };
+    } else {
+      // Text or Image: 4 seconds
+      fill.style.transition = 'none';
+      fill.style.width = '0%';
+      void fill.offsetWidth; // force reflow
+      fill.style.transition = 'width 4s linear';
+      fill.style.width = '100%';
+      STATE.statusTimer = setTimeout(() => nextStatus(), 4000);
+    }
   };
-  if(isMine) wrap.querySelector('#sv-delete').onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',s.id));wrap.remove();} };
+
+  const nextStatus = () => {
+    const video = document.getElementById('sv-video');
+    if (video) { video.pause(); video.ontimeupdate = null; video.onended = null; }
+    STATE.currentStatusIndex++;
+    loadStatus(STATE.currentStatusIndex);
+  };
+
+  const prevStatus = () => {
+    const video = document.getElementById('sv-video');
+    if (video) { video.pause(); video.ontimeupdate = null; video.onended = null; }
+    if (STATE.currentStatusIndex > 0) {
+      STATE.currentStatusIndex--;
+      loadStatus(STATE.currentStatusIndex);
+    } else {
+      loadStatus(0); // restart if at beginning
+    }
+  };
+
+  const closeViewer = () => {
+    clearTimeout(STATE.statusTimer);
+    const video = document.getElementById('sv-video');
+    if (video) { video.pause(); video.ontimeupdate = null; video.onended = null; }
+    wrap.remove();
+  };
+
+  document.getElementById('sp-prev').onclick = prevStatus;
+  document.getElementById('sp-next').onclick = nextStatus;
+
+  loadStatus(0);
 }
 
 function openNewStatusModal() {
@@ -1284,261 +1463,4 @@ async function openGroupSettings(chatId) {
         e.stopPropagation(); 
         const uid = btn.dataset.toggleAdmin; const isAdm = btn.dataset.isAdmin === 'true';
         if (isAdm) { await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) }); toast('Admin dicabut'); }
-        else { await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) }); toast('Jadi Admin'); await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} Admin`, createdAt: serverTimestamp() }); }
-        closeModal();
-      };
-    });
-
-    root.querySelectorAll('.member-item').forEach(item => {
-      item.onclick = (e) => {
-        if (e.target.closest('button')) return; 
-        const targetUid = item.dataset.uid;
-        if (targetUid === STATE.uid) { toast('Ini akun kamu'); return; }
-        closeModal();
-        startChatWith(targetUid);
-      };
-    });
-
-    root.querySelector('#gs-leave').onclick = async () => {
-      if (!confirm('Keluar?')) return;
-      const mn = { ...c.memberNames }; delete mn[STATE.uid]; const mp = { ...c.memberPhotos }; delete mp[STATE.uid]; const mu = { ...c.memberUsernames }; delete mu[STATE.uid]; const un = { ...c.unread }; delete un[STATE.uid];
-      await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(STATE.uid), admins: arrayRemove(STATE.uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
-      await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} keluar dari grup`, createdAt: serverTimestamp() });
-      toast('Keluar'); closeModal(); $('#chat-back').click();
-    };
-    if (isOwner) {
-      root.querySelector('#gs-disband').onclick = async () => {
-        if (!confirm('Bubarkan?')) return;
-        try {
-          const msgs = await getDocs(collection(db, 'chats', chatId, 'messages')); const batch = writeBatch(db);
-          msgs.forEach(m => batch.delete(m.ref)); batch.delete(doc(db, 'chats', chatId)); await batch.commit();
-          toast('Dibubarkan'); closeModal(); $('#chat-back').click();
-        } catch(e) { toast('Gagal: '+e.message); }
-      };
-    }
-  });
-}
-
-$('#chat-menu').addEventListener('click', () => {
-  const isGroup = STATE.currentChat?.type === 'group';
-  showModal(`
-    <div class="modal-header"><h3>Opsi Chat</h3></div>
-    <div class="menu-list">
-      ${isGroup ? `<button class="menu-item" id="cm-add-member"><span class="ico">${SVG_GROUP}</span>Tambah Anggota</button>` : ''}
-      <button class="menu-item" id="cm-mute"><span class="ico">${SVG_MUTE}</span>Bisukan / Aktifkan</button>
-      <button class="menu-item" id="cm-lock"><span class="ico">${SVG_LOCK}</span>Kunci dengan PIN</button>
-      <button class="menu-item" id="cm-clear" style="color:#e5484d"><span class="ico">${SVG_TRASH}</span>Kosongkan Chat</button>
-    </div>
-  `, root => {
-    root.querySelector('#cm-mute').onclick = async () => {
-      const isMuted = (STATE.currentChat.mutedBy||[]).includes(STATE.uid);
-      await updateDoc(doc(db,'chats',STATE.currentChat.id),{mutedBy:isMuted?arrayRemove(STATE.uid):arrayUnion(STATE.uid)});
-      toast(isMuted?'Aktif':'Dibisukan'); closeModal();
-    };
-    root.querySelector('#cm-lock').onclick = () => {
-      showModal(`<div class="modal-header"><h3>Kunci PIN</h3></div><div class="modal-body"><input type="password" id="pin-in" maxlength="6" placeholder="PIN 4-6 angka" class="input-wrap" style="padding:10px;width:100%"></div><div class="modal-footer"><button class="btn btn-soft" id="p-cancel">Batal</button><button class="btn btn-primary" id="p-save">Simpan</button></div>`, r2 => {
-        r2.querySelector('#p-cancel').onclick = closeModal;
-        r2.querySelector('#p-save').onclick = async () => { const p = r2.querySelector('#pin-in').value; if(/^\d{4,6}$/.test(p)){await updateDoc(doc(db,'chats',STATE.currentChat.id),{[`pins.${STATE.uid}`]:p});closeModal();toast('Terkunci');}else toast('Format salah'); };
-      });
-    };
-    root.querySelector('#cm-clear').onclick = async () => {
-      if(!confirm('Hapus semua pesan?')) return;
-      const s = await getDocs(collection(db,'chats',STATE.currentChat.id,'messages')); const b = writeBatch(db); s.forEach(d=>b.delete(d.ref)); await b.commit();
-      await updateDoc(doc(db,'chats',STATE.currentChat.id),{lastMessage:null}); toast('Chat kosong'); closeModal();
-    };
-    if(isGroup) {
-      root.querySelector('#cm-add-member').onclick = () => {
-        if (STATE.currentChat.whoCanAddMembers === 'admins') {
-          const isAdm = STATE.currentChat.createdBy === STATE.uid || (STATE.currentChat.admins||[]).includes(STATE.uid);
-          if (!isAdm) { toast('Hanya Admin yang bisa tambah anggota'); return; }
-        }
-        closeModal(); openAddMemberModal();
-      };
-    }
-  });
-});
-
-function openAddMemberModal() {
-  showModal(`<div class="modal-header"><h3>Tambah Anggota</h3></div><div class="modal-body"><input type="text" id="am-search" placeholder="Cari username…" class="input-wrap" style="padding:10px;width:100%"><div id="am-results"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, root => {
-    const input = root.querySelector('#am-search'); const res = root.querySelector('#am-results');
-    let t; input.addEventListener('input', () => {
-      clearTimeout(t); t = setTimeout(async () => {
-        const q = input.value.toLowerCase().trim(); if(q.length<2) return;
-        const snap = await getDocs(query(collection(db,'users'),where('username','>=',q),where('username','<=',q+'\uf8ff'),limit(5)));
-        res.innerHTML = snap.docs.map(d => {
-          const u = d.data();
-          if (STATE.currentChat.members.includes(d.id)) return `<div class="search-result"><div class="info"><strong>${esc(u.displayName)}</strong><span>Sudah di grup</span></div></div>`;
-          return `<div class="search-result" data-add="${d.id}" data-name="${esc(u.displayName)}" data-photo="${esc(u.photoURL||'')}" data-uname="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`;
-        }).join('');
-        res.querySelectorAll('[data-add]').forEach(el => {
-          el.onclick = async () => {
-            const uid = el.dataset.add;
-            const names = { ...STATE.currentChat.memberNames, [uid]: el.dataset.name };
-            const photos = { ...STATE.currentChat.memberPhotos, [uid]: el.dataset.photo };
-            const unames = { ...STATE.currentChat.memberUsernames, [uid]: el.dataset.uname };
-            await updateDoc(doc(db,'chats',STATE.currentChat.id), { members: arrayUnion(uid), memberNames: names, memberPhotos: photos, memberUsernames: unames });
-            await addDoc(collection(db,'chats',STATE.currentChat.id,'messages'), { type:'system', text:`${STATE.me.displayName} menambahkan ${el.dataset.name}`, createdAt: serverTimestamp() });
-            toast('Ditambahkan'); closeModal();
-          };
-        });
-      }, 300);
-    });
-  });
-}
-
-$('#btn-edit-profile').addEventListener('click', () => {
-  showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
-    r.querySelector('#es').onclick = async () => { await updateDoc(doc(db,'users',STATE.uid),{displayName:r.querySelector('#en').value.trim(),bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=r.querySelector('#en').value; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); closeModal(); };
-  });
-});
-$('#btn-change-photo').addEventListener('click', () => $('#photo-input').click());
-$('#photo-input').addEventListener('change', async e => {
-  const f = e.target.files?.[0]; if(!f) return; toast('Upload…');
-  try{ const url = await uploadToCloudinary(f); await updateDoc(doc(db,'users',STATE.uid),{photoURL:url}); STATE.me.photoURL=url; updateProfileUI(); toast('Berhasil'); }catch(err){toast(err.message);}
-  e.target.value='';
-});
-$('#priv-who').addEventListener('change', e => updateDoc(doc(db,'users',STATE.uid),{'privacy.whoCanMessage':e.target.value}));
-
-$('#btn-enable-notif').addEventListener('click', () => {
-  if (!('Notification' in window)) { toast('Browser tidak mendukung notifikasi'); return; }
-  Notification.requestPermission().then(permission => {
-    if (permission === 'granted') { setupFCM(); toast('Notifikasi diaktifkan!'); }
-    else toast('Notifikasi ditolak');
-  });
-});
-
-$$('.nav-btn').forEach(b => b.addEventListener('click', () => {
-  $$('.nav-btn').forEach(x=>x.classList.toggle('active',x===b)); $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+b.dataset.tab)); $('#content').scrollTop=0;
-}));
-
-$$('.seg-btn').forEach(b => b.addEventListener('click', () => {
-  $$('.seg-btn').forEach(x=>x.classList.toggle('active',x===b)); $('#form-login').classList.toggle('hidden',b.dataset.auth!=='login'); $('#form-register').classList.toggle('hidden',b.dataset.auth!=='register');
-}));
-
-$('#form-login').addEventListener('submit', async e => { 
-  e.preventDefault(); const b=$('#btn-login'); b.disabled=true; b.textContent='…'; 
-  try{
-    await loginUser($('#login-user').value,$('#login-pass').value);
-    const uname = $('#login-user').value.toLowerCase().trim();
-    const pass = $('#login-pass').value;
-    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    accounts = accounts.filter(a => a.username !== uname); 
-    accounts.push({ username: uname, password: pass, displayName: uname, photoURL: '' }); 
-    if (accounts.length > 2) accounts.shift(); 
-    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
-  }catch(err){toast('Gagal: '+err.message);} 
-  b.disabled=false; b.textContent='Masuk'; 
-});
-
-$('#form-register').addEventListener('submit', async e => { e.preventDefault(); const b=$('#btn-register'); b.disabled=true; b.textContent='…'; try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}catch(err){toast('Gagal: '+err.message);} b.disabled=false; b.textContent='Buat Akun'; });
-
-$('#fab').addEventListener('click', () => {
-  showModal(`<div class="modal-header"><h3>Aksi Baru</h3></div><div class="menu-list">
-    <button class="menu-item" id="mn-contact"><span class="ico">${SVG_CONTACT}</span>Kontak</button>
-    <button class="menu-item" id="mnc"><span class="ico"><svg class="svg-icon-outline" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path><line x1="8" y1="10" x2="16" y2="10"></line><line x1="8" y1="14" x2="16" y2="14"></line></svg></span>Chat Baru</button>
-    <button class="menu-item" id="mng"><span class="ico">${SVG_GROUP}</span>Buat Grup</button>
-    <button class="menu-item" id="mns"><span class="ico">${SVG_GLOBE}</span>Buat Status</button>
-  </div>`, r=>{
-    r.querySelector('#mn-contact').onclick = () => { closeModal(); openContactsModal(); };
-    r.querySelector('#mnc').onclick = () => { closeModal(); openNewChatModal(); };
-    r.querySelector('#mng').onclick = () => { closeModal(); openNewGroupModal(); };
-    r.querySelector('#mns').onclick = () => { closeModal(); openNewStatusModal(); };
-  });
-});
-
-function openContactsModal() {
-  const contacts = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0));
-  
-  let html = `<div class="modal-header"><h3>Kontak Saya</h3></div><div class="modal-body">`;
-  if (contacts.length === 0) {
-    html += `<p class="muted small center">Belum ada kontak. Mulai chat dengan orang lain terlebih dahulu.</p>`;
-  } else {
-    html += contacts.map(chat => {
-      const otherUid = chat.members.find(u => u !== STATE.uid);
-      const name = chat.memberNames?.[otherUid] || 'Pengguna';
-      const photo = chat.memberPhotos?.[otherUid];
-      const uname = chat.memberUsernames?.[otherUid] || '';
-      return `<div class="search-result" data-contact="${chat.id}">
-        ${avatarHTML(name, photo, 'sm')}
-        <div class="info"><strong>${esc(name)}</strong><span>@${esc(uname)}</span></div>
-        <button class="btn btn-soft sm" style="padding:6px 12px;font-size:12px">Chat</button>
-      </div>`;
-    }).join('');
-  }
-  html += `</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`;
-  
-  showModal(html, r => {
-    r.querySelectorAll('[data-contact]').forEach(el => {
-      el.onclick = () => { closeModal(); openChat(el.dataset.contact); };
-    });
-  });
-}
-
-function openNewChatModal() {
-  showModal(`<div class="modal-header"><h3>Chat Baru</h3></div><div class="modal-body"><input id="sc-u" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari username…"><div id="sc-r" style="margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r=>{
-    const inp = r.querySelector('#sc-u'); const res = r.querySelector('#sc-r');
-    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
-      if(inp.value.length<2){res.innerHTML='';return;}
-      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(10)));
-      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(u.uid===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
-      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>startChatWith(el.dataset.uid);});
-    },300); });
-  });
-}
-
-async function startChatWith(uid) {
-  closeModal();
-  const s = await getDocs(query(collection(db,'chats'),where('members','array-contains',STATE.uid)));
-  for(const d of s.docs){ if(d.data().type==='direct' && (d.data().members||[]).includes(uid)){ openChat(d.id); return; } }
-  const t = (await getDoc(doc(db,'users',uid))).data();
-  const docRef = await addDoc(collection(db,'chats'),{
-    type:'direct',members:[STATE.uid,uid],memberNames:{[STATE.uid]:STATE.me.displayName,[uid]:t.displayName},memberPhotos:{[STATE.uid]:STATE.me.photoURL||'',[uid]:t.photoURL||''},memberUsernames:{[STATE.uid]:STATE.me.username,[uid]:t.username},memberVerified:{[STATE.uid]:STATE.me.isVerified||false,[uid]:t.isVerified||false},pendingFor:t.privacy?.whoCanMessage==='contacts'?[uid]:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()
-  });
-  openChat(docRef.id);
-}
-
-function openNewGroupModal() {
-  showModal(`<div class="modal-header"><h3>Buat Grup</h3></div><div class="modal-body"><input id="g-n" class="input-wrap" style="padding:10px;width:100%;margin-bottom:10px" placeholder="Nama Grup"><input id="g-s" class="input-wrap" style="padding:10px;width:100%" placeholder="Cari anggota…"><div id="g-r"></div><div id="g-sel" style="display:flex;gap:5px;flex-wrap:wrap;margin-top:10px"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="g-c">Buat</button></div>`, r=>{
-    const sel = new Map(); const inp = r.querySelector('#g-s'); const res = r.querySelector('#g-r');
-    let t; inp.addEventListener('input', ()=>{ clearTimeout(t); t=setTimeout(async()=>{
-      if(inp.value.length<2){res.innerHTML='';return;}
-      const s = await getDocs(query(collection(db,'users'),where('username','>=',inp.value.toLowerCase()),where('username','<=',inp.value.toLowerCase()+'\uf8ff'),limit(5)));
-      res.innerHTML = s.docs.map(d=>{const u=d.data(); if(d.id===STATE.uid)return ''; return `<div class="search-result" data-uid="${d.id}" data-n="${esc(u.displayName)}" data-p="${esc(u.photoURL||'')}" data-un="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`}).join('');
-      res.querySelectorAll('.search-result').forEach(el=>{el.onclick=()=>{
-        sel.set(el.dataset.uid, {name:el.dataset.n, photo:el.dataset.p, uname:el.dataset.un});
-        const c = document.createElement('span'); c.className='alias-chip'; c.textContent=el.dataset.n+' ×'; c.onclick=()=>{sel.delete(el.dataset.uid);c.remove();}; r.querySelector('#g-sel').appendChild(c);
-        inp.value=''; res.innerHTML='';
-      }});
-    },300); });
-    r.querySelector('#g-c').onclick = async () => {
-      const name = r.querySelector('#g-n').value.trim(); if(!name||sel.size<1) return toast('Isi nama & anggota');
-      const members = [STATE.uid, ...sel.keys()];
-      const mn = {[STATE.uid]:STATE.me.displayName}; const mp = {[STATE.uid]:STATE.me.photoURL||''}; const mu = {[STATE.uid]:STATE.me.username};
-      sel.forEach((v,k)=>{mn[k]=v.name;mp[k]=v.photo;mu[k]=v.uname;});
-      const ref = await addDoc(collection(db,'chats'),{type:'group',name,members,memberNames:mn,memberPhotos:mp,memberUsernames:mu,createdBy:STATE.uid,admins:[],onlyAdminsCanChat:false,whoCanAddMembers:'everyone',pendingFor:[],unread:{},lastMessage:null,updatedAt:serverTimestamp(),createdAt:serverTimestamp()});
-      toast('Grup dibuat'); closeModal(); openChat(ref.id);
-    };
-  });
-}
-
-const _oldUpdateUI = updateProfileUI;
-updateProfileUI = function() {
-  _oldUpdateUI();
-  if (STATE.me) {
-    let accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    let found = false;
-    accounts.forEach(a => {
-      if (a.username === STATE.me.username) { a.displayName = STATE.me.displayName; a.photoURL = STATE.me.photoURL; found = true; }
-    });
-    if (!found) {
-       accounts.push({ username: STATE.me.username, password: '', displayName: STATE.me.displayName, photoURL: STATE.me.photoURL });
-       if(accounts.length>2) accounts.shift();
-    }
-    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts));
-  }
-}
-
-showScreen('screen-auth');
-</script>
-</body>
-</html>
+        else { await updateDoc(doc(db, 'chats', chatId
