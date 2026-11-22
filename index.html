@@ -253,14 +253,62 @@ img,video{display:block;max-width:100%;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
 /* STATUS VIEWER DENGAN SUPPORT VIDEO & PROGRESS BAR (FULL SCREEN) */
-.status-viewer{position:absolute;inset:0;background:#111;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
-.status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.55),transparent);z-index:10;}
+.status-viewer{position:absolute;inset:0;background:#000;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
+.status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);z-index:10;position:absolute;top:0;left:0;right:0;}
 .status-viewer .sv-header .info{flex:1;}
 .status-viewer .sv-header strong{display:flex;align-items:center;gap:5px;font-size:14px;}
 .status-viewer .sv-header small{display:block;font-size:11px;opacity:.75;}
-.status-viewer .sv-body{flex:1;display:flex;align-items:center;justify-content:center;padding:0;text-align:center;font-size:24px;font-weight:700;line-height:1.4;word-break:break-word;overflow:hidden;position:relative;z-index:1;background:#000;}
-.status-viewer .sv-body img, .status-viewer .sv-body video{width:100%;height:100%;max-height:none;max-width:none;border-radius:0;object-fit:contain;}
-.status-viewer .sv-body > p { padding: 24px; margin: 0; width: 100%; }
+
+/* Body untuk Full Screen Media */
+.status-viewer .sv-body{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:0;
+  overflow:hidden;
+  position:relative;
+  z-index:1;
+  width:100%;
+  height:100%;
+  background:#000;
+}
+
+/* Media (Gambar/Video) agar mengisi layar penuh (Top/Bottom) */
+.status-viewer .sv-body img,
+.status-viewer .sv-body video {
+  width:100%;
+  height:100%;
+  max-height:100dvh;
+  object-fit:contain; /* Menjaga rasio asli, menyentuh ujung jika potret, tengah jika lanskap */
+}
+
+.status-viewer .sv-body > p {
+  padding: 24px;
+  margin: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+/* Desain Keterangan/Deskripsi Status (Latar Hitam Transparan) */
+.status-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.65); /* Hitam transparan */
+  backdrop-filter: blur(5px);
+  padding: 16px 20px calc(16px + env(safe-area-inset-bottom));
+  border-radius: 20px 20px 0 0; /* Sisi atas berujung/lengkung */
+  color: #fff;
+  font-size: 15px;
+  text-align: center;
+  z-index: 10;
+  line-height: 1.5;
+}
 
 /* Progress Bar */
 .status-progress-container {
@@ -1011,9 +1059,9 @@ function openStatusViewer(statuses) {
     const body = document.getElementById('sv-body');
     let mediaHTML = `<p>${esc(s.content)}</p>`;
     if (s.type === 'image' && s.photoURL) {
-      mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<p style="position:absolute; bottom:40px; left:20px; right:20px; text-shadow:0 2px 6px rgba(0,0,0,0.9); font-size:18px; margin:0; z-index:2; background:rgba(0,0,0,0.4); padding:10px; border-radius:10px;">${esc(s.content)}</p>` : '');
+      mediaHTML = `<img src="${esc(s.photoURL)}">` + (s.content ? `<div class="status-caption">${esc(s.content)}</div>` : '');
     } else if (s.type === 'video' && s.photoURL) {
-      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>` + (s.content ? `<p style="position:absolute; bottom:40px; left:20px; right:20px; text-shadow:0 2px 6px rgba(0,0,0,0.9); font-size:18px; margin:0; z-index:2; background:rgba(0,0,0,0.4); padding:10px; border-radius:10px;">${esc(s.content)}</p>` : '');
+      mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline></video>` + (s.content ? `<div class="status-caption">${esc(s.content)}</div>` : '');
     }
     body.innerHTML = mediaHTML;
 
