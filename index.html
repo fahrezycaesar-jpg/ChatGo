@@ -37,8 +37,6 @@
   --text:#12211d;--muted:#7c8c88;--line:#e6ecea;--danger:#e5484d;
   --nav-h:56px;--shadow-sm:0 2px 8px rgba(16,64,54,.06);
   --shadow-md:0 10px 26px rgba(16,64,54,.10);--shadow-lg:0 16px 34px rgba(10,124,102,.28);
-
-  /* THEME TOKENS */
   --body-grad-1:#d6f2e9;--body-grad-2:#eef2f5;--body-grad-3:#e3ecf2;
   --surface-hover:#fbfdfc;--surface-hover-2:#f4f8f7;
   --chat-body-bg:#e9efee;--chat-body-pattern:rgba(10,124,102,.075);
@@ -82,7 +80,6 @@ html.dark{
 }
 html.dark .toast{background:rgba(60,82,75,.96);}
 
-/* Material You dynamic accent palettes */
 html[data-accent="green"]{--chat-body-bg:#eaf4ee;--primary:#16a765;--primary-2:#32c982;--primary-dark:#087c4b;--primary-soft:#e3f6eb;--body-grad-1:#d8f4e4;--chat-body-pattern:rgba(8,124,75,.075);}
 html[data-accent="blue"]{--chat-body-bg:#edf3fc;--primary:#2878d7;--primary-2:#5799ed;--primary-dark:#1556a8;--primary-soft:#e5f0ff;--body-grad-1:#dceaff;--chat-body-pattern:rgba(21,86,168,.075);}
 html[data-accent="purple"]{--chat-body-bg:#f3effa;--primary:#8955d8;--primary-2:#a77ae9;--primary-dark:#6735b5;--primary-soft:#f0e8ff;--body-grad-1:#eee2ff;--chat-body-pattern:rgba(103,53,181,.075);}
@@ -217,7 +214,6 @@ html.dark .btn-danger{background:#3a1c1e;}
 .status-info span{display:block;margin-top:2px;font-size:12px;color:var(--muted);}
 .status-badge{font-size:10.5px;font-weight:800;padding:4px 9px;border-radius:99px;background:var(--primary-soft);color:var(--primary-dark);flex-shrink:0;}
 
-/* Instagram-style horizontal stories above the chat list */
 .stories-strip{width:calc(100% + 32px);margin:0 -16px 16px;padding:12px 16px 10px;overflow-x:auto;overflow-y:hidden;overscroll-behavior-x:contain;scrollbar-width:none;-webkit-overflow-scrolling:touch;border-bottom:1px solid var(--line);}
 .stories-strip::-webkit-scrollbar{display:none;}
 .stories-track{display:flex;align-items:flex-start;gap:16px;width:max-content;min-width:100%;}
@@ -314,7 +310,6 @@ html.dark .btn-danger{background:#3a1c1e;}
 .voice-label{display:none;}
 @media(prefers-reduced-motion:reduce){.voice-record-btn,.voice-record-btn.recording{animation:none;transition:none;}}
 
-
 .stranger-bar { padding: 15px; background: var(--surface); border-top: 1px solid var(--line); text-align: center; }
 .stranger-bar p { margin: 0 0 12px; font-size: 13px; color: var(--muted); font-weight: 600; }
 .stranger-actions { display: flex; gap: 10px; }
@@ -350,7 +345,6 @@ html.dark .btn-danger{background:#3a1c1e;}
 .search-result .info strong{display:flex;align-items:center;gap:4px;font-size:14.5px;}
 .search-result .info span{display:block;font-size:12px;color:var(--primary-dark);}
 
-/* STATUS VIEWER */
 .status-viewer{position:absolute;inset:0;background:#000;color:#fff;z-index:90;display:flex;flex-direction:column;overflow:hidden;}
 .status-viewer .sv-header{display:flex;align-items:center;gap:10px;padding:calc(env(safe-area-inset-top) + 24px) 16px 14px;background:linear-gradient(180deg,rgba(0,0,0,.7),transparent);z-index:100;position:absolute;top:0;left:0;right:0;}
 .status-viewer .sv-header .info{flex:1;}
@@ -400,7 +394,6 @@ html.dark .btn-danger{background:#3a1c1e;}
 html.dark .badge-admin{background:#082f49;color:#7dd3fc;}
 html.dark .badge-owner{background:#422006;color:#fde047;}
 
-/* SWITCH (Dark Mode toggle) */
 .switch{
   appearance:none;-webkit-appearance:none;
   width:44px;height:26px;
@@ -423,7 +416,6 @@ html.dark .badge-owner{background:#422006;color:#fde047;}
 }
 .switch:checked{background:var(--primary);}
 .switch:checked::after{transform:translateX(18px);}
-
 
 /* ===== CHATGO · MATERIAL 3 REDESIGN ===== */
 :root{
@@ -472,7 +464,6 @@ html,body,button,input,select,textarea{font-family:Roboto,"Google Sans",-apple-s
 .seg-btn{border-radius:999px;}
 .seg-btn.active{box-shadow:0 1px 4px rgba(0,0,0,.12);}
 
-/* Dialogs and action panels now behave as Material 3 modal bottom sheets. */
 #modal-root:not(.hidden){align-items:stretch;justify-content:center;padding:0;}
 .modal-backdrop{position:absolute;inset:0;display:flex;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.42);backdrop-filter:blur(2px);}
 .modal{align-self:flex-end;margin-top:auto;width:100%;max-width:480px;max-height:min(88dvh,820px);border-radius:28px 28px 0 0;
@@ -487,7 +478,6 @@ html,body,button,input,select,textarea{font-family:Roboto,"Google Sans",-apple-s
 @keyframes mdSheetEnter{0%{opacity:.5;transform:translateY(100%)}100%{opacity:1;transform:translateY(0)}}
 @keyframes mdSheetExit{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(100%)}}
 
-/* Toast notifications are presented as a compact bottom sheet instead of a floating corner popup. */
 .toast{position:absolute;z-index:95;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));
   width:auto;max-width:none;min-height:64px;padding:18px 22px 18px 24px;border-radius:24px 24px 18px 18px;
   background:var(--surface);color:var(--text);font-size:14px;font-weight:600;text-align:left;
@@ -495,7 +485,6 @@ html,body,button,input,select,textarea{font-family:Roboto,"Google Sans",-apple-s
   border:1px solid var(--line);display:flex;align-items:center;}
 .toast.show{opacity:1;transform:translateY(0);}
 html.dark .toast{background:var(--surface);color:var(--text);}
-
 
 .accent-settings{padding:14px 16px 16px;border-top:1px solid var(--line);}
 .accent-heading{display:flex;flex-direction:column;gap:4px;margin-bottom:14px;font-size:14px;}
@@ -507,7 +496,6 @@ html.dark .toast{background:var(--surface);color:var(--text);}
 .swatch-green{background:#16a765}.swatch-blue{background:#2878d7}.swatch-purple{background:#8955d8}.swatch-yellow{background:#e5ac22}
 .accent-choice:active{transform:scale(.95)}
 
-/* Gentle, slow-motion feedback for touch and content. */
 .chat-item,.status-item,.card,.profile-card,.menu-item,.nav-btn,.fab,.btn,.icon-btn,.avatar{
   transition:transform .56s var(--md-motion),background-color .56s var(--md-motion),
   box-shadow .56s var(--md-motion),border-color .56s var(--md-motion),color .56s var(--md-motion);
@@ -521,8 +509,6 @@ html.dark .toast{background:var(--surface);color:var(--text);}
 @media(max-width:519px){.app-shell{width:100%;height:100dvh;border-radius:0;}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important;}}
 
-
-/* Theme-aware status rings and chat surfaces */
 .story-item{width:76px;flex-basis:76px;gap:8px;}
 .story-ring{
   width:70px;height:70px;padding:3px;
@@ -541,59 +527,80 @@ html.dark .toast{background:var(--surface);color:var(--text);}
 .chat-input-wrap:focus-within{border-color:var(--primary);}
 .chat-body{background-color:var(--chat-body-bg);}
 
-
-/* ChatGo media status editor */
-.media-editor-modal{max-width:480px!important;max-height:94dvh!important;}
-.media-editor-body{gap:12px!important;padding:14px 16px!important;}
-.editor-stage{height:min(43dvh,390px);min-height:210px;background:#101513;border-radius:20px;display:grid;place-items:center;overflow:hidden;position:relative;}
-.editor-stage img,.editor-stage video{max-width:100%;max-height:100%;object-fit:contain;transform-origin:center;transition:filter .15s,transform .15s;}
-.editor-stage .editor-overlay-text{position:absolute;left:8%;right:8%;top:50%;transform:translateY(-50%);color:#fff;text-align:center;font-weight:800;font-size:24px;text-shadow:0 2px 8px #000;pointer-events:none;overflow-wrap:anywhere;}
-.editor-tools{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;}
-.editor-tool{border:1px solid var(--line);border-radius:13px;padding:9px 4px;background:var(--surface-hover);color:var(--text);font-size:11px;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:5px;}
-.editor-tool:active{background:var(--primary-soft);}
-.editor-tool span:first-child{font-size:18px;}
-.editor-control{display:flex;flex-direction:column;gap:6px;padding:9px 11px;border-radius:13px;background:var(--surface-hover);font-size:12px;font-weight:700;}
-.editor-control input[type=range]{width:100%;accent-color:var(--primary);}
-.editor-control-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-.editor-caption{width:100%;border:1px solid var(--line);border-radius:13px;background:var(--input-bg);padding:12px;color:var(--text);}
-.editor-trim{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.editor-hint{font-size:11px;color:var(--muted);line-height:1.4;margin:0;}
-
-
-/* Dedicated WhatsApp-style status editor */
+/* ===== STATUS EDITOR — HALAMAN DIPERTAHANKAN, ALAT EDIT DIHAPUS ===== */
 #modal-root:has(.status-editor-page){position:fixed;inset:0;z-index:120}
 #modal-root:has(.status-editor-page) .modal-backdrop{position:absolute;inset:0;display:block;background:#000;backdrop-filter:none}
 #modal-root:has(.status-editor-page) .modal{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border-radius:0;padding:0;background:#050708;color:#fff;box-shadow:none;overflow:hidden;animation:statusEditorIn .24s ease-out}
 @keyframes statusEditorIn{from{opacity:.5;transform:translateY(12px)}to{opacity:1;transform:none}}
 .status-editor-page{height:100%;height:100dvh;display:flex;flex-direction:column;background:#050708;color:#fff;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);position:relative}
 .status-editor-top{height:76px;flex:none;display:flex;align-items:center;justify-content:space-between;padding:0 16px;gap:12px}
-.status-editor-close,.status-tool-icon{width:48px;height:48px;border:0;border-radius:50%;background:#151a1e;color:#fff;display:grid;place-items:center;font-size:25px}
+.status-editor-close{width:48px;height:48px;border:0;border-radius:50%;background:#151a1e;color:#fff;display:grid;place-items:center;font-size:25px}
 .status-editor-actions{display:flex;align-items:center;gap:9px}
-.status-tool-icon{width:44px;height:44px;font-size:21px;font-weight:700}
-.status-tool-icon.active{background:var(--primary);color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.18)}
 .status-editor-preview-wrap{flex:1;min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:8px 12px;overflow:hidden}
 .status-editor-page .editor-stage{width:100%;height:auto;min-height:0;max-height:100%;flex:1;background:#050708;border-radius:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
 .status-editor-page .editor-stage img,.status-editor-page .editor-stage video{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
 .status-editor-page .editor-empty{color:#aeb7bd;text-align:center;font-size:14px;padding:20px}
 .status-pick-media{background:#171e23!important;color:#fff!important;border:1px solid #30383e!important;border-radius:24px!important;flex:none}
-.status-tool-panel{flex:none;max-height:34dvh;overflow:auto;background:#11171c;border-top:1px solid #283138;padding:10px 16px 14px}
-.status-panel-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;font-size:14px}
-.status-panel-heading button{border:0;background:#273037;color:#fff;border-radius:50%;width:30px;height:30px;font-size:20px}
-.status-panel-content{display:flex;flex-direction:column;gap:9px}
-.status-panel-section{display:flex;flex-direction:column;gap:9px}
-.status-panel-section .editor-control{background:#20282e;color:#f4f6f7}
-.status-panel-section .editor-caption{background:#20282e;color:#fff;border-color:#354149}
-.status-panel-section .editor-tool{background:#20282e;color:#fff;border-color:#354149}
 .status-editor-bottom{flex:none;background:#0d1318;padding:12px 14px calc(12px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:12px}
 .status-editor-bottom>.editor-caption{border:0;border-radius:24px;background:#1b2329;color:#fff;padding:15px 18px;font-size:15px}
 .status-editor-footer{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .status-editor-footer>span{font-size:12px;color:#c5cdd2;background:#20292f;padding:10px 14px;border-radius:24px}
 .status-editor-footer .btn{border-radius:50%;width:58px;height:58px;min-width:58px;padding:0;font-size:12px}
-.status-editor-page .editor-overlay-text{z-index:2}
 @media(min-width:700px){#modal-root:has(.status-editor-page) .modal{max-width:560px;left:50%;transform:translateX(-50%)}}
 
+/* Alat edit yang sudah dihapus — disembunyikan total sebagai pengaman */
+.status-tool-icon,
+.status-tool-panel,
+.editor-tools,
+.editor-tool,
+.editor-control,
+.editor-control-row,
+.editor-trim,
+.editor-overlay-text{display:none!important;}
 
-/* ChatGo Channels */
+/* ===== KANAL / SOCIAL FEED ===== */
+.social-page{max-width:680px;margin:0 auto;padding:14px 12px 90px}
+.social-heading{display:flex;align-items:center;justify-content:space-between;margin:4px 4px 14px}
+.social-heading h2{font-size:24px;margin:0;font-weight:850}
+.social-heading p{font-size:12px;color:var(--muted);margin:4px 0 0}
+.social-profile-shortcut{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:22px;padding:9px 13px;font-size:12px;font-weight:700}
+.social-compose-card,.social-post-card{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:13px;margin-bottom:12px}
+.social-compose-top{display:flex;align-items:flex-start;gap:10px}
+.social-my-avatar,.social-avatar{width:42px;height:42px;flex:none;border-radius:50%;overflow:hidden;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:800}
+.social-my-avatar img,.social-avatar img{width:100%;height:100%;object-fit:cover}
+.social-compose-top textarea{flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:14px;resize:vertical;outline:none;padding:8px 0;min-height:58px}
+.social-compose-bottom{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:9px}
+.social-compose-bottom button{border:0;border-radius:20px;padding:8px 12px;background:var(--primary-soft);color:var(--primary);font-size:12px;font-weight:750}
+.social-compose-bottom span{font-size:10px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.social-compose-bottom .social-publish-btn{background:var(--primary);color:white}
+.social-post-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.social-post-author{min-width:0;flex:1}
+.social-post-author strong{display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.social-post-author small{display:block;font-size:10px;color:var(--muted);margin-top:3px}
+.social-post-text{font-size:14px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text);margin:8px 0}
+.social-post-media{width:100%;max-height:420px;object-fit:contain;background:var(--surface-2,var(--surface));border-radius:13px;margin-top:8px}
+.social-post-actions{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:11px}
+.social-post-actions button{flex:1;border:0;background:transparent;color:var(--muted);padding:7px 2px;border-radius:10px;font-size:12px;font-weight:650}
+.social-post-actions button.liked{color:#e34d76}
+.social-post-counts{font-size:11px;color:var(--muted);padding:5px 2px}
+.social-profile-page{height:100%;max-height:85vh;overflow:auto}
+.social-profile-cover{height:85px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:15px 15px 0 0}
+.social-profile-body{padding:0 16px 16px}
+.social-profile-avatar{width:76px;height:76px;border:4px solid var(--surface);margin-top:-38px;border-radius:50%;overflow:hidden;background:var(--primary-soft);display:grid;place-items:center;font-weight:800;font-size:24px}
+.social-profile-avatar img{width:100%;height:100%;object-fit:cover}
+.social-profile-name{font-size:20px;font-weight:850;margin:10px 0 4px}
+.social-profile-bio{font-size:13px;color:var(--muted);white-space:pre-wrap}
+.social-profile-stats{display:flex;gap:18px;font-size:12px;color:var(--muted);margin:12px 0}
+.social-profile-follow{border:0;border-radius:22px;padding:9px 18px;background:var(--primary);color:white;font-weight:750}
+.social-comment-list{max-height:45vh;overflow:auto}
+.social-comment{display:flex;gap:8px;padding:9px 0}
+.social-comment-content{font-size:12px;line-height:1.45;background:var(--surface-2,var(--surface));border-radius:12px;padding:8px 11px;flex:1;overflow-wrap:anywhere}
+.social-comment-content strong{display:block;margin-bottom:3px}
+.social-comment-form{display:flex;gap:8px;margin-top:10px}
+.social-comment-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:22px;padding:10px 13px;background:var(--input-bg);color:var(--text)}
+.social-comment-form button{border:0;border-radius:22px;padding:0 14px;background:var(--primary);color:white;font-weight:700}
+
+/* ===== KANAL ===== */
 #tab-channels{padding:0 0 24px}
 .channels-page{padding:18px 16px 28px}
 .channels-heading{display:flex;align-items:center;justify-content:space-between;margin:2px 2px 16px}
@@ -640,8 +647,6 @@ html.dark .toast{background:var(--surface);color:var(--text);}
 .channel-modal-title button{border:0;background:transparent;color:var(--muted);font-size:24px}
 @media(min-width:700px){.channels-page{max-width:760px;margin:auto}.channel-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}}
 
-
-/* Channel timeline: messages render as chat bubbles in a dedicated channel view */
 #modal-root:has(.channel-chat-page) .modal{position:absolute;inset:0;width:100%;height:100%;max-width:none;max-height:none;margin:0;border-radius:0;padding:0;background:var(--chat-body-bg);overflow:hidden;animation:channelChatIn .28s ease both}
 #modal-root:has(.channel-chat-page) .modal::before{display:none}
 @keyframes channelChatIn{from{opacity:.5;transform:translateX(18px)}to{opacity:1;transform:none}}
@@ -674,9 +679,6 @@ html.dark .toast{background:var(--surface);color:var(--text);}
 .channel-chat-followbar button{padding:10px 22px;border-radius:99px;background:var(--primary);color:#fff;font-size:13px;font-weight:700}
 .channel-chat-followbar button.following{background:var(--primary-soft);color:var(--primary-dark)}
 .channel-chat-followbar span{font-size:10px;color:var(--muted);text-align:center}
-
-/* Kanal social timeline */
-.social-page{max-width:680px;margin:0 auto;padding:14px 12px 90px}.social-heading{display:flex;align-items:center;justify-content:space-between;margin:4px 4px 14px}.social-heading h2{font-size:24px;margin:0;font-weight:850}.social-heading p{font-size:12px;color:var(--muted);margin:4px 0 0}.social-profile-shortcut{border:1px solid var(--line);background:var(--surface);color:var(--text);border-radius:22px;padding:9px 13px;font-size:12px;font-weight:700}.social-compose-card,.social-post-card{background:var(--surface);border:1px solid var(--line);border-radius:17px;padding:13px;margin-bottom:12px}.social-compose-top{display:flex;align-items:flex-start;gap:10px}.social-my-avatar,.social-avatar{width:42px;height:42px;flex:none;border-radius:50%;overflow:hidden;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center;font-weight:800}.social-my-avatar img,.social-avatar img{width:100%;height:100%;object-fit:cover}.social-compose-top textarea{flex:1;min-width:0;border:0;background:transparent;color:var(--text);font:inherit;font-size:14px;resize:vertical;outline:none;padding:8px 0;min-height:58px}.social-compose-bottom{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:9px}.social-compose-bottom button{border:0;border-radius:20px;padding:8px 12px;background:var(--primary-soft);color:var(--primary);font-size:12px;font-weight:750}.social-compose-bottom span{font-size:10px;color:var(--muted);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.social-compose-bottom .social-publish-btn{background:var(--primary);color:white}.social-post-head{display:flex;align-items:center;gap:10px;margin-bottom:10px}.social-post-author{min-width:0;flex:1}.social-post-author strong{display:block;font-size:13px;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.social-post-author small{display:block;font-size:10px;color:var(--muted);margin-top:3px}.social-post-text{font-size:14px;line-height:1.55;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text);margin:8px 0}.social-post-media{width:100%;max-height:420px;object-fit:contain;background:var(--surface-2,var(--surface));border-radius:13px;margin-top:8px}.social-post-actions{display:flex;align-items:center;gap:8px;border-top:1px solid var(--line);padding-top:10px;margin-top:11px}.social-post-actions button{flex:1;border:0;background:transparent;color:var(--muted);padding:7px 2px;border-radius:10px;font-size:12px;font-weight:650}.social-post-actions button.liked{color:#e34d76}.social-post-counts{font-size:11px;color:var(--muted);padding:5px 2px}.social-profile-page{height:100%;max-height:85vh;overflow:auto}.social-profile-cover{height:85px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:15px 15px 0 0}.social-profile-body{padding:0 16px 16px}.social-profile-avatar{width:76px;height:76px;border:4px solid var(--surface);margin-top:-38px;border-radius:50%;overflow:hidden;background:var(--primary-soft);display:grid;place-items:center;font-weight:800;font-size:24px}.social-profile-avatar img{width:100%;height:100%;object-fit:cover}.social-profile-name{font-size:20px;font-weight:850;margin:10px 0 4px}.social-profile-bio{font-size:13px;color:var(--muted);white-space:pre-wrap}.social-profile-stats{display:flex;gap:18px;font-size:12px;color:var(--muted);margin:12px 0}.social-profile-follow{border:0;border-radius:22px;padding:9px 18px;background:var(--primary);color:white;font-weight:750}.social-comment-list{max-height:45vh;overflow:auto}.social-comment{display:flex;gap:8px;padding:9px 0}.social-comment-content{font-size:12px;line-height:1.45;background:var(--surface-2,var(--surface));border-radius:12px;padding:8px 11px;flex:1;overflow-wrap:anywhere}.social-comment-content strong{display:block;margin-bottom:3px}.social-comment-form{display:flex;gap:8px;margin-top:10px}.social-comment-form input{flex:1;min-width:0;border:1px solid var(--line);border-radius:22px;padding:10px 13px;background:var(--input-bg);color:var(--text)}.social-comment-form button{border:0;border-radius:22px;padding:0 14px;background:var(--primary);color:white;font-weight:700}
 </style>
 </head>
 <body>
@@ -833,6 +835,9 @@ html.dark .toast{background:var(--surface);color:var(--text);}
           <button type="button" class="row" id="btn-blocked-list">
             <span><span class="row-ico"><svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><circle cx="12" cy="12" r="10"></circle><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"></line></svg></span>Daftar Diblokir</span>
           </button>
+          <button type="button" class="row" id="btn-logout">
+            <span><span class="row-ico"><svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></span>Keluar</span>
+          </button>
         </div>
       </div>
     </main>
@@ -910,6 +915,7 @@ html.dark .toast{background:var(--surface);color:var(--text);}
   <div class="toast" id="toast"></div>
   <input type="file" id="photo-input" accept="image/*" class="hidden">
   <input type="file" id="chat-media-input" accept="image/*" class="hidden">
+  <input type="file" id="status-media-input" accept="image/*,video/*" class="hidden">
   <input type="file" id="social-media-input" accept="image/*,video/*" class="hidden">
 </div>
 
@@ -946,7 +952,6 @@ const CLOUDINARY_CLOUD_NAME = "dyytjk3ho";
 const CLOUDINARY_UPLOAD_PRESET = "chatgo_preset";
 
 async function uploadToCloudinary(file, resourceType = 'auto') {
-  // Cloudinary stores audio under the video resource type; images keep using auto.
   const safeType = resourceType === 'video' ? 'video' : 'auto';
   const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${safeType}/upload`;
   const formData = new FormData();
@@ -963,9 +968,11 @@ async function uploadToCloudinary(file, resourceType = 'auto') {
 
 /* FCM */
 const VAPID_KEY = "BFtpTtm7Kp50VoK7EnSl7Kf-ix9EZ5NFiaXDQWHaohOFFpdb4gBcbDwH4Dv-s88x96uedrM_9HH2Vmccy0Nx4cc";
-const messaging = getMessaging(app);
+let messaging = null;
+try { messaging = getMessaging(app); } catch(e) { console.warn('FCM tidak tersedia:', e); }
 
 async function setupFCM() {
+  if (!messaging) return;
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
   try {
     const registration = await navigator.serviceWorker.register('./sw.js'); 
@@ -977,19 +984,15 @@ async function setupFCM() {
   } catch (error) { console.error('Gagal setup FCM:', error); }
 }
 
-onMessage(messaging, (payload) => {
-  const title = payload.notification?.title || "ChatGo";
-  const body = payload.notification?.body || "Pesan baru";
-  showNotif(title, body, payload.data?.chatId);
-});
+if (messaging) {
+  onMessage(messaging, (payload) => {
+    const title = payload.notification?.title || "ChatGo";
+    const body = payload.notification?.body || "Pesan baru";
+    showNotif(title, body, payload.data?.chatId);
+  });
+}
 
 const BLUE_TICK_SVG = `<svg class="tick-svg" viewBox="0 0 24 24"><path d="M12 2L14.5 5.5L18.5 4.5L19.5 8.5L23 11L20.5 14.5L21.5 18.5L17.5 19.5L15 23L11.5 20.5L7.5 21.5L6.5 17.5L3 15L5.5 11.5L4.5 7.5L8.5 6.5L11 3L12 2Z"/><path d="M8 12L11 15L16 9" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
-
-const SVG_GROUP = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`;
-const SVG_CONTACT = `<svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4zm7-9h-2v2h2v2h-2v2h2v2h-2v2h2v2h-2v2h2V5z"/></svg>`;
-const SVG_LOCK = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>`;
-const SVG_TRASH = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>`;
-const SVG_MUTE = `<svg class="svg-icon-outline" viewBox="0 0 24 24" style="width:18px;height:18px"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>`;
 
 const STATE = {
   uid: null, me: null,
@@ -1012,7 +1015,7 @@ const fmtTime = ts => { if (!ts) return ''; const d = ts.toDate ? ts.toDate() : 
 const fmtRel = ts => { if (!ts) return ''; const d = ts.toDate ? ts.toDate() : new Date(ts); const diff = Date.now() - d.getTime(); if (diff < 60000) return 'baru saja'; if (diff < 3600000) return Math.floor(diff/60000) + 'm lalu'; if (diff < 86400000) return Math.floor(diff/3600000) + 'j lalu'; return d.toLocaleDateString('id-ID', {day:'numeric', month:'short'}); };
 
 /* ============================================================
-   THEME MANAGEMENT (Dark Mode)
+   THEME MANAGEMENT
    ============================================================ */
 const THEME_KEY = 'chatgo_theme';
 const ACCENT_KEY = 'chatgo_accent';
@@ -1091,9 +1094,7 @@ function showModal(html, onMount) {
   if (onMount) onMount(root);
 }
 function closeModal() {
-  if (typeof activeChannelPostsUnsub === 'function') { try { activeChannelPostsUnsub(); } catch(e) {} activeChannelPostsUnsub = null; }
-  if (typeof socialProfileUnsub === 'function') { try { socialProfileUnsub(); } catch(e) {} socialProfileUnsub = null; }
-  if (typeof socialCommentsUnsub === 'function') { try { socialCommentsUnsub(); } catch(e) {} socialCommentsUnsub = null; }
+  if (typeof window.__unsubModal === 'function') { try { window.__unsubModal(); } catch(e){} window.__unsubModal = null; }
   const root = $('#modal-root'); root.innerHTML = ''; root.classList.add('hidden');
 }
 window.closeModal = closeModal;
@@ -1142,7 +1143,7 @@ async function loadProfileAndShow(user) {
     if (snap.exists()) break;
     await new Promise(r => setTimeout(r, 500));
   }
-  if (!snap || !snap.exists()) { showModal(`<div class="modal-body"><p class="muted small">Gagal memuat profil.</p></div><div class="modal-footer"><button class="btn btn-soft" onclick="location.reload()">Tutup</button></div>`); return; }
+  if (!snap || !snap.exists()) { toast('Gagal memuat profil'); return; }
   if (snap.data().isBanned) {
     showModal(`<div class="modal-header"><h3>Akses Ditolak 🚫</h3></div><div class="modal-body"><p class="muted small">Akun Anda diblokir.</p></div><div class="modal-footer"><button class="btn btn-soft" id="banned-logout">Keluar</button></div>`, root => { root.querySelector('#banned-logout').onclick = () => { closeModal(); signOut(auth); }; });
     return;
@@ -1153,6 +1154,7 @@ async function loadProfileAndShow(user) {
   startPresence();
   showScreen('screen-home');
   attachListeners();
+  startSocialFeed();
   setupFCM();
 }
 
@@ -1174,6 +1176,7 @@ function updateProfileUI() {
   setAvatarEl($('#my-status-avatar'), me.displayName, me.photoURL);
   setAvatarEl($('#me-avatar'), me.displayName, me.photoURL, 'lg');
   if($('#priv-who')) $('#priv-who').value = me.privacy?.whoCanMessage || 'everyone';
+  const sca = $('#social-compose-avatar'); if (sca) setAvatarEl(sca, me.displayName, me.photoURL);
 }
 
 function startPresence() {
@@ -1226,1551 +1229,699 @@ function listenPeerPresence(chat) {
   });
 }
 
-
 /* ============================================================
    KANAL — social feed, profiles, follows, likes and comments
    ============================================================ */
-let socialFeedUnsub=null, socialProfileUnsub=null, socialCommentsUnsub=null, socialSelectedFile=null;
+let socialFeedUnsub=null, socialSelectedFile=null;
 function socialAvatar(name,photo,cls='social-avatar'){return `<div class="${cls}">${photo?`<img src="${esc(photo)}" alt="">`:esc(initialsFor(name||'Pengguna'))}</div>`;}
-function socialAuthorName(user){return user?.displayName||'Pengguna';}
-function startSocialFeed(){if(socialFeedUnsub){socialFeedUnsub();socialFeedUnsub=null;}
- const feed=$('#social-feed');if(!feed)return;
- socialFeedUnsub=onSnapshot(query(collection(db,'socialPosts'),orderBy('createdAt','desc'),limit(60)),snap=>{
-  const posts=snap.docs.map(d=>({id:d.id,...d.data()}));
-  feed.innerHTML=posts.length?posts.map(socialPostHTML).join(''):'<div class="channels-empty">Belum ada postingan. Jadilah yang pertama berbagi!</div>';
-  feed.querySelectorAll('[data-social-profile]').forEach(el=>el.onclick=()=>openSocialProfile(el.dataset.socialProfile));
-  feed.querySelectorAll('[data-social-like]').forEach(el=>bindSocialLike(el));
-  feed.querySelectorAll('[data-social-comment]').forEach(el=>el.onclick=()=>openSocialComments(el.dataset.socialComment));
-  feed.querySelectorAll('[data-social-delete]').forEach(el=>el.onclick=async()=>{if(!confirm('Hapus postingan ini?'))return;try{await deleteDoc(doc(db,'socialPosts',el.dataset.socialDelete));toast('Postingan dihapus');}catch(e){toast('Gagal menghapus: '+e.message);}});
-  feed.querySelectorAll('[data-social-media]').forEach(el=>el.onclick=()=>openSocialMedia(el.dataset.socialMedia,el.dataset.socialType));
- },err=>{console.warn(err);feed.innerHTML='<div class="channels-empty">Linimasa belum dapat dimuat. Periksa aturan akses Firestore.</div>';});
-}
-function socialPostHTML(p){const name=esc(p.displayName||'Pengguna'),photo=p.photoURL||'',time=esc(fmtRel(p.createdAt));const media=p.mediaURL?(p.mediaType==='video'?`<video class="social-post-media" src="${esc(p.mediaURL)}" controls playsinline></video>`:`<img class="social-post-media" src="${esc(p.mediaURL)}" alt="Foto postingan" data-social-media="${esc(p.mediaURL)}" data-social-type="image">`):'';
- return `<article class="social-post-card" data-post-card="${esc(p.id)}"><div class="social-post-head"><button type="button" data-social-profile="${esc(p.userId)}" style="border:0;background:transparent;padding:0">${socialAvatar(p.displayName,photo)}</button><button type="button" class="social-post-author" data-social-profile="${esc(p.userId)}" style="border:0;background:transparent;text-align:left;padding:0"><strong>${name}</strong><small>${time}</small></button>${p.userId===STATE.uid?`<button type="button" data-social-delete="${esc(p.id)}" class="social-profile-shortcut">•••</button>`:''}</div>${p.text?`<div class="social-post-text">${esc(p.text)}</div>`:''}${media}<div class="social-post-counts" id="social-counts-${esc(p.id)}">Memuat interaksi…</div><div class="social-post-actions"><button type="button" data-social-like="${esc(p.id)}">♡ Suka</button><button type="button" data-social-comment="${esc(p.id)}">◯ Komentar</button></div></article>`;
-}
-async function bindSocialLike(btn){const id=btn.dataset.socialLike,ref=doc(db,'socialPosts',id,'likes',STATE.uid);try{const snap=await getDoc(ref);if(snap.exists())btn.classList.add('liked'),btn.innerHTML='♥ Disukai';const likes=await getDocs(collection(db,'socialPosts',id,'likes'));const comments=await getDocs(collection(db,'socialPosts',id,'comments'));const el=$(`#social-counts-${CSS.escape(id)}`);if(el)el.textContent=`${likes.size} suka · ${comments.size} komentar`;}catch(e){console.warn(e);}btn.onclick=async()=>{try{const s=await getDoc(ref);if(s.exists()){await deleteDoc(ref);btn.classList.remove('liked');btn.innerHTML='♡ Suka';}else{await setDoc(ref,{userId:STATE.uid,displayName:STATE.me.displayName||'Pengguna',photoURL:STATE.me.photoURL||'',createdAt:serverTimestamp()});btn.classList.add('liked');btn.innerHTML='♥ Disukai';}const likes=await getDocs(collection(db,'socialPosts',id,'likes'));const el=$(`#social-counts-${CSS.escape(id)}`);if(el)el.textContent=`${likes.size} suka · ${el.textContent.split('·').pop().trim()}`;}catch(e){toast('Tidak dapat menyukai: '+e.message);}};}
-function openSocialComposer(){showModal(`<div class="modal-header"><h3>Buat postingan</h3></div><div class="modal-body"><textarea id="social-modal-text" class="channel-compose" maxlength="2000" placeholder="Apa yang ingin kamu bagikan?">${esc($('#social-compose-text')?.value||'')}</textarea><button type="button" class="btn btn-soft" id="social-modal-media">＋ Tambah foto/video</button><p id="social-modal-file" class="muted small">${esc(socialSelectedFile?.name||'Belum ada media')}</p></div><div class="modal-footer"><button class="btn btn-soft" id="social-modal-cancel">Batal</button><button class="btn btn-primary" id="social-modal-submit">Posting</button></div>`,root=>{root.querySelector('#social-modal-cancel').onclick=closeModal;root.querySelector('#social-modal-media').onclick=()=>$('#social-media-input').click();root.querySelector('#social-modal-submit').onclick=async()=>{const text=root.querySelector('#social-modal-text').value.trim();const file=socialSelectedFile;if(!text&&!file){toast('Isi teks atau pilih foto/video');return;}const b=root.querySelector('#social-modal-submit');b.disabled=true;b.textContent='Mengunggah…';try{let mediaURL='',mediaType='';if(file){mediaType=file.type.startsWith('video/')?'video':'image';mediaURL=await uploadToCloudinary(file,mediaType==='video'?'video':'auto');}await addDoc(collection(db,'socialPosts'),{userId:STATE.uid,displayName:STATE.me.displayName||'Pengguna',photoURL:STATE.me.photoURL||'',text,mediaURL,mediaType,createdAt:serverTimestamp()});socialSelectedFile=null;$('#social-compose-text').value='';$('#social-media-label').textContent='Teks, foto, atau video';closeModal();toast('Postingan diterbitkan');}catch(e){b.disabled=false;b.textContent='Posting';toast('Gagal posting: '+e.message);}};});}
-async function openSocialProfile(uid){try{const us=await getDoc(doc(db,'users',uid));if(!us.exists()){toast('Profil tidak ditemukan');return;}const u={uid,...us.data()};const mine=uid===STATE.uid;const followingSnap=mine?null:await getDoc(doc(db,'users',STATE.uid,'socialFollowing',uid));const followers=await getDocs(collection(db,'users',uid,'socialFollowers'));const following=await getDocs(collection(db,'users',uid,'socialFollowing'));showModal(`<div class="social-profile-page"><div class="social-profile-cover"></div><div class="social-profile-body">${socialAvatar(u.displayName,u.photoURL,'social-profile-avatar')}<div class="social-profile-name">${esc(u.displayName||'Pengguna')}</div><div class="social-profile-bio">${esc(u.socialBio||'Belum ada bio sosial.')}</div><div class="social-profile-stats"><span><b>${followers.size}</b> pengikut</span><span><b>${following.size}</b> mengikuti</span></div>${mine?'<button class="social-profile-follow" id="social-edit-bio">Edit bio</button>':`<button class="social-profile-follow" id="social-follow-toggle">${followingSnap?.exists()?'Mengikuti':'Ikuti'}</button>`}<h3 style="margin-top:20px">Postingan</h3><div id="social-user-posts"><div class="channels-empty">Memuat postingan…</div></div></div></div><div class="modal-footer"><button class="btn btn-soft" id="social-profile-close">Tutup</button></div>`,root=>{root.querySelector('#social-profile-close').onclick=closeModal;if(mine)root.querySelector('#social-edit-bio').onclick=()=>{showModal(`<div class="modal-header"><h3>Bio sosial</h3></div><div class="modal-body"><textarea id="social-bio-edit" class="channel-compose" maxlength="240" placeholder="Ceritakan tentang dirimu">${esc(STATE.me.socialBio||'')}</textarea></div><div class="modal-footer"><button class="btn btn-soft" id="social-bio-cancel">Batal</button><button class="btn btn-primary" id="social-bio-save">Simpan</button></div>`,r=>{r.querySelector('#social-bio-cancel').onclick=()=>openSocialProfile(STATE.uid);r.querySelector('#social-bio-save').onclick=async()=>{const bio=r.querySelector('#social-bio-edit').value.trim();try{await updateDoc(doc(db,'users',STATE.uid),{socialBio:bio});STATE.me.socialBio=bio;openSocialProfile(STATE.uid);toast('Bio sosial diperbarui');}catch(e){toast(e.message);}};});};else root.querySelector('#social-follow-toggle').onclick=async()=>{const following=followingSnap?.exists();try{if(following){await deleteDoc(doc(db,'users',STATE.uid,'socialFollowing',uid));await deleteDoc(doc(db,'users',uid,'socialFollowers',STATE.uid));}else{await setDoc(doc(db,'users',STATE.uid,'socialFollowing',uid),{uid,createdAt:serverTimestamp()});await setDoc(doc(db,'users',uid,'socialFollowers',STATE.uid),{uid:STATE.uid,displayName:STATE.me.displayName,photoURL:STATE.me.photoURL||'',createdAt:serverTimestamp()});}openSocialProfile(uid);}catch(e){toast('Gagal mengubah follow: '+e.message);}};const unsub=onSnapshot(query(collection(db,'socialPosts'),where('userId','==',uid),limit(50)),snap=>{const el=root.querySelector('#social-user-posts');if(!el)return;const posts=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>{const at=a.createdAt?.toMillis?.()||0,bt=b.createdAt?.toMillis?.()||0;return bt-at;});el.innerHTML=posts.length?posts.map(socialPostHTML).join(''):'<div class="channels-empty">Belum ada postingan.</div>';el.querySelectorAll('[data-social-profile]').forEach(b=>b.onclick=()=>openSocialProfile(b.dataset.socialProfile));el.querySelectorAll('[data-social-like]').forEach(b=>bindSocialLike(b));el.querySelectorAll('[data-social-comment]').forEach(b=>b.onclick=()=>openSocialComments(b.dataset.socialComment));el.querySelectorAll('[data-social-delete]').forEach(b=>b.onclick=async()=>{if(confirm('Hapus postingan ini?'))await deleteDoc(doc(db,'socialPosts',b.dataset.socialDelete));});});if(socialProfileUnsub)socialProfileUnsub();socialProfileUnsub=unsub;});}catch(e){toast('Profil tidak dapat dibuka: '+e.message);}}
-function openSocialComments(postId){if(socialCommentsUnsub){socialCommentsUnsub();socialCommentsUnsub=null;}showModal(`<div class="modal-header"><h3>Komentar</h3></div><div class="modal-body"><div id="social-comments-list" class="social-comment-list">Memuat komentar…</div><form id="social-comment-form" class="social-comment-form"><input id="social-comment-input" maxlength="500" placeholder="Tulis komentar…" required><button type="submit">Kirim</button></form></div><div class="modal-footer"><button class="btn btn-soft" id="social-comments-close">Tutup</button></div>`,root=>{root.querySelector('#social-comments-close').onclick=()=>{if(socialCommentsUnsub)socialCommentsUnsub();closeModal();};socialCommentsUnsub=onSnapshot(query(collection(db,'socialPosts',postId,'comments'),orderBy('createdAt','asc'),limit(100)),snap=>{const el=root.querySelector('#social-comments-list');if(!el)return;el.innerHTML=snap.size?snap.docs.map(d=>{const c=d.data();return `<div class="social-comment">${socialAvatar(c.displayName,c.photoURL,'social-avatar')}<div class="social-comment-content"><strong>${esc(c.displayName||'Pengguna')}</strong>${esc(c.text||'')}</div></div>`;}).join(''):'<div class="channels-empty">Belum ada komentar.</div>';});root.querySelector('#social-comment-form').onsubmit=async e=>{e.preventDefault();const input=root.querySelector('#social-comment-input'),text=input.value.trim();if(!text)return;try{await addDoc(collection(db,'socialPosts',postId,'comments'),{userId:STATE.uid,displayName:STATE.me.displayName||'Pengguna',photoURL:STATE.me.photoURL||'',text,createdAt:serverTimestamp()});input.value='';}catch(err){toast('Gagal mengirim komentar: '+err.message);}};});}
-function openSocialMedia(url,type){showModal(`<div class="modal-body">${type==='video'?`<video src="${esc(url)}" controls autoplay playsinline style="width:100%;max-height:70vh"></video>`:`<img src="${esc(url)}" alt="Foto postingan" style="width:100%;max-height:70vh;object-fit:contain">`}</div><div class="modal-footer"><button class="btn btn-primary" id="social-media-close">Tutup</button></div>`,r=>r.querySelector('#social-media-close').onclick=closeModal);}
-function renderChannels(){if($('#social-compose-avatar'))$('#social-compose-avatar').innerHTML=socialAvatar(STATE.me?.displayName,STATE.me?.photoURL);}
-function detachSocialListeners(){if(socialFeedUnsub){socialFeedUnsub();socialFeedUnsub=null;}if(socialProfileUnsub){socialProfileUnsub();socialProfileUnsub=null;}if(socialCommentsUnsub){socialCommentsUnsub();socialCommentsUnsub=null;}}
 
-function detachListeners() {
-  if(typeof detachSocialListeners==='function') detachSocialListeners();
-  ['unsubChats','unsubStatuses','unsubMsgs','unsubTyping','unsubPresence'].forEach(k => {
-    if (STATE[k]) { try { STATE[k](); } catch(e){} STATE[k] = null; }
-  });
+function startSocialFeed(){
+  if(socialFeedUnsub){socialFeedUnsub();socialFeedUnsub=null;}
+  const feed=$('#social-feed');if(!feed)return;
+  socialFeedUnsub=onSnapshot(query(collection(db,'socialPosts'),orderBy('createdAt','desc'),limit(60)),snap=>{
+    const posts=snap.docs.map(d=>({id:d.id,...d.data()}));
+    feed.innerHTML=posts.length?posts.map(socialPostHTML).join(''):'<div class="channels-empty">Belum ada postingan. Jadilah yang pertama berbagi!</div>';
+    feed.querySelectorAll('[data-social-profile]').forEach(el=>el.onclick=()=>openSocialProfile(el.dataset.socialProfile));
+    feed.querySelectorAll('[data-social-like]').forEach(el=>bindSocialLike(el));
+    feed.querySelectorAll('[data-social-comment]').forEach(el=>el.onclick=()=>openSocialComments(el.dataset.socialComment));
+    feed.querySelectorAll('[data-social-delete]').forEach(el=>el.onclick=async(e)=>{e.stopPropagation();if(!confirm('Hapus postingan ini?'))return;try{await deleteDoc(doc(db,'socialPosts',el.dataset.socialDelete));toast('Postingan dihapus');}catch(err){toast('Gagal menghapus: '+err.message);}});
+    feed.querySelectorAll('[data-social-media]').forEach(el=>el.onclick=()=>openSocialMedia(el.dataset.socialMedia,el.dataset.socialType));
+  },err=>{console.warn(err);feed.innerHTML='<div class="channels-empty">Linimasa belum dapat dimuat. Periksa aturan akses Firestore.</div>';});
 }
-function attachListeners() { detachListeners(); listenChats(); listenStatuses(); startSocialFeed(); renderChannels(); }
 
-function listenChats() {
-  const q = query(collection(db, 'chats'), where('members', 'array-contains', STATE.uid));
-  STATE.unsubChats = onSnapshot(q, snap => {
-    const all = [];
-    let needsUnhide = [];
-    snap.forEach(d => {
-      const c = { id: d.id, ...d.data() };
-      if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(c.id)) {
-        if (c.lastMessage && c.lastMessage.senderId && c.lastMessage.senderId !== STATE.uid) {
-          needsUnhide.push(c.id);
-        }
+function socialPostHTML(p){
+  const name=esc(p.displayName||'Pengguna'),photo=p.photoURL||'',time=esc(fmtRel(p.createdAt));
+  const media=p.mediaURL?(p.mediaType==='video'?`<video class="social-post-media" src="${esc(p.mediaURL)}" controls playsinline></video>`:`<img class="social-post-media" src="${esc(p.mediaURL)}" alt="Foto postingan" data-social-media="${esc(p.mediaURL)}" data-social-type="image">`):'';
+  return `<article class="social-post-card" data-post-card="${esc(p.id)}"><div class="social-post-head"><button type="button" data-social-profile="${esc(p.userId)}" style="border:0;background:transparent;padding:0">${socialAvatar(p.displayName,photo)}</button><button type="button" class="social-post-author" data-social-profile="${esc(p.userId)}" style="border:0;background:transparent;text-align:left;padding:0"><strong>${name}</strong><small>${time}</small></button>${p.userId===STATE.uid?`<button type="button" data-social-delete="${esc(p.id)}" class="social-profile-shortcut">•••</button>`:''}</div>${p.text?`<div class="social-post-text">${esc(p.text)}</div>`:''}${media}<div class="social-post-counts" id="social-counts-${esc(p.id)}">Memuat interaksi…</div><div class="social-post-actions"><button type="button" data-social-like="${esc(p.id)}">♡ Suka</button><button type="button" data-social-comment="${esc(p.id)}">◯ Komentar</button></div></article>`;
+}
+
+async function bindSocialLike(btn){
+  const id=btn.dataset.socialLike;
+  const ref=doc(db,'socialPosts',id,'likes',STATE.uid);
+  try{
+    const snap=await getDoc(ref);
+    if(snap.exists()){btn.classList.add('liked');btn.innerHTML='♥ Disukai';}
+    const likes=await getDocs(collection(db,'socialPosts',id,'likes'));
+    const comments=await getDocs(collection(db,'socialPosts',id,'comments'));
+    const el=$(`#social-counts-${CSS.escape(id)}`);
+    if(el)el.textContent=`${likes.size} suka · ${comments.size} komentar`;
+  }catch(e){console.warn(e);}
+  btn.onclick=async()=>{
+    try{
+      const s=await getDoc(ref);
+      if(s.exists()){await deleteDoc(ref);btn.classList.remove('liked');btn.innerHTML='♡ Suka';}
+      else{await setDoc(ref,{userId:STATE.uid,displayName:STATE.me.displayName||'Pengguna',photoURL:STATE.me.photoURL||'',createdAt:serverTimestamp()});btn.classList.add('liked');btn.innerHTML='♥ Disukai';}
+      const likes=await getDocs(collection(db,'socialPosts',id,'likes'));
+      const comments=await getDocs(collection(db,'socialPosts',id,'comments'));
+      const el=$(`#social-counts-${CSS.escape(id)}`);
+      if(el)el.textContent=`${likes.size} suka · ${comments.size} komentar`;
+    }catch(e){toast('Tidak dapat menyukai: '+e.message);}
+  };
+}
+
+function openSocialComposer(){
+  showModal(`<div class="modal-header"><h3>Buat postingan</h3></div><div class="modal-body"><textarea id="social-modal-text" class="channel-compose" maxlength="2000" placeholder="Apa yang ingin kamu bagikan?">${esc($('#social-compose-text')?.value||'')}</textarea><button type="button" class="btn btn-soft" id="social-modal-media">＋ Tambah foto/video</button><p id="social-modal-file" class="muted small">${esc(socialSelectedFile?.name||'Belum ada media')}</p></div><div class="modal-footer"><button class="btn btn-soft" id="social-modal-cancel">Batal</button><button class="btn btn-primary" id="social-modal-submit">Posting</button></div>`,root=>{
+    root.querySelector('#social-modal-cancel').onclick=closeModal;
+    root.querySelector('#social-modal-media').onclick=()=>$('#social-media-input').click();
+    root.querySelector('#social-modal-submit').onclick=async()=>{
+      const text=root.querySelector('#social-modal-text').value.trim();
+      const file=socialSelectedFile;
+      if(!text&&!file){toast('Isi teks atau pilih foto/video');return;}
+      const b=root.querySelector('#social-modal-submit');
+      b.disabled=true;b.textContent='Mengunggah…';
+      try{
+        let mediaURL='',mediaType='';
+        if(file){mediaType=file.type.startsWith('video/')?'video':'image';mediaURL=await uploadToCloudinary(file,mediaType==='video'?'video':'auto');}
+        await addDoc(collection(db,'socialPosts'),{userId:STATE.uid,displayName:STATE.me.displayName||'Pengguna',photoURL:STATE.me.photoURL||'',text,mediaURL,mediaType,createdAt:serverTimestamp()});
+        socialSelectedFile=null;
+        $('#social-compose-text').value='';
+        $('#social-media-label').textContent='Teks, foto, atau video';
+        closeModal();toast('Postingan diterbitkan');
+      }catch(e){
+        b.disabled=false;b.textContent='Posting';toast('Gagal posting: '+e.message);
       }
-      all.push(c);
-    });
-    if (needsUnhide.length > 0) {
-      STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => !needsUnhide.includes(id));
-      updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(...needsUnhide) }).catch(()=>{});
-    }
-    STATE.chats = all;
-    STATE.chats.sort((a, b) => {
-      if (a.type === 'self') return -1;
-      if (b.type === 'self') return 1;
-      return (b.updatedAt?.toMillis?.() || 0) - (a.updatedAt?.toMillis?.() || 0);
-    });
-    renderChats();
+    };
   });
 }
 
-$('#btn-select-mode').addEventListener('click', () => {
-  STATE.isSelectMode = !STATE.isSelectMode;
-  STATE.selectedChats.clear();
-  $('#search-container').classList.toggle('hidden', STATE.isSelectMode);
-  $('#select-container').classList.toggle('hidden', !STATE.isSelectMode);
-  $('.bottom-nav').classList.toggle('hidden', STATE.isSelectMode);
-  $('#fab').classList.toggle('hidden', STATE.isSelectMode || !$('#tab-chats').classList.contains('active'));
-  $('#btn-select-mode').classList.toggle('ghost-light', !STATE.isSelectMode);
-  $('#btn-select-mode').classList.toggle('active', STATE.isSelectMode);
-  $('#list-chats').classList.toggle('select-mode-active', STATE.isSelectMode);
-  renderChats();
-});
-$('#btn-cancel-select').addEventListener('click', () => $('#btn-select-mode').click());
-$('#btn-select-all').addEventListener('click', () => {
-  const visibleChats = STATE.chats.filter(c => !STATE.me.hiddenChats?.includes(c.id));
-  if (STATE.selectedChats.size === visibleChats.length) STATE.selectedChats.clear();
-  else visibleChats.forEach(c => STATE.selectedChats.add(c.id));
-  renderChats();
-});
-$('#btn-delete-selected').addEventListener('click', async () => {
-  if (STATE.selectedChats.size === 0) { toast('Pilih chat dulu'); return; }
-  if (!confirm(`Hapus ${STATE.selectedChats.size} chat dari halaman utama?`)) return;
-  try {
-    const arr = Array.from(STATE.selectedChats);
-    await updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayUnion(...arr) });
-    STATE.me.hiddenChats = [...(STATE.me.hiddenChats || []), ...arr];
-    toast('Chat dihapus dari halaman utama');
-    $('#btn-select-mode').click();
-    renderChats();
-  } catch (e) { toast('Gagal: ' + e.message); }
-});
-
-function chatDisplayName(chat) {
-  if (chat.type === 'self') return 'Catatan Pribadi';
-  if (chat.type === 'group') return chat.name || 'Grup';
-  const otherUid = (chat.members || []).find(u => u !== STATE.uid);
-  return chat.memberNames?.[otherUid] || chat.name || 'Chat';
+/* [REKONSTRUKSI] openSocialProfile */
+async function openSocialProfile(uid){
+  try{
+    const us=await getDoc(doc(db,'users',uid));
+    if(!us.exists){toast('Pengguna tidak ditemukan');return;}
+    const u=us.data();
+    const postsSnap=await getDocs(query(collection(db,'socialPosts'),where('userId','==',uid),limit(30)));
+    const followersSnap=await getDocs(collection(db,'users',uid,'followers'));
+    const followingSnap=await getDocs(collection(db,'users',uid,'following'));
+    const followingMe=(await getDoc(doc(db,'users',uid,'followers',STATE.uid))).exists();
+    const isMe=uid===STATE.uid;
+    const posts=postsSnap.docs.map(d=>d.data());
+    showModal(`
+      <div class="social-profile-page">
+        <div class="social-profile-cover"></div>
+        <div class="social-profile-body">
+          <div class="social-profile-avatar">${u.photoURL?`<img src="${esc(u.photoURL)}" alt="">`:esc(initialsFor(u.displayName||'?'))}</div>
+          <div class="social-profile-name">${esc(u.displayName||'Pengguna')}${u.isVerified?BLUE_TICK_SVG:''}</div>
+          <div class="social-profile-bio">${esc(u.bio||'Belum ada bio')}</div>
+          <div class="social-profile-stats"><span><b>${posts.length}</b> Postingan</span><span><b>${followersSnap.size}</b> Pengikut</span><span><b>${followingSnap.size}</b> Mengikuti</span></div>
+          ${isMe?`<button class="social-profile-follow" id="sp-edit">Edit Profil</button>`:`<button class="social-profile-follow" id="sp-follow">${followingMe?'✓ Mengikuti':'+ Ikuti'}</button>`}
+        </div>
+      </div>
+    `,root=>{
+      root.querySelector('.modal-backdrop').onclick=e=>{if(e.target.classList.contains('modal-backdrop'))closeModal();};
+      const btn=root.querySelector('#sp-follow');
+      if(btn)btn.onclick=async()=>{
+        try{
+          const ref=doc(db,'users',uid,'followers',STATE.uid);
+          const exists=(await getDoc(ref)).exists();
+          if(exists){await deleteDoc(ref);btn.textContent='+ Ikuti';}
+          else{await setDoc(ref,{userId:STATE.uid,displayName:STATE.me.displayName||'',createdAt:serverTimestamp()});btn.textContent='✓ Mengikuti';}
+        }catch(e){toast('Gagal: '+e.message);}
+      };
+      const edit=root.querySelector('#sp-edit');if(edit)edit.onclick=()=>{closeModal();openEditProfile();};
+    });
+  }catch(e){toast('Gagal memuat profil: '+e.message);}
 }
-function getChatTick(chat) {
-  if (chat.type === 'group' && chat.isVerified) return BLUE_TICK_SVG;
-  if (chat.type === 'direct') {
-    const otherUid = (chat.members || []).find(u => u !== STATE.uid);
-    if (chat.memberVerified && chat.memberVerified[otherUid]) return BLUE_TICK_SVG;
+
+/* [REKONSTRUKSI] openSocialComments */
+async function openSocialComments(postId){
+  showModal(`
+    <div class="modal-header"><h3>Komentar</h3></div>
+    <div class="modal-body">
+      <div class="social-comment-list" id="social-comments"><p class="muted small">Memuat…</p></div>
+      <div class="social-comment-form">
+        <input id="social-comment-input" placeholder="Tulis komentar…" maxlength="500">
+        <button id="social-comment-send">Kirim</button>
+      </div>
+    </div>
+  `,root=>{
+    const list=root.querySelector('#social-comments');
+    const input=root.querySelector('#social-comment-input');
+    const send=root.querySelector('#social-comment-send');
+    const unsub=onSnapshot(query(collection(db,'socialPosts',postId,'comments'),orderBy('createdAt','asc'),limit(200)),snap=>{
+      list.innerHTML=snap.size?snap.docs.map(d=>{
+        const c=d.data();
+        return `<div class="social-comment">${socialAvatar(c.displayName,c.photoURL)}<div class="social-comment-content"><strong>${esc(c.displayName||'Pengguna')}</strong>${esc(c.text||'')}</div></div>`;
+      }).join(''):'<p class="muted small">Belum ada komentar.</p>';
+      list.scrollTop=list.scrollHeight;
+    });
+    window.__unsubModal=unsub;
+    send.onclick=async()=>{
+      const text=input.value.trim();if(!text)return;
+      input.value='';
+      try{
+        await addDoc(collection(db,'socialPosts',postId,'comments'),{userId:STATE.uid,displayName:STATE.me.displayName||'Pengguna',photoURL:STATE.me.photoURL||'',text,createdAt:serverTimestamp()});
+      }catch(e){toast('Gagal: '+e.message);}
+    };
+    input.addEventListener('keydown',e=>{if(e.key==='Enter')send.click();});
+  });
+}
+
+/* [REKONSTRUKSI] openSocialMedia */
+function openSocialMedia(url,type){
+  showModal(`<div class="modal-header"><h3>Media</h3></div><div class="modal-body" style="padding:0;background:#000"><div style="display:grid;place-items:center;min-height:220px">${type==='video'?`<video src="${esc(url)}" controls playsinline autoplay style="max-width:100%;max-height:70vh"></video>`:`<img src="${esc(url)}" style="max-width:100%;max-height:70vh;object-fit:contain">`}</div></div><div class="modal-footer"><button class="btn btn-soft" id="sm-close">Tutup</button></div>`,root=>{root.querySelector('#sm-close').onclick=closeModal;});
+}
+
+/* ============================================================
+   STATUS — [REKONSTRUKSI] dengan editor tanpa alat edit
+   ============================================================ */
+let statusSelectedFile = null;
+
+function openStatusEditor(file){
+  const url=URL.createObjectURL(file);
+  const isVideo=file.type.startsWith('video/');
+  showModal(`
+    <div class="status-editor-page">
+      <div class="status-editor-top">
+        <button type="button" class="status-editor-close" id="status-editor-close">✕</button>
+        <div class="status-editor-actions"></div>
+      </div>
+      <div class="status-editor-preview-wrap">
+        <div class="editor-stage" id="status-editor-stage">
+          ${isVideo?`<video src="${url}" controls playsinline></video>`:`<img src="${url}" alt="">`}
+        </div>
+      </div>
+      <div class="status-editor-bottom">
+        <input class="editor-caption" id="status-editor-caption" placeholder="Tambahkan caption…" maxlength="200">
+        <div class="status-editor-footer">
+          <span>${isVideo?'Video':'Foto'} siap dibagikan</span>
+          <button type="button" class="btn btn-primary" id="status-editor-send">Kirim</button>
+        </div>
+      </div>
+    </div>
+  `,root=>{
+    const closeBtn=root.querySelector('#status-editor-close');
+    const sendBtn=root.querySelector('#status-editor-send');
+    closeBtn.onclick=()=>{try{URL.revokeObjectURL(url);}catch(e){}closeModal();};
+    sendBtn.onclick=async()=>{
+      const caption=root.querySelector('#status-editor-caption').value.trim();
+      sendBtn.disabled=true;sendBtn.textContent='Mengunggah…';
+      try{
+        const mediaURL=await uploadToCloudinary(file,isVideo?'video':'auto');
+        await addDoc(collection(db,'statuses'),{
+          userId:STATE.uid,
+          displayName:STATE.me.displayName||'Pengguna',
+          photoURL:STATE.me.photoURL||'',
+          mediaURL,
+          mediaType:isVideo?'video':'image',
+          caption,
+          viewers:[],
+          likes:[],
+          createdAt:serverTimestamp(),
+          expiresAt:Timestamp.fromMillis(Date.now()+24*3600*1000)
+        });
+        try{URL.revokeObjectURL(url);}catch(e){}
+        closeModal();
+        toast('Status dibagikan');
+      }catch(e){
+        sendBtn.disabled=false;sendBtn.textContent='Kirim';
+        toast('Gagal: '+e.message);
+      }
+    };
+  });
+}
+
+/* [REKONSTRUKSI] status viewer */
+function openStatusViewer(statuses,startIndex=0){
+  if(!statuses.length)return;
+  STATE.currentStatusGroup=statuses;
+  STATE.currentStatusIndex=startIndex;
+  renderStatusViewer();
+}
+
+function renderStatusViewer(){
+  const idx=STATE.currentStatusIndex;
+  const s=STATE.currentStatusGroup[idx];
+  if(!s){closeStatusViewer();return;}
+  const isMe=s.userId===STATE.uid;
+  const root=$('#modal-root');
+  const viewersCount=(s.viewers||[]).length;
+  root.innerHTML=`
+    <div class="status-viewer" id="status-viewer">
+      <div class="status-progress-container">
+        ${STATE.currentStatusGroup.map((_,i)=>`<div class="status-progress-segment"><div class="status-progress-fill" id="spf-${i}" style="width:${i<idx?'100%':i===idx?'0%':'0%'}"></div></div>`).join('')}
+      </div>
+      <div class="sv-header">
+        ${socialAvatar(s.displayName,s.photoURL)}
+        <div class="info">
+          <strong>${esc(s.displayName||'Pengguna')}</strong>
+          <small>${esc(fmtRel(s.createdAt))}</small>
+        </div>
+        <button type="button" class="icon-btn ghost-light" id="sv-close">✕</button>
+      </div>
+      <div class="sv-body">
+        ${s.mediaType==='video'?`<video src="${esc(s.mediaURL)}" autoplay playsinline ${isMe?'controls':''}></video>`:`<img src="${esc(s.mediaURL)}" alt="">`}
+      </div>
+      ${s.caption?`<div class="status-bottom-area"><div class="status-caption">${esc(s.caption)}</div></div>`:''}
+      <div class="status-action-bar" style="position:absolute;bottom:${s.caption?'80px':'12px'};left:0;right:0">
+        ${isMe?`<button class="btn-viewers" id="sv-viewers">👁 ${viewersCount}</button>`:`<button class="btn-reply" id="sv-reply">Balas status…</button><button class="status-like-btn" id="sv-like"><svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></button>`}
+      </div>
+      <div class="status-nav-zone left" id="sv-prev"></div>
+      <div class="status-nav-zone right" id="sv-next"></div>
+    </div>
+  `;
+  root.classList.remove('hidden');
+  const isVideo=s.mediaType==='video';
+  const duration=isVideo?15000:5000;
+  const fill=$(`#spf-${idx}`);
+  let start=Date.now();
+  const tick=()=>{
+    const pct=Math.min(100,((Date.now()-start)/duration)*100);
+    if(fill)fill.style.width=pct+'%';
+    if(pct<100)STATE.statusTimer=requestAnimationFrame(tick);
+    else nextStatus();
+  };
+  if(fill)fill.style.width='0%';
+  STATE.statusTimer=requestAnimationFrame(tick);
+  if(!isMe){
+    const vref=doc(db,'statuses',s.id);
+    updateDoc(vref,{viewers:arrayUnion(STATE.uid)}).catch(()=>{});
   }
-  return '';
-}
-function chatDisplayPhoto(chat) {
-  if (chat.type === 'self') return null;
-  if (chat.type === 'group') return chat.photoURL || null;
-  const otherUid = (chat.members || []).find(u => u !== STATE.uid);
-  return chat.memberPhotos?.[otherUid] || null;
+  $('#sv-close').onclick=closeStatusViewer;
+  $('#sv-next').onclick=nextStatus;
+  $('#sv-prev').onclick=prevStatus;
+  const likeBtn=$('#sv-like');
+  if(likeBtn){
+    const liked=(s.likes||[]).includes(STATE.uid);
+    if(liked)likeBtn.classList.add('liked');
+    likeBtn.onclick=async()=>{
+      try{
+        const vref=doc(db,'statuses',s.id);
+        if(liked)await updateDoc(vref,{likes:arrayRemove(STATE.uid)});
+        else await updateDoc(vref,{likes:arrayUnion(STATE.uid)});
+      }catch(e){toast('Gagal: '+e.message);}
+    };
+  }
+  const replyBtn=$('#sv-reply');
+  if(replyBtn)replyBtn.onclick=()=>{closeStatusViewer();openChatWithUser(s.userId,s.displayName);};
+  const viewersBtn=$('#sv-viewers');
+  if(viewersBtn)viewersBtn.onclick=()=>showStatusViewers(s);
 }
 
-function renderChats() {
-  const list = $('#list-chats');
-  const filter = ($('#search-input').value || '').toLowerCase().trim();
-  const items = STATE.chats.filter(c => {
-    const isHidden = STATE.me.hiddenChats?.includes(c.id);
-    const matchesSearch = !filter || chatDisplayName(c).toLowerCase().includes(filter);
-    if (filter) return matchesSearch;
-    return !isHidden;
+function nextStatus(){
+  if(STATE.currentStatusIndex<STATE.currentStatusGroup.length-1){STATE.currentStatusIndex++;renderStatusViewer();}
+  else closeStatusViewer();
+}
+function prevStatus(){
+  if(STATE.currentStatusIndex>0){STATE.currentStatusIndex--;renderStatusViewer();}
+  else{start=0;renderStatusViewer();}
+}
+function closeStatusViewer(){
+  if(STATE.statusTimer)cancelAnimationFrame(STATE.statusTimer);
+  STATE.statusTimer=null;
+  STATE.currentStatusGroup=[];STATE.currentStatusIndex=0;
+  const v=$('#status-viewer');if(v)v.remove();
+  const root=$('#modal-root');if(!root.querySelector('.modal'))root.classList.add('hidden');
+}
+
+async function showStatusViewers(status){
+  const viewers=status.viewers||[];
+  if(!viewers.length){toast('Belum ada penonton');return;}
+  const names=await Promise.all(viewers.map(async uid=>{
+    try{const u=await getDoc(doc(db,'users',uid));return u.exists()?u.data():null;}catch(e){return null;}
+  }));
+  showModal(`
+    <div class="modal-header"><h3>Penonton (${viewers.length})</h3></div>
+    <div class="modal-body" style="padding:0">
+      <div class="viewers-list">
+        ${names.filter(Boolean).map(u=>`<div class="viewer-item">${socialAvatar(u.displayName,u.photoURL)}<div class="viewer-info"><strong>${esc(u.displayName||'Pengguna')}</strong><span>@${esc(u.username||'')}</span></div></div>`).join('')}
+      </div>
+    </div>
+  `);
+}
+
+function renderStatusesStrip(){
+  const track=$('#list-status');if(!track)return;
+  const seenStatuses=new Set();
+  const grouped={};
+  STATE.statuses.forEach(s=>{
+    if(s.expiresAt?.toDate && s.expiresAt.toDate().getTime()<Date.now())return;
+    const key=s.userId;
+    if(!grouped[key])grouped[key]=[];
+    grouped[key].push(s);
   });
+  const myStatuses=grouped[STATE.uid]||[];
+  let html=`<button type="button" class="story-item story-add" id="status-add" aria-label="Tambah status">
+    <span class="story-ring"><span class="avatar" id="my-status-avatar">${esc(initialsFor(STATE.me?.displayName))}</span><span class="story-plus">+</span></span>
+    <span class="story-label">Status saya${myStatuses.length?' · '+myStatuses.length:''}</span>
+  </button>`;
+  Object.entries(grouped).forEach(([uid,list])=>{
+    if(uid===STATE.uid)return;
+    const u=list[0];
+    html+=`<button type="button" class="story-item" data-story-uid="${esc(uid)}">
+      <span class="story-ring"><span class="avatar">${u.photoURL?`<img src="${esc(u.photoURL)}">`:esc(initialsFor(u.displayName))}</span></span>
+      <span class="story-label">${esc(u.displayName||'Pengguna')}</span>
+    </button>`;
+  });
+  track.innerHTML=html;
+  track.querySelector('#status-add')?.addEventListener('click',()=>{
+    if(myStatuses.length){openStatusViewer(myStatuses,0);}
+    else{$('#status-media-input')?.click();}
+  });
+  track.querySelectorAll('[data-story-uid]').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      const list=grouped[btn.dataset.storyUid]||[];
+      openStatusViewer(list,0);
+    });
+  });
+}
 
-  if (!items.length) { list.innerHTML = `<div class="empty">Belum ada chat.</div>`; return; }
-  
-  list.innerHTML = items.map(chat => {
-    const name = chatDisplayName(chat);
-    const photo = chatDisplayPhoto(chat);
-    const tick = getChatTick(chat);
-    const last = chat.lastMessage;
-    const isPending = chat.pendingFor && chat.pendingFor.includes(STATE.uid);
-    let preview = last ? (last.senderId === STATE.uid ? 'Kamu: ' : '') + (last.text || '📎 Media') : 'Belum ada pesan';
-    if (isPending) preview = '<span style="color:var(--danger);font-weight:bold;">Permintaan pesan masuk</span>';
-    const time = last?.createdAt ? fmtTime(last.createdAt) : (chat.updatedAt ? fmtTime(chat.updatedAt) : '');
-    const unread = (chat.unread || {})[STATE.uid] || 0;
-    const icons = [chat.type === 'self' ? '📝' : '', chat.type === 'group' ? '👥' : ''].filter(Boolean).map(i => `<span class="tag">${i}</span>`).join('');
-    const isSelected = STATE.selectedChats.has(chat.id) ? 'selected' : '';
+function startStatusesListener(){
+  if(STATE.unsubStatuses)STATE.unsubStatuses();
+  STATE.unsubStatuses=onSnapshot(query(collection(db,'statuses'),orderBy('createdAt','desc'),limit(100)),snap=>{
+    STATE.statuses=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderStatusesStrip();
+  },err=>console.warn('Statuses:',err));
+}
 
-    return `<div class="chat-item ${isSelected}" data-chat="${chat.id}">
+/* [REKONSTRUKSI] openChatWithUser — helper untuk balas status */
+async function openChatWithUser(uid,displayName){
+  try{
+    const q1=query(collection(db,'chats'),where('members','array-contains',STATE.uid));
+    const snap=await getDocs(q1);
+    let chatId=null;
+    snap.forEach(d=>{
+      const data=d.data();
+      if(data.type==='private'&&(data.members||[]).includes(uid))chatId=d.id;
+    });
+    if(!chatId){
+      const ref=await addDoc(collection(db,'chats'),{
+        type:'private',
+        members:[STATE.uid,uid],
+        lastMessage:{text:'',senderId:STATE.uid,senderName:STATE.me.displayName},
+        updatedAt:serverTimestamp(),createdAt:serverTimestamp()
+      });
+      chatId=ref.id;
+    }
+    openChat(chatId);
+  }catch(e){toast('Gagal membuka chat: '+e.message);}
+}
+
+/* ============================================================
+   CHAT LIST + CHAT ROOM — [REKONSTRUKSI]
+   ============================================================ */
+function attachListeners(){
+  startStatusesListener();
+  if(STATE.unsubChats)STATE.unsubChats();
+  STATE.unsubChats=onSnapshot(query(collection(db,'chats'),where('members','array-contains',STATE.uid),orderBy('updatedAt','desc'),limit(50)),snap=>{
+    STATE.chats=snap.docs.map(d=>({id:d.id,...d.data()}));
+    renderChatList();
+  },err=>{console.warn('Chats:',err);});
+}
+
+function detachListeners(){
+  ['unsubChats','unsubMsgs','unsubStatuses','unsubTyping','unsubPresence','unsubChannels'].forEach(k=>{
+    if(STATE[k]){try{STATE[k]();}catch(e){}STATE[k]=null;}
+  });
+}
+
+function renderChatList(){
+  const box=$('#list-chats');if(!box)return;
+  const filter=($('#search-input')?.value||'').toLowerCase().trim();
+  const chats=STATE.chats.filter(c=>{
+    if((STATE.me.hiddenChats||[]).includes(c.id))return false;
+    if(!filter)return true;
+    return (c.name||'').toLowerCase().includes(filter)||(c.lastMessage?.text||'').toLowerCase().includes(filter);
+  });
+  if(!chats.length){box.innerHTML='<div class="empty">Belum ada chat. Mulai percakapan baru lewat tombol +.</div>';return;}
+  box.innerHTML=chats.map(c=>{
+    const name=c.name||c.lastMessage?.senderName||'Chat';
+    const last=c.lastMessage?.text||'';
+    const time=fmtRel(c.updatedAt);
+    const selected=STATE.selectedChats.has(c.id);
+    return `<div class="chat-item${selected?' selected':''}" data-chat-id="${esc(c.id)}">
       <div class="chat-checkbox"></div>
-      ${avatarHTML(name, photo)}
+      ${avatarHTML(name,'','sm')}
       <div class="chat-item-body">
-        <div class="chat-top">
-          <div class="chat-name">${icons}<span class="truncate">${esc(name)}</span> ${tick}</div>
-          <span class="chat-time">${esc(time)}</span>
-        </div>
-        <div class="chat-preview">
-          <span class="truncate">${preview}</span>
-          ${(!STATE.isSelectMode && unread && !isPending) ? `<em class="badge">${unread}</em>` : ''}
-        </div>
+        <div class="chat-top"><div class="chat-name">${esc(name)}</div><div class="chat-time">${esc(time)}</div></div>
+        <div class="chat-preview"><span class="truncate">${esc(last)}</span></div>
       </div>
     </div>`;
   }).join('');
-}
-
-$('#list-chats').addEventListener('click', e => {
-  const item = e.target.closest('[data-chat]'); if (!item) return;
-  const chatId = item.dataset.chat;
-  if (STATE.isSelectMode) {
-    if (STATE.selectedChats.has(chatId)) STATE.selectedChats.delete(chatId);
-    else STATE.selectedChats.add(chatId);
-    renderChats();
-  } else {
-    openChat(chatId);
-  }
-});
-
-function listenStatuses() {
-  const q = query(collection(db, 'status'), orderBy('createdAt', 'desc'), limit(50));
-  STATE.unsubStatuses = onSnapshot(q, snap => {
-    const now = Date.now();
-    const contactUids = STATE.chats.filter(c => c.type === 'direct' && (!c.pendingFor || c.pendingFor.length === 0)).map(c => c.members.find(u => u !== STATE.uid));
-    STATE.statuses = snap.docs.map(d => ({ id: d.id, ...d.data() }))
-      .filter(s => s.expiresAt?.toMillis?.() > now)
-      .filter(s => s.userId === STATE.uid || contactUids.includes(s.userId));
-    renderStatuses();
-  });
-}
-
-function renderStatuses() {
-  const list = $('#list-status');
-  const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid);
-  const otherStatuses = STATE.statuses.filter(s => s.userId !== STATE.uid);
-  const myCard = $('#status-add');
-  
-  if (myStatuses.length > 0) {
-    myCard.innerHTML = `<span class="story-ring">${avatarHTML(myStatuses[0].userName, myStatuses[0].userPhoto, '', 'my-status-avatar')}<span class="story-plus">+</span></span><span class="story-label">Status saya</span>`;
-  } else {
-    myCard.innerHTML = `<span class="story-ring">${avatarHTML(STATE.me.displayName, STATE.me.photoURL, '', 'my-status-avatar')}<span class="story-plus">+</span></span><span class="story-label">Status saya</span>`;
-  }
-  myCard.onclick = openMyStatusesModal;
-
-  const grouped = {};
-  otherStatuses.forEach(s => {
-    if (!grouped[s.userId]) grouped[s.userId] = [];
-    grouped[s.userId].push(s);
-  });
-  const groupsArray = Object.values(grouped).map(g => {
-    g.sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
-    return g;
-  }).sort((a, b) => {
-    const aLatest = a[a.length - 1].createdAt?.toMillis() || 0;
-    const bLatest = b[b.length - 1].createdAt?.toMillis() || 0;
-    return bLatest - aLatest;
-  });
-
-  list.innerHTML = myCard.outerHTML + groupsArray.map(group => {
-    const latest = group[group.length - 1];
-    const hasUnviewed = group.some(s => !(s.viewers || []).includes(STATE.uid));
-    return `<button type="button" class="story-item" data-userid="${esc(latest.userId)}"><span class="story-ring ${hasUnviewed ? '' : 'seen'}">${avatarHTML(latest.userName, latest.userPhoto)}</span><span class="story-label">${esc(latest.userName)}</span></button>`;
-  }).join('');
-  const renderedMyCard = list.querySelector('#status-add');
-  if (renderedMyCard) renderedMyCard.onclick = openMyStatusesModal;
-}
-
-function openMyStatusesModal() {
-  const myStatuses = STATE.statuses.filter(s => s.userId === STATE.uid).sort((a,b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
-  showModal(`<div class="modal-header"><h3>Status Saya (${myStatuses.length})</h3></div><div class="modal-body"><button class="btn btn-primary" id="ms-add">+ Tambah Status Baru</button><div id="ms-list">${myStatuses.length ? myStatuses.map(s => {
-    const label = s.type === 'video' ? '🎥 Video' : (s.type === 'image' ? '📷 Foto' : '📝 Teks');
-    const likeCount = (s.likes || []).length;
-    return `<div class="status-item" style="cursor:default"><div class="status-ring">${avatarHTML(s.userName, s.userPhoto)}</div><div class="status-info"><strong>${label}</strong><span>${esc(fmtRel(s.createdAt))}${likeCount ? ' • ❤️ ' + likeCount : ''}</span></div><button class="btn btn-soft sm" data-ms-view="${s.id}" style="padding:8px 12px;font-size:12px">Lihat</button><button class="btn btn-danger sm" data-ms-del="${s.id}" style="padding:8px 12px;font-size:12px">${SVG_TRASH}</button></div>`;
-  }).join('') : '<p class="muted small center">Belum ada status.</p>'}</div></div><div class="modal-footer"><button class="btn btn-soft" id="ms-close">Tutup</button></div>`, root => {
-    root.querySelector('#ms-close').onclick = closeModal;
-    root.querySelector('#ms-add').onclick = () => { closeModal(); openNewStatusModal(); };
-    root.querySelectorAll('[data-ms-view]').forEach(b => b.onclick = () => { 
-      const s = STATE.statuses.find(x => x.id === b.dataset.msView); 
-      if(s){ closeModal(); openStatusViewer(myStatuses); } 
-    });
-    root.querySelectorAll('[data-ms-del]').forEach(b => b.onclick = async () => { if(confirm('Hapus?')){await deleteDoc(doc(db,'status',b.dataset.msDel));closeModal();} });
-  });
-}
-
-$('#list-status').addEventListener('click', e => {
-  const item = e.target.closest('[data-userid]'); if (!item) return;
-  const userId = item.dataset.userid;
-  const userStatuses = STATE.statuses.filter(s => s.userId === userId).sort((a, b) => (a.createdAt?.toMillis() || 0) - (b.createdAt?.toMillis() || 0));
-  if (userStatuses.length) openStatusViewer(userStatuses);
-});
-
-/* FITUR STATUS VIEWER + LIKE + FIX BUG PAUSE */
-function openStatusViewer(statuses) {
-  STATE.currentStatusGroup = statuses;
-  STATE.currentStatusIndex = 0;
-
-  const wrap = document.createElement('div');
-  wrap.className = 'status-viewer';
-  wrap.id = 'status-viewer-overlay';
-
-  const progressHTML = statuses.map((_, i) => `
-    <div class="status-progress-segment">
-      <div class="status-progress-fill" id="sp-fill-${i}"></div>
-    </div>
-  `).join('');
-
-  wrap.innerHTML = `
-    <div class="status-progress-container" id="sp-container">${progressHTML}</div>
-    <div class="sv-header" id="sv-header"></div>
-    <div class="sv-body" id="sv-body"></div>
-    <div class="status-bottom-area" id="status-bottom-area"></div>
-    <div class="viewers-overlay" id="viewers-overlay">
-      <div class="viewers-sheet">
-        <div class="viewers-header">
-          <span id="viewers-title">Dilihat oleh</span>
-          <button class="icon-btn" id="viewers-close" style="color:#fff">
-            <svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-          </button>
-        </div>
-        <div class="viewers-list" id="viewers-list"></div>
-      </div>
-    </div>
-    <div class="status-nav-zone left" id="sp-prev"></div>
-    <div class="status-nav-zone right" id="sp-next"></div>
-  `;
-  document.body.appendChild(wrap);
-
-  const loadStatus = (index) => {
-    clearTimeout(STATE.statusTimer);
-    if (index >= STATE.currentStatusGroup.length) { closeViewer(); return; }
-
-    const s = STATE.currentStatusGroup[index];
-    const isMine = s.userId === STATE.uid;
-
-    STATE.currentStatusGroup.forEach((_, i) => {
-      const fill = document.getElementById(`sp-fill-${i}`);
-      if (!fill) return;
-      fill.style.transition = 'none';
-      fill.style.width = i < index ? '100%' : '0%';
-    });
-
-    const header = document.getElementById('sv-header');
-    header.innerHTML = `
-      ${avatarHTML(s.userName, s.userPhoto, 'sm')}
-      <div class="info"><strong>${esc(s.userName)}</strong><small>${esc(fmtRel(s.createdAt))}</small></div>
-      ${isMine ? `<button class="icon-btn ghost-light" id="sv-delete" style="margin-right:10px">${SVG_TRASH}</button>` : ''}
-      <button class="icon-btn ghost-light" id="sv-close"><svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-    `;
-    header.querySelector('#sv-close').onclick = closeViewer;
-    if (isMine) {
-      header.querySelector('#sv-delete').onclick = async () => {
-        if (confirm('Hapus status ini?')) { await deleteDoc(doc(db, 'status', s.id)); closeViewer(); }
-      };
-    }
-
-    const body = document.getElementById('sv-body');
-    let mediaHTML = `<div class="sv-text-content"><p>${esc(s.content)}</p></div>`;
-    if (s.type === 'image' && s.photoURL) mediaHTML = `<img src="${esc(s.photoURL)}">`;
-    else if (s.type === 'video' && s.photoURL) mediaHTML = `<video id="sv-video" src="${esc(s.photoURL)}" autoplay playsinline style="filter:${esc(s.mediaFilter||'none')}"></video>${s.mediaOverlayText ? `<div class="editor-overlay-text">${esc(s.mediaOverlayText)}</div>` : ''}`;
-    body.innerHTML = mediaHTML;
-
-    const bottomArea = document.getElementById('status-bottom-area');
-    let actionHTML = '';
-    if (isMine) {
-      actionHTML = `<div class="status-action-bar">
-        <button class="btn-viewers" id="sv-viewers-btn">
-          <svg class="svg-icon" viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          ${(s.viewers||[]).length}
-        </button>
-      </div>`;
-    } else {
-      const isLiked = (s.likes || []).includes(STATE.uid);
-      actionHTML = `<div class="status-action-bar">
-        <button class="btn-reply" id="sv-reply-btn">Balas...</button>
-        <button class="status-like-btn ${isLiked ? 'liked' : ''}" id="sv-like-btn" title="Suka">
-          <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
-        </button>
-      </div>`;
-    }
-
-    let captionHTML = '';
-    if (s.type !== 'text' && s.content) captionHTML = `<div class="status-caption">${esc(s.content)}</div>`;
-    bottomArea.innerHTML = actionHTML + captionHTML;
-
-    if (isMine) {
-      document.getElementById('sv-viewers-btn').onclick = async (e) => {
-        e.stopPropagation();
-        clearTimeout(STATE.statusTimer);
-        const pauseVideo = document.getElementById('sv-video');
-        if (pauseVideo) pauseVideo.pause();
-
-        const curFill = document.getElementById(`sp-fill-${index}`);
-        if (curFill) {
-          const computed = getComputedStyle(curFill).width;
-          const parentW = curFill.parentElement.offsetWidth;
-          const pct = parentW > 0 ? (parseFloat(computed) / parentW) * 100 : 0;
-          curFill.style.transition = 'none';
-          curFill.style.width = pct + '%';
-          void curFill.offsetWidth;
-        }
-
-        const viewersList = document.getElementById('viewers-list');
-        const viewersTitle = document.getElementById('viewers-title');
-        const overlay = document.getElementById('viewers-overlay');
-
-        viewersList.innerHTML = `<p style="padding:20px;text-align:center;color:#aaa;">Memuat...</p>`;
-        overlay.classList.add('show');
-
-        const resumeProgress = () => {
-          const resumeVideo = document.getElementById('sv-video');
-          const curStatus = STATE.currentStatusGroup[index];
-          if (resumeVideo && curStatus && curStatus.type === 'video') {
-            resumeVideo.play().catch(() => {});
-          } else {
-            const f = document.getElementById(`sp-fill-${index}`);
-            if (f) {
-              const curPct = parseFloat(f.style.width) || 0;
-              const remaining = 4 * (100 - curPct) / 100;
-              f.style.transition = `width ${remaining}s linear`;
-              f.style.width = '100%';
-              clearTimeout(STATE.statusTimer);
-              STATE.statusTimer = setTimeout(() => nextStatus(), remaining * 1000);
-            }
-          }
-        };
-        const closeViewersOverlay = () => {
-          overlay.classList.remove('show');
-          resumeProgress();
-        };
-        overlay.onclick = (ev) => { if (ev.target === overlay) closeViewersOverlay(); };
-        document.getElementById('viewers-close').onclick = closeViewersOverlay;
-
-        let fresh = s;
-        try {
-          const freshSnap = await getDoc(doc(db, 'status', s.id));
-          if (freshSnap.exists()) fresh = freshSnap.data();
-        } catch (err) {}
-
-        const viewerUids = fresh.viewers || [];
-        const likeUids = fresh.likes || [];
-
-        if (viewerUids.length === 0) {
-          viewersTitle.textContent = 'Dilihat oleh 0';
-          viewersList.innerHTML = `<p style="padding:20px;text-align:center;color:#aaa;">Belum ada tayangan</p>`;
-          return;
-        }
-
-        const viewers = [];
-        for (const uid of viewerUids) {
-          try {
-            const uSnap = await getDoc(doc(db, 'users', uid));
-            if (uSnap.exists()) viewers.push({ uid, ...uSnap.data() });
-          } catch (err) {}
-        }
-        viewers.sort((a, b) => {
-          const aL = likeUids.includes(a.uid) ? 1 : 0;
-          const bL = likeUids.includes(b.uid) ? 1 : 0;
-          return bL - aL;
-        });
-
-        viewersTitle.textContent = `Dilihat oleh ${viewers.length}`;
-        viewersList.innerHTML = viewers.map(v => `
-          <div class="viewer-item" data-viewer-uid="${v.uid}">
-            ${avatarHTML(v.displayName, v.photoURL, 'sm')}
-            <div class="viewer-info">
-              <strong>${esc(v.displayName)}</strong>
-              <span>@${esc(v.username)}</span>
-            </div>
-            ${likeUids.includes(v.uid)
-              ? '<svg class="viewer-like-icon" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>'
-              : ''}
-          </div>
-        `).join('');
-
-        viewersList.querySelectorAll('.viewer-item').forEach(el => {
-          el.onclick = () => {
-            overlay.classList.remove('show');
-            closeViewer();
-            startChatWith(el.dataset.viewerUid);
-          };
-        });
-      };
-    } else {
-      document.getElementById('sv-reply-btn').onclick = async (e) => {
-        e.stopPropagation();
-        closeViewer();
-        await startChatWith(s.userId, { text: s.content || '📷 Media', senderName: s.userName });
-      };
-      document.getElementById('sv-like-btn').onclick = async (e) => {
-        e.stopPropagation();
-        const btn = e.currentTarget;
-        const isCurrentlyLiked = btn.classList.contains('liked');
-        try {
-          if (isCurrentlyLiked) {
-            await updateDoc(doc(db, 'status', s.id), { likes: arrayRemove(STATE.uid) });
-            btn.classList.remove('liked');
-            s.likes = (s.likes || []).filter(u => u !== STATE.uid);
-          } else {
-            await updateDoc(doc(db, 'status', s.id), { likes: arrayUnion(STATE.uid) });
-            btn.classList.add('liked');
-            s.likes = [...(s.likes || []), STATE.uid];
-          }
-        } catch (err) { toast('Gagal: ' + err.message); }
-      };
-    }
-
-    if (!isMine && !(s.viewers || []).includes(STATE.uid)) {
-      updateDoc(doc(db, 'status', s.id), { viewers: arrayUnion(STATE.uid) }).catch(() => {});
-    }
-
-    const fill = document.getElementById(`sp-fill-${index}`);
-    const video = document.getElementById('sv-video');
-    if (s.type === 'video' && video) {
-      video.onloadedmetadata = () => {
-        fill.style.transition = 'none';
-        fill.style.width = '0%';
-        void fill.offsetWidth;
-        const trimStart = Math.max(0, Number(s.trimStart)||0);
-        const trimEnd = Number(s.trimEnd)>trimStart ? Math.min(Number(s.trimEnd),video.duration||Number(s.trimEnd)) : (video.duration||0);
-        if (trimStart > 0) video.currentTime = trimStart;
-        video.play().catch(() => {});
-        video.ontimeupdate = () => {
-          if (!video.duration) return;
-          const end = trimEnd || video.duration;
-          fill.style.width = (Math.max(0,video.currentTime-trimStart) / Math.max(.1,end-trimStart)) * 100 + '%';
-          if (trimEnd && video.currentTime >= trimEnd) { video.pause(); nextStatus(); }
-        };
-        video.onended = () => nextStatus();
-      };
-    } else {
-      fill.style.transition = 'none';
-      fill.style.width = '0%';
-      void fill.offsetWidth;
-      fill.style.transition = 'width 4s linear';
-      fill.style.width = '100%';
-      STATE.statusTimer = setTimeout(() => nextStatus(), 4000);
-    }
-  };
-
-  const nextStatus = () => {
-    const v = document.getElementById('sv-video');
-    if (v) { v.pause(); v.ontimeupdate = null; v.onended = null; }
-    STATE.currentStatusIndex++;
-    loadStatus(STATE.currentStatusIndex);
-  };
-  const prevStatus = () => {
-    const v = document.getElementById('sv-video');
-    if (v) { v.pause(); v.ontimeupdate = null; v.onended = null; }
-    if (STATE.currentStatusIndex > 0) { STATE.currentStatusIndex--; loadStatus(STATE.currentStatusIndex); }
-    else loadStatus(0);
-  };
-  const closeViewer = () => {
-    clearTimeout(STATE.statusTimer);
-    const v = document.getElementById('sv-video');
-    if (v) { v.pause(); v.ontimeupdate = null; v.onended = null; }
-    wrap.remove();
-  };
-
-  document.getElementById('sp-prev').onclick = prevStatus;
-  document.getElementById('sp-next').onclick = nextStatus;
-  loadStatus(0);
-}
-
-function openNewStatusModal() {
-  showModal(`<div class="status-editor-page">
-    <header class="status-editor-top">
-      <button type="button" class="status-editor-close" id="status-cancel" aria-label="Tutup">×</button>
-      <div class="status-editor-actions">
-        <button type="button" class="status-tool-icon" data-panel="adjust" aria-label="Atur tampilan"><span>◩</span></button>
-        <button type="button" class="status-tool-icon" data-panel="filter" aria-label="Filter"><span>◐</span></button>
-        <button type="button" class="status-tool-icon" data-panel="text" aria-label="Teks"><span>Aa</span></button>
-        <button type="button" class="status-tool-icon" data-panel="video" aria-label="Potong video"><span>✂</span></button>
-      </div>
-    </header>
-    <div class="status-editor-preview-wrap">
-      <div class="editor-stage" id="editor-stage"><div class="editor-empty">Pilih foto atau video untuk mulai mengedit</div></div>
-      <button type="button" class="btn btn-soft status-pick-media" id="status-photo-btn">＋ Pilih Foto / Video</button>
-      <input id="status-media-file" type="file" accept="image/*,video/*" class="hidden">
-    </div>
-    <section class="status-tool-panel hidden" id="status-tool-panel">
-      <div class="status-panel-heading"><strong id="status-panel-title">Atur tampilan</strong><button type="button" id="status-panel-close" aria-label="Tutup panel">×</button></div>
-      <div class="status-panel-content" id="status-panel-content">
-        <div class="status-panel-section hidden" data-tool-section="adjust">
-          <div class="editor-tools">
-            <button type="button" class="editor-tool" data-edit="rotate"><span>↻</span>Putar</button>
-            <button type="button" class="editor-tool" data-edit="flip"><span>⇋</span>Cermin</button>
-            <button type="button" class="editor-tool" data-edit="fit"><span>▣</span>Reset zoom</button>
-            <button type="button" class="editor-tool" data-edit="reset"><span>⟲</span>Reset semua</button>
-          </div>
-          <div class="editor-control" id="zoom-control"><div class="editor-control-row"><span>Zoom / Crop</span><output id="zoom-value">1.0×</output></div><input id="edit-zoom" type="range" min="1" max="3" step=".05" value="1"></div>
-        </div>
-        <div class="status-panel-section hidden" data-tool-section="filter">
-          <div class="editor-control"><div class="editor-control-row"><span>Kecerahan</span><output id="bright-value">100%</output></div><input id="edit-bright" type="range" min="50" max="160" value="100"></div>
-          <div class="editor-control"><div class="editor-control-row"><span>Kontras</span><output id="contrast-value">100%</output></div><input id="edit-contrast" type="range" min="50" max="180" value="100"></div>
-          <div class="editor-control"><div class="editor-control-row"><span>Saturasi</span><output id="sat-value">100%</output></div><input id="edit-sat" type="range" min="0" max="200" value="100"></div>
-          <div class="editor-control"><span>Filter</span><select id="edit-filter" class="editor-caption"><option value="none">Original</option><option value="grayscale(1)">Hitam putih</option><option value="sepia(.75)">Vintage</option><option value="saturate(1.6) contrast(1.08)">Vivid</option><option value="hue-rotate(25deg) saturate(1.25)">Warm</option><option value="hue-rotate(190deg) saturate(1.15)">Cool</option></select></div>
-        </div>
-        <div class="status-panel-section hidden" data-tool-section="text">
-          <label class="field"><span>Teks di atas media</span><input id="edit-overlay-text" class="editor-caption" maxlength="80" placeholder="Tambahkan tulisan…"></label>
-          <p class="editor-hint">Teks akan tampil di tengah foto atau video.</p>
-        </div>
-        <div class="status-panel-section hidden" data-tool-section="video">
-          <div id="video-trim-tools" class="hidden">
-            <div class="editor-control"><div class="editor-control-row"><span>Potong video</span><strong id="trim-summary">00:00 – 00:00</strong></div>
-              <div class="editor-trim"><label>Mulai <input id="trim-start" type="range" min="0" max="1" step=".1" value="0"></label><label>Akhir <input id="trim-end" type="range" min="0" max="1" step=".1" value="1"></label></div>
-              <p class="editor-hint">Geser untuk memilih bagian awal dan akhir video.</p>
-            </div>
-          </div>
-          <p class="editor-hint" id="editor-file-info">Pilih video untuk mengatur durasinya.</p>
-        </div>
-      </div>
-    </section>
-    <div class="status-editor-bottom">
-      <input id="status-caption" class="editor-caption" maxlength="180" placeholder="Tambah keterangan…">
-      <div class="status-editor-footer"><span id="status-media-kind">Status teks</span><button class="btn btn-primary" id="status-save">Bagikan Status</button></div>
-    </div>
-  </div>`, root => {
-    let mediaFile=null, mediaType='', mediaURL='', rotation=0, flipped=false, zoom=1, brightness=100, contrast=100, saturation=100, trimStart=0, trimEnd=0, videoDuration=0;
-    const $e=id=>root.querySelector('#'+id);
-    const stage=$e('editor-stage'), editor=$e('status-tool-panel'), fileInput=$e('status-media-file');
-    const panelTitles={adjust:'Atur tampilan',filter:'Filter & warna',text:'Tambahkan teks',video:'Potong video'};
-    const openToolPanel=(name)=>{
-      const panel=$e('status-tool-panel');
-      root.querySelectorAll('.status-tool-icon').forEach(b=>b.classList.toggle('active',b.dataset.panel===name));
-      root.querySelectorAll('[data-tool-section]').forEach(section=>section.classList.toggle('hidden',section.dataset.toolSection!==name));
-      $e('status-panel-title').textContent=panelTitles[name]||'Edit media';
-      panel.classList.remove('hidden');
-    };
-    root.querySelectorAll('.status-tool-icon').forEach(b=>b.onclick=()=>openToolPanel(b.dataset.panel));
-    $e('status-panel-close').onclick=()=>{$e('status-tool-panel').classList.add('hidden');root.querySelectorAll('.status-tool-icon').forEach(b=>b.classList.remove('active'));};
-    const fmt=t=>{t=Math.max(0,Math.floor(t||0));return String(Math.floor(t/60)).padStart(2,'0')+':'+String(t%60).padStart(2,'0');};
-    const filterCSS=()=>`${$e('edit-filter').value==='none'?'':$e('edit-filter').value+' ' }brightness(${brightness}%) contrast(${contrast}%) saturate(${saturation}%)`;
-    const updatePreview=()=>{
-      const el=stage.querySelector('img,video'); if(!el)return;
-      el.style.filter=filterCSS(); el.style.transform=`rotate(${rotation}deg) scale(${zoom}) scaleX(${flipped?-1:1})`;
-      const txt=$e('edit-overlay-text').value; let overlay=stage.querySelector('.editor-overlay-text');
-      if(txt){if(!overlay){overlay=document.createElement('div');overlay.className='editor-overlay-text';stage.appendChild(overlay);}overlay.textContent=txt;}else if(overlay)overlay.remove();
-    };
-    const loadPreview=()=>{
-      if(!mediaFile)return;
-      mediaURL=URL.createObjectURL(mediaFile);
-      stage.innerHTML=mediaType==='image'?`<img id="editor-media-preview" src="${mediaURL}" alt="Pratinjau">`:`<video id="editor-media-preview" src="${mediaURL}" playsinline controls></video>`;
-      const el=stage.querySelector('img,video');
-      if(mediaType==='video') el.onloadedmetadata=()=>{videoDuration=el.duration||0;trimStart=0;trimEnd=videoDuration;$e('trim-start').max=videoDuration;$e('trim-end').max=videoDuration;$e('trim-end').value=videoDuration;$e('video-trim-tools').classList.remove('hidden');$e('zoom-control').classList.add('hidden');$e('editor-file-info').textContent=`Durasi ${fmt(videoDuration)} • Maksimal unggahan 50 MB`;updateTrim();};
-      else {$e('video-trim-tools').classList.add('hidden');$e('zoom-control').classList.remove('hidden');$e('editor-file-info').textContent=`Foto • ${(mediaFile.size/1024/1024).toFixed(1)} MB`;}
-      updatePreview();openToolPanel(mediaType==='video'?'video':'adjust');
-    };
-    const updateTrim=()=>{trimStart=Number($e('trim-start').value)||0;trimEnd=Number($e('trim-end').value)||videoDuration;if(trimEnd<=trimStart){trimEnd=Math.min(videoDuration,trimStart+.5);$e('trim-end').value=trimEnd;} $e('trim-summary').textContent=`${fmt(trimStart)} – ${fmt(trimEnd)} (${fmt(trimEnd-trimStart)})`;};
-    $e('status-cancel').onclick=()=>{if(mediaURL)URL.revokeObjectURL(mediaURL);closeModal();};
-    $e('status-photo-btn').onclick=()=>fileInput.click();
-    fileInput.onchange=()=>{const f=fileInput.files?.[0];if(!f)return;if(f.size>52428800){toast('Ukuran maksimal 50 MB');fileInput.value='';return;}if(!f.type.startsWith('image/')&&!f.type.startsWith('video/')){toast('Format media tidak didukung');return;}if(mediaURL)URL.revokeObjectURL(mediaURL);mediaFile=f;mediaType=f.type.startsWith('video/')?'video':'image';rotation=0;flipped=false;zoom=1;brightness=contrast=saturation=100;$e('edit-zoom').value=1;$e('edit-bright').value=100;$e('edit-contrast').value=100;$e('edit-sat').value=100;$e('edit-filter').value='none';$e('status-photo-btn').textContent='Ganti Foto / Video';$e('status-media-kind').textContent=mediaType==='video'?'Status video':'Status foto';loadPreview();};
-    root.querySelectorAll('[data-edit]').forEach(b=>b.onclick=()=>{const a=b.dataset.edit;if(a==='rotate')rotation=(rotation+90)%360;if(a==='flip')flipped=!flipped;if(a==='reset'){rotation=0;flipped=false;zoom=1;brightness=contrast=saturation=100;$e('edit-zoom').value=1;$e('edit-bright').value=100;$e('edit-contrast').value=100;$e('edit-sat').value=100;$e('edit-filter').value='none';}if(a==='fit'){zoom=1;$e('edit-zoom').value=1;}updatePreview();});
-    [['edit-zoom','zoom','zoom-value','×'],['edit-bright','brightness','bright-value','%'],['edit-contrast','contrast','contrast-value','%'],['edit-sat','saturation','sat-value','%']].forEach(([id,key,out,suffix])=>$e(id).oninput=()=>{const v=Number($e(id).value);if(key==='zoom')zoom=v;else if(key==='brightness')brightness=v;else if(key==='contrast')contrast=v;else saturation=v;$e(out).textContent=(key==='zoom'?v.toFixed(1):v)+suffix;updatePreview();});
-    $e('edit-filter').onchange=updatePreview;$e('edit-overlay-text').oninput=updatePreview;
-    $e('trim-start').oninput=()=>{updateTrim();const v=stage.querySelector('video');if(v)v.currentTime=trimStart;};$e('trim-end').oninput=updateTrim;
-    async function exportEditedImage(){
-      const img=stage.querySelector('img');if(!img)throw new Error('Foto belum siap');
-      const maxSide=1920, scale=Math.min(1,maxSide/Math.max(img.naturalWidth,img.naturalHeight));
-      const w=Math.round(img.naturalWidth*scale),h=Math.round(img.naturalHeight*scale),swap=rotation%180!==0;
-      const canvas=document.createElement('canvas');canvas.width=swap?h:w;canvas.height=swap?w:h;const ctx=canvas.getContext('2d');
-      ctx.translate(canvas.width/2,canvas.height/2);ctx.rotate(rotation*Math.PI/180);ctx.scale(flipped?-zoom:zoom,zoom);
-      ctx.filter=filterCSS();ctx.drawImage(img,-w/2,-h/2,w,h);
-      const overlay=$e('edit-overlay-text').value.trim();if(overlay){ctx.filter='none';ctx.fillStyle='#fff';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font=`bold ${Math.max(24,canvas.width*.055)}px Arial`;ctx.shadowColor='#000';ctx.shadowBlur=8;ctx.fillText(overlay,0,0,canvas.width*.85);}
-      const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',.9));if(!blob)throw new Error('Gagal memproses foto');return new File([blob],'chatgo-status.jpg',{type:'image/jpeg'});
-    }
-    $e('status-save').onclick=async()=>{
-      const text=$e('status-caption').value.trim();
-      if(!text&&!mediaFile){toast('Tulis status atau pilih media');return;}
-      const btn=$e('status-save');btn.disabled=true;btn.textContent='Menyiapkan…';
-      try{
-        let url='',type='text',trimMeta={};
-        if(mediaFile){type=mediaType;let uploadFile=mediaFile;
-          if(mediaType==='image')uploadFile=await exportEditedImage();
-          else {updateTrim();trimMeta={trimStart,trimEnd};}
-          toast('Mengunggah media…');url=await uploadToCloudinary(uploadFile,mediaType==='video'?'video':'auto');
-        }
-        await addDoc(collection(db,'status'),{userId:STATE.uid,userName:STATE.me.displayName,userPhoto:STATE.me.photoURL||'',type,content:text,photoURL:url,mediaFilter:mediaType==='video'?filterCSS():'none',mediaOverlayText:mediaType==='video'?$e('edit-overlay-text').value.trim():'',...trimMeta,viewers:[],likes:[],createdAt:serverTimestamp(),expiresAt:Timestamp.fromMillis(Date.now()+86400000)});
-        if(mediaURL)URL.revokeObjectURL(mediaURL);toast('Status berhasil dibagikan');closeModal();
-      }catch(err){console.error(err);toast('Gagal: '+(err.message||'Coba lagi'));btn.disabled=false;btn.textContent='Bagikan Status';}
+  box.querySelectorAll('.chat-item').forEach(el=>{
+    el.onclick=()=>{
+      const id=el.dataset.chatId;
+      if(STATE.isSelectMode){
+        if(STATE.selectedChats.has(id))STATE.selectedChats.delete(id);else STATE.selectedChats.add(id);
+        renderChatList();
+      }else openChat(id);
     };
   });
 }
 
-/* GANTI AKUN */
-$('#btn-switch-account').addEventListener('click', () => {
-  const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-  let html = `<div class="modal-header"><h3>Ganti Akun</h3></div><div class="modal-body"><p class="muted small">Maksimal 2 akun tersimpan.</p>`;
-  html += accounts.map(acc => `
-    <div class="search-result" style="border-bottom:1px solid var(--line);">
-      ${avatarHTML(acc.displayName, acc.photoURL, 'sm')}
-      <div class="info"><strong>${esc(acc.displayName)}</strong><span>@${esc(acc.username)} ${acc.username === STATE.me.username ? '(Aktif)' : ''}</span></div>
-      ${acc.username !== STATE.me.username ? `<button class="btn btn-soft sm" data-switch="${esc(acc.username)}" style="padding:6px 12px;font-size:12px">Masuk</button>` : ''}
-    </div>
-  `).join('');
-  if (accounts.length < 2) html += `<button class="btn btn-primary" id="btn-add-acc" style="margin-top:10px">+ Tambah Akun Lain</button>`;
-  html += `</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`;
-  showModal(html, root => {
-    if (root.querySelector('#btn-add-acc')) {
-      root.querySelector('#btn-add-acc').onclick = () => { closeModal(); signOut(auth); toast('Silakan login dengan akun kedua.'); };
-    }
-    root.querySelectorAll('[data-switch]').forEach(b => {
-      b.onclick = () => {
-        const target = accounts.find(a => a.username === b.dataset.switch);
-        if (!target) return;
-        closeModal();
-        signOut(auth).then(() => {
-          signInWithEmailAndPassword(auth, emailFor(target.username), target.password).catch(err => toast('Gagal masuk: ' + err.message));
-        });
-      };
-    });
-  });
-});
-
-/* CHAT SCREEN */
-$('#chat-back').addEventListener('click', () => { 
-  if(STATE.unsubMsgs){STATE.unsubMsgs();STATE.unsubMsgs=null;}
-  if(STATE.unsubTyping){STATE.unsubTyping();STATE.unsubTyping=null;}
-  STATE.currentChat=null; showScreen('screen-home'); 
-});
-$('#chat-header').addEventListener('click', (e) => {
-  if (e.target.closest('#chat-back') || e.target.closest('#chat-menu')) return;
-  if (STATE.currentChat && STATE.currentChat.type === 'group') openGroupSettings(STATE.currentChat.id);
-});
-
-async function openChat(chatId, replyContext = null) {
-  const snap = await getDoc(doc(db, 'chats', chatId));
-  if (!snap.exists()) return;
-  const data = snap.data();
-  if (data.isBanned) { toast('Chat diblokir admin.'); return; }
-  if (data.pins && data.pins[STATE.uid]) {
-    showModal(`<div class="modal-header"><h3>Chat Terkunci ${SVG_LOCK}</h3></div><div class="modal-body"><label class="field"><span>PIN</span><div class="input-wrap"><input id="unlock-pin" type="password" maxlength="6"></div></label></div><div class="modal-footer"><button class="btn btn-soft" id="unlock-cancel">Batal</button><button class="btn btn-primary" id="unlock-btn">Buka</button></div>`, r => {
-      r.querySelector('#unlock-cancel').onclick = closeModal;
-      r.querySelector('#unlock-btn').onclick = () => { if(r.querySelector('#unlock-pin').value === data.pins[STATE.uid]) { closeModal(); proceedOpenChat(chatId, data, replyContext); } else toast('PIN salah'); };
-    }); return;
-  }
-  proceedOpenChat(chatId, data, replyContext);
-}
-
-function proceedOpenChat(chatId, chat, replyContext = null) {
-  if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chatId)) {
-    STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chatId);
-    updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(chatId) }).catch(()=>{});
-    renderChats();
-  }
-  STATE.currentChat = { id: chatId, ...chat }; 
-  STATE.replyTo = replyContext; STATE.timerSec = 0; 
-  if (replyContext) {
-    $('#reply-name').textContent = replyContext.senderName;
-    $('#reply-text').textContent = replyContext.text;
-    $('#reply-bar').classList.remove('hidden');
-  } else hideReplyBar();
-
-  const name = chatDisplayName(chat); const photo = chatDisplayPhoto(chat); const tick = getChatTick(chat);
-  $('#chat-name').innerHTML = esc(name) + tick;
+function openChat(chatId){
+  const chat=STATE.chats.find(c=>c.id===chatId);
+  if(!chat){toast('Chat tidak ditemukan');return;}
+  STATE.currentChat=chat;
+  $('#chat-name').textContent=chat.name||chat.lastMessage?.senderName||'Chat';
+  setAvatarEl($('#chat-avatar'),chat.name||'?','', 'sm');
   listenPeerPresence(chat);
-  setAvatarEl($('#chat-avatar'), name, photo, 'sm');
-  
-  const isPending = chat.pendingFor && chat.pendingFor.includes(STATE.uid);
-  if (isPending) {
-    $('#stranger-bar').classList.remove('hidden');
-    $('#composer').classList.add('hidden');
-    if ((chat.unread || {})[STATE.uid]) updateDoc(doc(db, 'chats', chatId), { ['unread.'+STATE.uid]: 0 });
-  } else {
-    $('#stranger-bar').classList.add('hidden');
-    $('#composer').classList.remove('hidden');
-    if ((chat.unread || {})[STATE.uid]) updateDoc(doc(db, 'chats', chatId), { ['unread.'+STATE.uid]: 0 });
-  }
   showScreen('screen-chat');
-  if (STATE.unsubMsgs) STATE.unsubMsgs();
-  if (STATE.unsubTyping) STATE.unsubTyping();
-  listenMessages(chatId);
-  listenTyping(chatId);
-  if (replyContext) setTimeout(() => $('#chat-input').focus(), 300);
-}
-
-$('#btn-stranger-accept').addEventListener('click', async () => {
-  if (!STATE.currentChat) return;
-  await updateDoc(doc(db, 'chats', STATE.currentChat.id), { pendingFor: arrayRemove(STATE.uid) });
-  STATE.currentChat.pendingFor = []; 
-  $('#stranger-bar').classList.add('hidden');
-  $('#composer').classList.remove('hidden');
-  toast('Pesan diterima');
-});
-$('#btn-stranger-block').addEventListener('click', async () => {
-  if (!STATE.currentChat) return;
-  const otherUid = (STATE.currentChat.members || []).find(u => u !== STATE.uid);
-  await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayUnion(otherUid) });
-  await deleteDoc(doc(db, 'chats', STATE.currentChat.id));
-  toast('Pesan diblokir'); $('#chat-back').click();
-});
-
-function listenTyping(chatId) {
-  const q = collection(db, 'chats', chatId, 'typing');
-  STATE.unsubTyping = onSnapshot(q, snap => {
-    const now = Date.now();
-    let isTyping = false; let typingName = '';
-    snap.forEach(d => {
-      if (d.id !== STATE.uid) {
-        const data = d.data();
-        const time = data.timestamp ? (data.timestamp.toMillis ? data.timestamp.toMillis() : Date.now()) : Date.now();
-        if (now - time < 3000) { isTyping = true; typingName = data.name; }
-      }
+  const body=$('#chat-body');
+  body.innerHTML='';
+  if(STATE.unsubMsgs)STATE.unsubMsgs();
+  STATE.unsubMsgs=onSnapshot(query(collection(db,'chats',chatId,'messages'),orderBy('createdAt','asc'),limit(200)),snap=>{
+    body.innerHTML='';
+    snap.forEach(d=>{
+      const m={id:d.id,...d.data()};
+      const mine=m.senderId===STATE.uid;
+      const msg=document.createElement('div');
+      msg.className='msg '+(mine?'out':'in');
+      msg.innerHTML=`<div class="bubble">${m.text?`<div>${esc(m.text)}</div>`:''}${m.mediaURL?`<img src="${esc(m.mediaURL)}" class="chat-img">`:''}<div class="meta"><span>${esc(fmtTime(m.createdAt))}</span>${mine?`<span class="checks">${m.read?'✓✓':'✓'}</span>`:''}</div></div>`;
+      body.appendChild(msg);
     });
-    const exist = $('#typing-ui');
-    if (isTyping) {
-      const text = STATE.currentChat.type === 'group' ? `${esc(typingName)} sedang mengetik...` : 'sedang mengetik...';
-      if (exist) { exist.querySelector('span').textContent = text; } 
-      else {
-        const div = document.createElement('div');
-        div.id = 'typing-ui';
-        div.className = 'typing-indicator';
-        div.innerHTML = `<span>${text}</span><div class="typing-dots"><span></span><span></span><span></span></div>`;
-        $('#chat-body').appendChild(div);
-        $('#chat-body').scrollTop = $('#chat-body').scrollHeight;
-      }
-    } else if (exist) { exist.remove(); }
+    body.scrollTop=body.scrollHeight;
   });
 }
 
-let typingTimer;
-$('#chat-input').addEventListener('input', () => {
-  if (!STATE.currentChat || STATE.currentChat.pendingFor?.includes(STATE.uid)) return;
-  if (!STATE.isTypingActive) {
-    STATE.isTypingActive = true;
-    const typingRef = doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid);
-    setDoc(typingRef, { name: STATE.me.displayName, timestamp: serverTimestamp() });
-  }
-  clearTimeout(typingTimer);
-  typingTimer = setTimeout(async () => {
-    STATE.isTypingActive = false;
-    if (STATE.currentChat) { try { await deleteDoc(doc(db, 'chats', STATE.currentChat.id, 'typing', STATE.uid)); } catch(e){} }
-  }, 2000);
-});
-
-function listenMessages(chatId) {
-  const q = query(collection(db, 'chats', chatId, 'messages'), orderBy('createdAt', 'asc'), limit(300));
-  STATE.unsubMsgs = onSnapshot(q, snap => {
-    const now = Date.now();
-    const newMsgs = snap.docs.map(d => ({ id: d.id, ...d.data() })).filter(m => !(m.deletedFor||[]).includes(STATE.uid) && (!m.expiresAt || m.expiresAt.toMillis() > now));
-    if (STATE.currentChat.messages && newMsgs.length > STATE.currentChat.messages.length) {
-       const last = newMsgs[newMsgs.length - 1];
-       if (last.senderId !== STATE.uid && last.type !== 'system') playMsgSound();
-    }
-    STATE.currentChat.messages = newMsgs;
-    renderMessages();
-    if (document.visibilityState === 'visible' && STATE.currentChat?.id === chatId) {
-      const isGroupChat = STATE.currentChat.type === 'group';
-      snap.docs.forEach(d => {
-        const m = d.data();
-        if (m.senderId === STATE.uid || m.type === 'system') return;
-        if (isGroupChat) {
-          // In groups, record each member's read receipt separately.
-          // The sender's double-blue tick is shown only after every other
-          // current group member has added their UID to readBy.
-          if (!(m.readBy || []).includes(STATE.uid)) {
-            updateDoc(doc(db, 'chats', chatId, 'messages', d.id), { readBy: arrayUnion(STATE.uid) }).catch(()=>{});
-          }
-        } else if (m.status !== 'read') {
-          updateDoc(doc(db, 'chats', chatId, 'messages', d.id), { status: 'read' }).catch(()=>{});
-        }
-      });
-    }
-  });
+function closeChat(){
+  if(STATE.unsubMsgs){STATE.unsubMsgs();STATE.unsubMsgs=null;}
+  if(STATE.unsubPresence){STATE.unsubPresence();STATE.unsubPresence=null;}
+  STATE.currentChat=null;
+  showScreen('screen-home');
 }
 
-function renderMessages() {
-  const chat = STATE.currentChat; if (!chat) return;
-  const box = $('#chat-body'); const msgs = chat.messages || [];
-  const encryptionNotice = `<div class="encryption-notice"><svg class="svg-icon" viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;vertical-align:middle"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> Pesan anda sudah terenkripsi secara end-to-end. Siapa pun tidak dapat melihat pesan Anda bahkan ChatGo Tidak dapat melihat nya kecuali pesan yang anda kirim mengandung kekarasan atau pelecehan lalu mereka melaporkan nya jika anda korban, harap laporkan itu kepada kami</div>`;
-
-  if (!msgs.length) { box.innerHTML = encryptionNotice + `<div class="day-divider">Belum ada pesan</div>`; return; }
-  
-  box.innerHTML = encryptionNotice + msgs.map(m => {
-    if (m.type === 'system') return `<div class="msg sys"><div class="bubble">${esc(m.text)}</div></div>`;
-    const isOut = m.senderId === STATE.uid; const time = fmtTime(m.createdAt);
-    let isRead = m.status === 'read';
-    if (isOut && chat.type === 'group') {
-      const otherMembers = (chat.members || []).filter(uid => uid !== m.senderId);
-      const readBy = m.readBy || [];
-      isRead = otherMembers.length > 0 && otherMembers.every(uid => readBy.includes(uid));
-    }
-    const check = isOut ? (isRead ? '<span class="checks read">✓✓</span>' : '<span class="checks">✓</span>') : '';
-    const sender = (!isOut && chat.type === 'group') ? `<div class="sender-name">${esc(m.senderName || '')}</div>` : '';
-    let body = m.isDeletedForEveryone ? '<span class="deleted">Dihapus</span>' : esc(m.text || '');
-    if (m.type === 'image' && m.mediaUrl) body = `<img src="${esc(m.mediaUrl)}" class="chat-img" onclick="window.open('${esc(m.mediaUrl)}','_blank')">`;
-    if (m.type === 'voice' && m.mediaUrl) body = `<div class="voice-message"><span class="voice-message-icon">♫</span><audio controls preload="metadata" src="${esc(m.mediaUrl)}"></audio><span class="voice-label">Pesan suara</span></div>`;
-    const reply = m.replyTo ? `<div class="reply-preview"><b>${esc(m.replyTo.senderName || '')}</b><br>${esc(m.replyTo.text || '')}</div>` : '';
-    return `<div class="msg ${isOut?'out':'in'}" data-mid="${m.id}"><div class="bubble">${sender}${reply}${body}<span class="meta">${esc(time)} ${check}</span></div></div>`;
-  }).join('');
-  box.scrollTop = box.scrollHeight;
+async function sendMessage(text,extra={}){
+  const chat=STATE.currentChat;if(!chat)return;
+  try{
+    await addDoc(collection(db,'chats',chat.id,'messages'),{
+      text,senderId:STATE.uid,senderName:STATE.me.displayName,
+      createdAt:serverTimestamp(),read:false,...extra
+    });
+    await updateDoc(doc(db,'chats',chat.id),{
+      lastMessage:{text:text||'📎 Media',senderId:STATE.uid,senderName:STATE.me.displayName},
+      updatedAt:serverTimestamp()
+    });
+  }catch(e){toast('Gagal kirim: '+e.message);}
 }
 
-async function sendMessage(text, type = 'text', mediaUrl = null) {
-  const chat = STATE.currentChat; if (!chat || (!text.trim() && !mediaUrl)) return;
-  if (text.length > 45536) { toast('Pesan terlalu panjang (maks 45.536 karakter)'); return; }
-  if (chat.type === 'group' && chat.onlyAdminsCanChat) {
-    const isAdmin = chat.createdBy === STATE.uid || (chat.admins || []).includes(STATE.uid);
-    if (!isAdmin) { toast('Hanya Admin yang bisa chat di grup ini'); return; }
-  }
-  if (STATE.me.hiddenChats && STATE.me.hiddenChats.includes(chat.id)) {
-    STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== chat.id);
-    updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(chat.id) }).catch(()=>{});
-    renderChats();
-  }
-  const payload = {
-    senderId: STATE.uid, senderName: STATE.me.displayName, text: text.trim(), type: type, status: 'sent',
-    createdAt: serverTimestamp(), replyTo: STATE.replyTo ? { text: STATE.replyTo.text || '📎', senderName: STATE.replyTo.senderName } : null,
-    timer: STATE.timerSec || 0, isDeletedForEveryone: false, deletedFor: []
-  };
-  if (mediaUrl) payload.mediaUrl = mediaUrl;
-  if (STATE.timerSec) payload.expiresAt = Timestamp.fromMillis(Date.now() + STATE.timerSec * 1000);
-  await addDoc(collection(db, 'chats', chat.id, 'messages'), payload);
-  playMsgSound();
-  const unread = {}; (chat.members || []).filter(u => u !== STATE.uid).forEach(u => unread['unread.'+u] = ((chat.unread||{})[u]||0)+1);
-  await updateDoc(doc(db, 'chats', chat.id), { lastMessage: { text: type==='image'?'📷 Foto':(type==='voice'?'🎤 Pesan suara':payload.text), senderId: STATE.uid, senderName: STATE.me.displayName, createdAt: serverTimestamp() }, updatedAt: serverTimestamp(), ...unread });
-  STATE.replyTo = null; STATE.timerSec = 0; hideReplyBar(); $('#chat-input').value = '';
-}
-
-/* Convert browser-recorded audio (commonly WebM/Opus on Android) to WAV.
-   WAV is broadly accepted by Cloudinary's video resource type for audio uploads. */
-async function makeVoiceWav(chunks) {
-  const sourceBlob = new Blob(chunks);
-  const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  if (!AudioCtx) throw new Error('Browser tidak mendukung konversi audio. Perbarui Chrome.');
-  const ctx = new AudioCtx();
-  try {
-    const decoded = await ctx.decodeAudioData(await sourceBlob.arrayBuffer());
-    const targetRate = 24000;
-    const ratio = decoded.sampleRate / targetRate;
-    const length = Math.max(1, Math.floor(decoded.length / ratio));
-    const pcm = new Int16Array(length);
-    const channels = Array.from({length: decoded.numberOfChannels}, (_, i) => decoded.getChannelData(i));
-    for (let i = 0; i < length; i++) {
-      const pos = i * ratio;
-      const left = Math.floor(pos), frac = pos - left;
-      let sample = 0;
-      for (const channel of channels) {
-        const a = channel[Math.min(left, channel.length - 1)] || 0;
-        const b = channel[Math.min(left + 1, channel.length - 1)] || 0;
-        sample += a + (b - a) * frac;
-      }
-      sample /= channels.length;
-      sample = Math.max(-1, Math.min(1, sample));
-      pcm[i] = sample < 0 ? sample * 32768 : sample * 32767;
-    }
-    const buffer = new ArrayBuffer(44 + pcm.length * 2);
-    const view = new DataView(buffer);
-    const write = (offset, value) => { for (let i=0;i<value.length;i++) view.setUint8(offset+i,value.charCodeAt(i)); };
-    write(0,'RIFF'); view.setUint32(4,36 + pcm.length*2,true); write(8,'WAVE');
-    write(12,'fmt '); view.setUint32(16,16,true); view.setUint16(20,1,true);
-    view.setUint16(22,1,true); view.setUint32(24,targetRate,true); view.setUint32(28,targetRate*2,true);
-    view.setUint16(32,2,true); view.setUint16(34,16,true); write(36,'data');
-    view.setUint32(40,pcm.length*2,true);
-    for(let i=0;i<pcm.length;i++) view.setInt16(44+i*2,pcm[i],true);
-    return new File([buffer], `chatgo-voice-${Date.now()}.wav`, {type:'audio/wav'});
-  } finally { try { await ctx.close(); } catch (_) {} }
-}
-
-/* VOICE NOTE: tekan dan tahan untuk merekam, lepaskan untuk mengirim */
-let voiceRecorder = null;
-let voiceStream = null;
-let voiceChunks = [];
-let voiceRecordingChatId = null;
-let voiceStartAt = 0;
-let voiceStopRequested = false;
-const voiceButton = $('#btn-voice');
-
-async function beginVoiceRecording() {
-  if (voiceRecorder || !STATE.currentChat) return;
-  if (!navigator.mediaDevices?.getUserMedia || !window.MediaRecorder) {
-    toast('Browser ini belum mendukung rekaman suara. Gunakan Chrome terbaru melalui HTTPS.');
-    return;
-  }
-  if (STATE.currentChat.pendingFor?.includes(STATE.uid)) { toast('Terima pesan terlebih dahulu untuk membalas.'); return; }
-  try {
-    voiceStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
-    if (!voiceButton?.matches(':active') && voiceStopRequested) { voiceStream.getTracks().forEach(t=>t.stop()); voiceStream=null; voiceStopRequested=false; return; }
-    const mimeType = ['audio/webm;codecs=opus','audio/webm','audio/mp4'].find(t => MediaRecorder.isTypeSupported?.(t)) || '';
-    voiceRecorder = mimeType ? new MediaRecorder(voiceStream,{mimeType}) : new MediaRecorder(voiceStream);
-    voiceChunks = [];
-    voiceRecordingChatId = STATE.currentChat?.id || null;
-    voiceStartAt = Date.now();
-    voiceRecorder.ondataavailable = e => { if (e.data?.size) voiceChunks.push(e.data); };
-    voiceRecorder.onerror = () => { toast('Perekaman suara gagal.'); cleanupVoiceRecording(); };
-    voiceRecorder.onstop = async () => {
-      const recorder = voiceRecorder;
-      const chunks = voiceChunks.slice();
-      const chatId = voiceRecordingChatId;
-      const duration = Math.max(0, Math.round((Date.now()-voiceStartAt)/1000));
-      cleanupVoiceRecording();
-      if (!chunks.length || duration < 1) { toast('Rekaman terlalu singkat.'); return; }
-      if (!STATE.currentChat || STATE.currentChat.id !== chatId) { toast('Rekaman dibatalkan karena ruang chat berubah.'); return; }
-      toast('Menyiapkan pesan suara…');
-      try {
-        const audioFile = await makeVoiceWav(chunks);
-        if (audioFile.size > 25*1024*1024) { toast('Pesan suara maksimal 25 MB.'); return; }
-        toast('Mengirim pesan suara…');
-        const url = await uploadToCloudinary(audioFile, 'video');
-        if (!STATE.currentChat || STATE.currentChat.id !== chatId) { toast('Audio terunggah, tetapi ruang chat sudah berubah.'); return; }
-        await sendMessage('', 'voice', url);
-      } catch(err) { console.error('Voice note upload error:', err); toast('Gagal mengirim VN: '+(err.message||'Coba lagi.')); }
-    };
-    voiceRecorder.start(250);
-    voiceButton.classList.add('recording');
-    voiceButton.setAttribute('aria-label','Merekam… lepaskan untuk mengirim');
-    toast('Merekam suara… lepaskan untuk mengirim');
-  } catch(err) {
-    cleanupVoiceRecording();
-    toast(err.name === 'NotAllowedError' ? 'Izin mikrofon ditolak. Aktifkan izin mikrofon.' : 'Tidak bisa mengakses mikrofon.');
-  }
-}
-function stopVoiceRecording(cancel=false) {
-  voiceStopRequested = true;
-  if (voiceRecorder && voiceRecorder.state !== 'inactive') {
-    if (cancel) { voiceChunks=[]; voiceRecorder.onstop=()=>cleanupVoiceRecording(); }
-    try { voiceRecorder.stop(); } catch(e) { cleanupVoiceRecording(); }
-  } else if (!voiceRecorder && voiceStream) cleanupVoiceRecording();
-}
-function cleanupVoiceRecording() {
-  voiceButton?.classList.remove('recording');
-  voiceButton?.setAttribute('aria-label','Tahan untuk merekam pesan suara');
-  if (voiceStream) voiceStream.getTracks().forEach(t=>t.stop());
-  voiceStream=null; voiceRecorder=null; voiceChunks=[]; voiceRecordingChatId=null; voiceStopRequested=false;
-}
-voiceButton?.addEventListener('pointerdown', e => {
-  if (e.button !== undefined && e.button !== 0) return;
-  e.preventDefault(); voiceStopRequested=false;
-  try { voiceButton.setPointerCapture(e.pointerId); } catch(_) {}
-  beginVoiceRecording();
-});
-voiceButton?.addEventListener('pointerup', e => { e.preventDefault(); stopVoiceRecording(false); });
-voiceButton?.addEventListener('pointercancel', () => stopVoiceRecording(true));
-voiceButton?.addEventListener('lostpointercapture', () => { if (voiceRecorder?.state === 'recording') stopVoiceRecording(false); });
-voiceButton?.addEventListener('contextmenu', e => e.preventDefault());
-
-$('#composer').addEventListener('submit', e => { e.preventDefault(); sendMessage($('#chat-input').value).catch(e => toast('Error: '+e.message)); });
-$('#btn-attach').addEventListener('click', () => $('#chat-media-input').click());
-$('#chat-media-input').addEventListener('change', async e => {
-  const file = e.target.files?.[0]; if (!file) return;
-  if (file.size > 10485760) { toast('Maks 10MB'); e.target.value=''; return; }
-  toast('Mengunggah…');
-  try { const url = await uploadToCloudinary(file); await sendMessage('', 'image', url); } catch(err){ toast('Gagal: '+err.message); }
-  e.target.value='';
-});
-
-$('#chat-body').addEventListener('click', async e => {
-  if (e.target.closest('audio,button,input,a')) return;
-  const msgEl = e.target.closest('[data-mid]'); if (!msgEl) return;
-  const mid = msgEl.dataset.mid; const msg = (STATE.currentChat?.messages||[]).find(m=>m.id===mid); if(!msg || msg.type==='system') return;
-  const isOut = msg.senderId === STATE.uid;
-  showModal(`<div class="modal-header"><h3>Pesan</h3></div><div class="menu-list"><button class="menu-item" id="m-reply">↩ Balas</button><button class="menu-item" id="m-copy">📋 Salin</button><button class="menu-item" id="m-del-me">${SVG_TRASH} Hapus untuk Saya</button>${isOut?'<button class="menu-item" id="m-del-all" style="color:red">'+SVG_TRASH+' Hapus untuk Semua</button>':''}</div>`, r => {
-    r.querySelector('#m-reply').onclick = () => { STATE.replyTo = msg; $('#reply-name').textContent = msg.senderName; $('#reply-text').textContent = msg.text || '📎'; $('#reply-bar').classList.remove('hidden'); closeModal(); };
-    r.querySelector('#m-copy').onclick = () => { navigator.clipboard.writeText(msg.text||''); toast('Disalin'); closeModal(); };
-    r.querySelector('#m-del-me').onclick = async () => { await updateDoc(doc(db,'chats',STATE.currentChat.id,'messages',mid),{deletedFor:arrayUnion(STATE.uid)}); closeModal(); };
-    if(isOut) r.querySelector('#m-del-all').onclick = async () => { await updateDoc(doc(db,'chats',STATE.currentChat.id,'messages',mid),{isDeletedForEveryone:true,text:'',mediaUrl:null}); closeModal(); };
-  });
-});
-$('#reply-cancel').addEventListener('click', () => { STATE.replyTo = null; hideReplyBar(); });
-function hideReplyBar() { $('#reply-bar').classList.add('hidden'); }
-
-async function openGroupSettings(chatId) {
-  const snap = await getDoc(doc(db, 'chats', chatId));
-  const c = snap.data();
-  const isOwner = c.createdBy === STATE.uid;
-  const isAdmin = (c.admins || []).includes(STATE.uid) || isOwner;
-  const canEdit = isOwner || isAdmin;
-
-  const memberListHtml = (c.members || []).map(uid => {
-    const isUserOwner = uid === c.createdBy;
-    const isUserAdmin = (c.admins || []).includes(uid);
-    const name = c.memberNames?.[uid] || 'Unknown';
-    const badge = isUserOwner ? '<span class="badge-owner">Pemilik</span>' : (isUserAdmin ? '<span class="badge-admin">Admin</span>' : '');
-    let actions = '';
-    if (canEdit && !isUserOwner && uid !== STATE.uid) {
-      actions = `<button class="btn btn-danger sm" data-kick="${uid}" style="padding:6px 10px;font-size:11px">Keluarkan</button>`;
-      if (isOwner) actions = `<button class="btn btn-soft sm" data-toggle-admin="${uid}" data-is-admin="${isUserAdmin}" style="padding:6px 10px;font-size:11px;margin-right:5px">${isUserAdmin?'Cabut Admin':'Jadikan Admin'}</button>` + actions;
-    }
-    return `<div class="member-item" data-uid="${uid}">${avatarHTML(name, c.memberPhotos?.[uid], 'sm')}<div class="member-info"><strong>${esc(name)} ${uid===STATE.uid?'(Kamu)':''} ${badge}</strong></div>${actions}</div>`;
-  }).join('');
-
+/* ============================================================
+   PROFILE + MODAL UMUM — [REKONSTRUKSI]
+   ============================================================ */
+function openEditProfile(){
+  const me=STATE.me;
   showModal(`
-    <div class="modal-header" style="display:flex;justify-content:space-between;align-items:center">
-      <h3>Info Grup</h3>
-      <button class="icon-btn" id="gs-close"><svg class="svg-icon-outline" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button>
-    </div>
+    <div class="modal-header"><h3>Edit Profil</h3></div>
     <div class="modal-body">
-      <div class="settings-header">
-        <div id="gs-photo-wrapper" style="position:relative;cursor:${canEdit?'pointer':'default'}">
-          ${avatarHTML(c.name, c.photoURL, 'lg', 'gs-photo')}
-          ${canEdit ? '<div style="position:absolute;bottom:0;right:0;background:var(--primary);color:#fff;border-radius:50%;padding:5px;font-size:12px;border:2px solid var(--surface)">📷</div>' : ''}
-        </div>
-        ${canEdit ? `<input class="settings-group-title" id="gs-name-input" value="${esc(c.name)}" style="border-bottom:1px dashed var(--primary);text-align:center;width:100%;">` : `<h2 class="settings-group-title">${esc(c.name)}</h2>`}
-        <p class="muted small">${c.members.length} Anggota</p>
-        ${canEdit ? `<button class="btn btn-primary sm" id="gs-save-name" style="width:100%">Simpan Perubahan</button>` : ''}
-      </div>
-      <div class="list-card" style="margin-bottom:15px">
-        <label class="row">
-          <span>Hanya Admin yang bisa chat</span>
-          <input type="checkbox" class="switch" id="gs-only-admin-chat" ${c.onlyAdminsCanChat?'checked':''} ${canEdit?'':'disabled'}>
-        </label>
-        <label class="row">
-          <span>Siapa yang bisa tambah anggota</span>
-          <select id="gs-who-can-add" ${canEdit?'':'disabled'}>
-            <option value="everyone" ${c.whoCanAddMembers==='everyone'?'selected':''}>Semua Anggota</option>
-            <option value="admins" ${c.whoCanAddMembers==='admins'?'selected':''}>Hanya Admin</option>
-          </select>
-        </label>
-      </div>
-      <p class="section-title">Anggota Grup</p>
-      <div class="list-card" style="padding:10px 14px">${memberListHtml}</div>
+      <label class="field"><span>Nama</span><div class="input-wrap"><input id="ep-name" value="${esc(me.displayName||'')}"></div></label>
+      <label class="field"><span>Bio</span><div class="input-wrap"><input id="ep-bio" value="${esc(me.bio||'')}"></div></label>
     </div>
-    <div class="modal-footer" style="flex-direction:column;gap:10px">
-      <button class="btn btn-danger" id="gs-leave" style="width:100%">Keluar Grup</button>
-      ${isOwner ? `<button class="btn btn-danger" id="gs-disband" style="width:100%;background:#b91c1c">Bubarkan Grup</button>` : ''}
+    <div class="modal-footer">
+      <button class="btn btn-soft" id="ep-cancel">Batal</button>
+      <button class="btn btn-primary" id="ep-save">Simpan</button>
     </div>
-  `, root => {
-    root.querySelector('#gs-close').onclick = closeModal;
-    if (canEdit) {
-      root.querySelector('#gs-save-name').onclick = async () => {
-        const newName = root.querySelector('#gs-name-input').value.trim();
-        if (!newName) return toast('Nama kosong');
-        await updateDoc(doc(db, 'chats', chatId), { name: newName });
-        toast('Nama diperbarui'); closeModal();
-        if (STATE.currentChat?.id === chatId) proceedOpenChat(chatId, { ...c, name: newName });
-      };
-    }
-    root.querySelector('#gs-photo-wrapper').onclick = () => {
-      if (!canEdit) return;
-      const fi = document.createElement('input'); fi.type='file'; fi.accept='image/*'; fi.style.display='none'; document.body.appendChild(fi);
-      fi.onchange = async e => {
-        const file = e.target.files?.[0]; if(!file) return;
-        toast('Mengunggah foto…');
-        try { const url = await uploadToCloudinary(file); await updateDoc(doc(db, 'chats', chatId), { photoURL: url }); toast('Foto diubah'); root.querySelector('#gs-photo').outerHTML = avatarHTML(c.name, url, 'lg', 'gs-photo'); } catch(err){ toast('Gagal: '+err.message); }
-        document.body.removeChild(fi);
-      };
-      fi.click();
+  `,root=>{
+    root.querySelector('#ep-cancel').onclick=closeModal;
+    root.querySelector('#ep-save').onclick=async()=>{
+      const name=root.querySelector('#ep-name').value.trim();
+      const bio=root.querySelector('#ep-bio').value.trim();
+      try{
+        await updateDoc(doc(db,'users',STATE.uid),{displayName:name,bio});
+        STATE.me.displayName=name;STATE.me.bio=bio;
+        updateProfileUI();closeModal();toast('Profil diperbarui');
+      }catch(e){toast('Gagal: '+e.message);}
     };
-    const toggleAdminChat = root.querySelector('#gs-only-admin-chat');
-    if(toggleAdminChat) toggleAdminChat.onchange = async (e) => { await updateDoc(doc(db, 'chats', chatId), { onlyAdminsCanChat: e.target.checked }); toast('Pengaturan diperbarui'); };
-    const selAdd = root.querySelector('#gs-who-can-add');
-    if(selAdd) selAdd.onchange = async (e) => { await updateDoc(doc(db, 'chats', chatId), { whoCanAddMembers: e.target.value }); toast('Pengaturan diperbarui'); };
-    
-    root.querySelectorAll('[data-kick]').forEach(btn => {
-      btn.onclick = async (e) => {
-        e.stopPropagation(); 
-        const uid = btn.dataset.kick; if (!confirm('Keluarkan?')) return;
-        const mn = { ...c.memberNames }; delete mn[uid]; const mp = { ...c.memberPhotos }; delete mp[uid]; const mu = { ...c.memberUsernames }; delete mu[uid]; const un = { ...c.unread }; delete un[uid];
-        await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(uid), admins: arrayRemove(uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
-        await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} mengeluarkan ${c.memberNames[uid]}`, createdAt: serverTimestamp() });
-        toast('Dikeluarkan'); closeModal();
-      };
-    });
-    root.querySelectorAll('[data-toggle-admin]').forEach(btn => {
-      btn.onclick = async (e) => {
-        e.stopPropagation(); 
-        const uid = btn.dataset.toggleAdmin; const isAdm = btn.dataset.isAdmin === 'true';
-        if (isAdm) { await updateDoc(doc(db, 'chats', chatId), { admins: arrayRemove(uid) }); toast('Admin dicabut'); }
-        else { await updateDoc(doc(db, 'chats', chatId), { admins: arrayUnion(uid) }); toast('Jadi Admin'); await addDoc(collection(db, 'chats', chatId, 'messages'), { type:'system', text:`${STATE.me.displayName} menjadikan ${c.memberNames[uid]} Admin`, createdAt: serverTimestamp() }); }
-        closeModal();
-      };
-    });
-    root.querySelectorAll('.member-item').forEach(item => {
-      item.onclick = (e) => {
-        if (e.target.closest('button')) return; 
-        const targetUid = item.dataset.uid;
-        if (targetUid === STATE.uid) { toast('Ini akun kamu'); return; }
-        closeModal();
-        startChatWith(targetUid);
-      };
-    });
-    root.querySelector('#gs-leave').onclick = async () => {
-      if (!confirm('Keluar?')) return;
-      const mn = { ...c.memberNames }; delete mn[STATE.uid]; const mp = { ...c.memberPhotos }; delete mp[STATE.uid]; const mu = { ...c.memberUsernames }; delete mu[STATE.uid]; const un = { ...c.unread }; delete un[STATE.uid];
-      await updateDoc(doc(db, 'chats', chatId), { members: arrayRemove(STATE.uid), admins: arrayRemove(STATE.uid), memberNames: mn, memberPhotos: mp, memberUsernames: mu, unread: un });
-      await addDoc(collection(db, 'chats', chatId, 'messages'), { type: 'system', text: `${STATE.me.displayName} keluar dari grup`, createdAt: serverTimestamp() });
-      toast('Keluar'); closeModal(); $('#chat-back').click();
-    };
-    if (isOwner) {
-      root.querySelector('#gs-disband').onclick = async () => {
-        if (!confirm('Bubarkan?')) return;
-        try {
-          const msgs = await getDocs(collection(db, 'chats', chatId, 'messages')); const batch = writeBatch(db);
-          msgs.forEach(m => batch.delete(m.ref)); batch.delete(doc(db, 'chats', chatId)); await batch.commit();
-          toast('Dibubarkan'); closeModal(); $('#chat-back').click();
-        } catch(e) { toast('Gagal: '+e.message); }
-      };
-    }
   });
 }
 
-$('#chat-menu').addEventListener('click', () => {
-  const isGroup = STATE.currentChat?.type === 'group';
-  showModal(`
-    <div class="modal-header"><h3>Opsi Chat</h3></div>
-    <div class="menu-list">
-      ${isGroup ? `<button class="menu-item" id="cm-add-member"><span class="ico">${SVG_GROUP}</span>Tambah Anggota</button>` : ''}
-      <button class="menu-item" id="cm-mute"><span class="ico">${SVG_MUTE}</span>Bisukan / Aktifkan</button>
-      <button class="menu-item" id="cm-lock"><span class="ico">${SVG_LOCK}</span>Kunci dengan PIN</button>
-      <button class="menu-item" id="cm-clear" style="color:#e5484d"><span class="ico">${SVG_TRASH}</span>Kosongkan Chat</button>
-    </div>
-  `, root => {
-    root.querySelector('#cm-mute').onclick = async () => {
-      const isMuted = (STATE.currentChat.mutedBy||[]).includes(STATE.uid);
-      await updateDoc(doc(db,'chats',STATE.currentChat.id),{mutedBy:isMuted?arrayRemove(STATE.uid):arrayUnion(STATE.uid)});
-      toast(isMuted?'Aktif':'Dibisukan'); closeModal();
-    };
-    root.querySelector('#cm-lock').onclick = () => {
-      showModal(`<div class="modal-header"><h3>Kunci PIN</h3></div><div class="modal-body"><input type="password" id="pin-in" maxlength="6" placeholder="PIN 4-6 angka" class="input-wrap" style="padding:10px;width:100%"></div><div class="modal-footer"><button class="btn btn-soft" id="p-cancel">Batal</button><button class="btn btn-primary" id="p-save">Simpan</button></div>`, r2 => {
-        r2.querySelector('#p-cancel').onclick = closeModal;
-        r2.querySelector('#p-save').onclick = async () => { const p = r2.querySelector('#pin-in').value; if(/^\d{4,6}$/.test(p)){await updateDoc(doc(db,'chats',STATE.currentChat.id),{[`pins.${STATE.uid}`]:p});closeModal();toast('Terkunci');}else toast('Format salah'); };
-      });
-    };
-    root.querySelector('#cm-clear').onclick = async () => {
-      if(!confirm('Hapus semua pesan?')) return;
-      const s = await getDocs(collection(db,'chats',STATE.currentChat.id,'messages')); const b = writeBatch(db); s.forEach(d=>b.delete(d.ref)); await b.commit();
-      await updateDoc(doc(db,'chats',STATE.currentChat.id),{lastMessage:null}); toast('Chat kosong'); closeModal();
-    };
-    if(isGroup) {
-      root.querySelector('#cm-add-member').onclick = () => {
-        if (STATE.currentChat.whoCanAddMembers === 'admins') {
-          const isAdm = STATE.currentChat.createdBy === STATE.uid || (STATE.currentChat.admins||[]).includes(STATE.uid);
-          if (!isAdm) { toast('Hanya Admin yang bisa tambah anggota'); return; }
-        }
-        closeModal(); openAddMemberModal();
-      };
-    }
-  });
-});
-
-function openAddMemberModal() {
-  showModal(`<div class="modal-header"><h3>Tambah Anggota</h3></div><div class="modal-body"><input type="text" id="am-search" placeholder="Cari username…" class="input-wrap" style="padding:10px;width:100%"><div id="am-results"></div></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, root => {
-    const input = root.querySelector('#am-search'); const res = root.querySelector('#am-results');
-    let t; input.addEventListener('input', () => {
-      clearTimeout(t); t = setTimeout(async () => {
-        const q = input.value.toLowerCase().trim(); if(q.length<2) return;
-        const snap = await getDocs(query(collection(db,'users'),where('username','>=',q),where('username','<=',q+'\uf8ff'),limit(5)));
-        res.innerHTML = snap.docs.map(d => {
-          const u = d.data();
-          if (STATE.currentChat.members.includes(d.id)) return `<div class="search-result"><div class="info"><strong>${esc(u.displayName)}</strong><span>Sudah di grup</span></div></div>`;
-          return `<div class="search-result" data-add="${d.id}" data-name="${esc(u.displayName)}" data-photo="${esc(u.photoURL||'')}" data-uname="${esc(u.username)}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`;
-        }).join('');
-        res.querySelectorAll('[data-add]').forEach(el => {
-          el.onclick = async () => {
-            const uid = el.dataset.add;
-            const names = { ...STATE.currentChat.memberNames, [uid]: el.dataset.name };
-            const photos = { ...STATE.currentChat.memberPhotos, [uid]: el.dataset.photo };
-            const unames = { ...STATE.currentChat.memberUsernames, [uid]: el.dataset.uname };
-            await updateDoc(doc(db,'chats',STATE.currentChat.id), { members: arrayUnion(uid), memberNames: names, memberPhotos: photos, memberUsernames: unames });
-            await addDoc(collection(db,'chats',STATE.currentChat.id,'messages'), { type:'system', text:`${STATE.me.displayName} menambahkan ${el.dataset.name}`, createdAt: serverTimestamp() });
-            toast('Ditambahkan'); closeModal();
-          };
-        });
-      }, 300);
-    });
-  });
-}
-
-$('#btn-edit-profile').addEventListener('click', () => {
-  showModal(`<div class="modal-header"><h3>Edit Profil</h3></div><div class="modal-body"><label class="field"><span>Nama</span><input id="en" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.displayName)}"></label><label class="field"><span>Bio</span><input id="eb" class="input-wrap" style="padding:10px;width:100%" value="${esc(STATE.me.bio||'')}"></label></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Batal</button><button class="btn btn-primary" id="es">Simpan</button></div>`, r=>{
-    r.querySelector('#es').onclick = async () => { const newName=r.querySelector('#en').value.trim(); await updateDoc(doc(db,'users',STATE.uid),{displayName:newName,bio:r.querySelector('#eb').value.trim()}); STATE.me.displayName=newName; STATE.me.bio=r.querySelector('#eb').value; updateProfileUI(); try{const ownPosts=await getDocs(query(collection(db,'socialPosts'),where('userId','==',STATE.uid)));const batch=writeBatch(db);ownPosts.docs.forEach(d=>batch.update(d.ref,{displayName:newName}));await batch.commit();}catch(e){console.warn('Sinkronisasi nama postingan:',e);} closeModal(); };
-  });
-});
-$('#btn-change-photo').addEventListener('click', () => $('#photo-input').click());
-$('#photo-input').addEventListener('change', async e => {
-  const f = e.target.files?.[0]; if(!f) return; toast('Upload…');
-  try{ const url = await uploadToCloudinary(f); await updateDoc(doc(db,'users',STATE.uid),{photoURL:url}); STATE.me.photoURL=url; updateProfileUI(); try{const ownPosts=await getDocs(query(collection(db,'socialPosts'),where('userId','==',STATE.uid)));const batch=writeBatch(db);ownPosts.docs.forEach(d=>batch.update(d.ref,{photoURL:url}));await batch.commit();}catch(e){console.warn('Sinkronisasi foto postingan:',e);} toast('Berhasil'); }catch(err){toast(err.message);}
-  e.target.value='';
-});
-
-/* THEME TOGGLE LISTENER */
-document.getElementById('toggle-dark-mode').addEventListener('change', (e) => {
-  const isDark = e.target.checked;
-  setTheme(isDark ? 'dark' : 'light');
-  toast(isDark ? '🌙 Tema gelap diaktifkan' : '☀️ Tema terang diaktifkan');
-});
-document.querySelectorAll('[data-accent-choice]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    applyAccent(btn.dataset.accentChoice);
-    const names={green:'Hijau',blue:'Biru',purple:'Ungu',yellow:'Kuning'};
-    toast('Warna tema '+names[btn.dataset.accentChoice]+' diterapkan');
-  });
-});
-if (window.matchMedia) {
-  try {
-    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-      if (!localStorage.getItem(THEME_KEY)) applyTheme(e.matches ? 'dark' : 'light');
-    });
-  } catch(e) {}
-}
-
-
-/* SOCIAL KANAL HANDLERS */
-if($('#social-my-profile'))$('#social-my-profile').onclick=()=>openSocialProfile(STATE.uid);
-if($('#social-add-media'))$('#social-add-media').onclick=()=>$('#social-media-input').click();
-if($('#social-publish'))$('#social-publish').onclick=openSocialComposer;
-if($('#social-media-input'))$('#social-media-input').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;if(!f.type.startsWith('image/')&&!f.type.startsWith('video/')){toast('Pilih foto atau video');return;}socialSelectedFile=f;$('#social-media-label').textContent=f.name;toast('Media dipilih');e.target.value='';});
-if($('#tab-channels'))$('#tab-channels').addEventListener('click',e=>{if(e.target.closest('[data-social-profile]'))openSocialProfile(e.target.closest('[data-social-profile]').dataset.socialProfile);});
-
-/* HANDLER TAMBAHAN */
-$('#search-input').addEventListener('input', () => renderChats());
-
-$('#fab').addEventListener('click', () => {
-  const onChannels = $('#tab-channels')?.classList.contains('active');
-  if(onChannels){openSocialComposer();return;}
-  showModal(`
-    <div class="modal-header"><h3>Buat Baru</h3></div>
-    <div class="menu-list">
-      <button class="menu-item" id="fab-new-chat"><span class="ico">${SVG_CONTACT}</span>Chat Baru</button>
-      <button class="menu-item" id="fab-new-group"><span class="ico">${SVG_GROUP}</span>Grup Baru</button>
-    </div>
-  `, r => {
-    r.querySelector('#fab-new-chat').onclick = () => { closeModal(); openNewChatModal(); };
-    r.querySelector('#fab-new-group').onclick = () => { closeModal(); openNewGroupModal(); };
-  });
-});
-
-$$('.nav-btn').forEach(btn => {
-  btn.onclick = () => {
-    $$('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    $$('.tab-panel').forEach(p => p.classList.remove('active'));
-    const target = $('#tab-' + btn.dataset.tab);
-    if (target) target.classList.add('active');
-    $('#fab').classList.toggle('hidden', !['chats','channels'].includes(btn.dataset.tab) || (btn.dataset.tab==='chats' && STATE.isSelectMode));
-    if($('#search-container')) $('#search-container').classList.toggle('hidden',btn.dataset.tab==='channels');
-    if(btn.dataset.tab==='channels'){renderChannels();}
-  };
-});
-
-$$('.seg-btn').forEach(btn => {
-  btn.onclick = () => {
-    $$('.seg-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const mode = btn.dataset.auth;
-    $('#form-login').classList.toggle('hidden', mode !== 'login');
-    $('#form-register').classList.toggle('hidden', mode !== 'register');
-  };
-});
-
-$('#form-login').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const u = $('#login-user').value.trim();
-  const p = $('#login-pass').value;
-  const btn = $('#btn-login');
-  btn.disabled = true; btn.textContent = 'Masuk…';
-  try {
-    await loginUser(u, p);
-    const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    const uname = u.toLowerCase();
-    const idx = accounts.findIndex(a => a.username === uname);
-    if (idx < 0) accounts.push({ username: uname, password: p, displayName: uname });
-    else accounts[idx].password = p;
-    localStorage.setItem('chatgo_accounts', JSON.stringify(accounts.slice(-2)));
-  } catch (err) {
-    toast('Gagal: ' + (err.code === 'auth/invalid-credential' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' ? 'Username/password salah' : err.message));
-  } finally {
-    btn.disabled = false; btn.textContent = 'Masuk';
-  }
-});
-
-$('#form-register').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const name = $('#reg-name').value.trim();
-  const u = $('#reg-user').value.trim();
-  const p = $('#reg-pass').value;
-  const btn = $('#btn-register');
-  btn.disabled = true; btn.textContent = 'Mendaftar…';
-  try {
-    await registerUser(name, u, p);
-    const accounts = JSON.parse(localStorage.getItem('chatgo_accounts') || '[]');
-    const uname = u.toLowerCase();
-    if (!accounts.find(a => a.username === uname)) {
-      accounts.push({ username: uname, password: p, displayName: name });
-      localStorage.setItem('chatgo_accounts', JSON.stringify(accounts.slice(-2)));
-    }
-  } catch (err) {
-    toast('Gagal: ' + err.message);
-  } finally {
-    btn.disabled = false; btn.textContent = 'Buat Akun';
-  }
-});
-
-let regUserTimer;
-$('#reg-user').addEventListener('input', (e) => {
-  const v = e.target.value.toLowerCase().trim();
-  const hint = $('#reg-hint');
-  clearTimeout(regUserTimer);
-  if (!v) { hint.textContent = '3-20 karakter (huruf kecil, angka, _)'; hint.className = 'hint'; return; }
-  if (!/^[a-z0-9_]{3,20}$/.test(v)) { hint.textContent = 'Format tidak valid'; hint.className = 'hint err'; return; }
-  hint.textContent = 'Memeriksa…'; hint.className = 'hint';
-  regUserTimer = setTimeout(async () => {
-    try {
-      const snap = await getDoc(doc(db, 'usernames', v));
-      if (snap.exists()) { hint.textContent = 'Username sudah dipakai'; hint.className = 'hint err'; }
-      else { hint.textContent = '@' + v + ' tersedia'; hint.className = 'hint ok'; }
-    } catch { hint.textContent = '3-20 karakter (huruf kecil, angka, _)'; hint.className = 'hint'; }
-  }, 400);
-});
-
-$('#priv-who').addEventListener('change', async (e) => {
-  try {
-    await updateDoc(doc(db, 'users', STATE.uid), { 'privacy.whoCanMessage': e.target.value });
-    STATE.me.privacy = { ...(STATE.me.privacy || {}), whoCanMessage: e.target.value };
-    toast('Privasi disimpan');
-  } catch (err) { toast('Gagal: ' + err.message); }
-});
-
-$('#btn-enable-notif').addEventListener('click', async () => {
-  await setupFCM();
-  if (Notification.permission === 'granted') toast('Notifikasi diaktifkan');
-  else if (Notification.permission === 'denied') toast('Notifikasi ditolak browser');
-  else toast('Izin notifikasi tidak diberikan');
-});
-
-$('#btn-blocked-list').addEventListener('click', async () => {
-  const blocked = STATE.me.blocked || [];
-  if (!blocked.length) {
-    showModal(`<div class="modal-header"><h3>Daftar Diblokir</h3></div><div class="modal-body"><p class="muted small center">Belum ada pengguna yang diblokir.</p></div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`);
-    return;
-  }
-  const users = [];
-  for (const uid of blocked) {
-    try { const s = await getDoc(doc(db, 'users', uid)); if (s.exists()) users.push({ uid, ...s.data() }); } catch {}
-  }
-  showModal(`<div class="modal-header"><h3>Daftar Diblokir (${users.length})</h3></div><div class="modal-body">${users.map(u => `<div class="search-result">${avatarHTML(u.displayName, u.photoURL, 'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div><button class="btn btn-soft sm" data-unblock="${u.uid}">Buka</button></div>`).join('')}</div><div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>`, r => {
-    r.querySelectorAll('[data-unblock]').forEach(b => b.onclick = async () => {
-      await updateDoc(doc(db, 'users', STATE.uid), { blocked: arrayRemove(b.dataset.unblock) });
-      STATE.me.blocked = (STATE.me.blocked || []).filter(u => u !== b.dataset.unblock);
-      const row = b.closest('.search-result'); if (row) row.remove();
-      toast('Dibuka');
-    });
-  });
-});
-
-async function startChatWith(otherUid, replyContext = null) {
-  if (!otherUid || otherUid === STATE.uid) return;
-  const existing = STATE.chats.find(c => c.type === 'direct' && (c.members || []).includes(otherUid) && (c.members || []).includes(STATE.uid));
-  if (existing) {
-    if (STATE.me.hiddenChats?.includes(existing.id)) {
-      updateDoc(doc(db, 'users', STATE.uid), { hiddenChats: arrayRemove(existing.id) }).catch(()=>{});
-      STATE.me.hiddenChats = STATE.me.hiddenChats.filter(id => id !== existing.id);
-      renderChats();
-    }
-    proceedOpenChat(existing.id, existing, replyContext);
-    return;
-  }
-  let userSnap;
-  try { userSnap = await getDoc(doc(db, 'users', otherUid)); } catch { toast('Gagal memuat pengguna'); return; }
-  if (!userSnap.exists()) { toast('Pengguna tidak ditemukan'); return; }
-  const other = userSnap.data();
-  if ((other.blocked || []).includes(STATE.uid)) { toast('Tidak dapat mengirim pesan'); return; }
-  if (other.privacy?.whoCanMessage === 'nobody') { toast('Pengguna menutup permintaan pesan'); return; }
-  const pendingFor = other.privacy?.whoCanMessage === 'contacts' ? [otherUid] : [];
-  try {
-    const chatRef = await addDoc(collection(db, 'chats'), {
-      type: 'direct',
-      members: [STATE.uid, otherUid],
-      memberNames: { [STATE.uid]: STATE.me.displayName, [otherUid]: other.displayName },
-      memberPhotos: { [STATE.uid]: STATE.me.photoURL || '', [otherUid]: other.photoURL || '' },
-      memberUsernames: { [STATE.uid]: STATE.me.username, [otherUid]: other.username },
-      memberVerified: { [otherUid]: other.isVerified || false },
-      pendingFor: pendingFor, lastMessage: null, unread: {},
-      createdAt: serverTimestamp(), updatedAt: serverTimestamp()
-    });
-    await new Promise(r => setTimeout(r, 500));
-    const fresh = await getDoc(chatRef);
-    if (fresh.exists()) proceedOpenChat(chatRef.id, { id: chatRef.id, ...fresh.data() }, replyContext);
-  } catch (e) { toast('Gagal: ' + e.message); }
-}
-
-function openNewChatModal() {
+function openNewChatModal(){
   showModal(`
     <div class="modal-header"><h3>Chat Baru</h3></div>
     <div class="modal-body">
-      <input type="text" id="nc-search" placeholder="Cari username…" class="input-wrap" style="padding:10px;width:100%">
-      <div id="nc-results" style="margin-top:10px"></div>
+      <label class="field"><span>Cari username</span><div class="input-wrap"><span class="prefix">@</span><input id="nc-user" placeholder="username"></div></label>
+      <div id="nc-results"></div>
     </div>
-    <div class="modal-footer"><button class="btn btn-soft" onclick="closeModal()">Tutup</button></div>
-  `, root => {
-    const input = root.querySelector('#nc-search');
-    const res = root.querySelector('#nc-results');
-    let t;
-    input.addEventListener('input', () => {
+    <div class="modal-footer"><button class="btn btn-soft" id="nc-cancel">Batal</button></div>
+  `,root=>{
+    const input=root.querySelector('#nc-user');
+    const results=root.querySelector('#nc-results');
+    root.querySelector('#nc-cancel').onclick=closeModal;
+    let t=null;
+    input.addEventListener('input',()=>{
       clearTimeout(t);
-      t = setTimeout(async () => {
-        const q = input.value.toLowerCase().trim();
-        if (q.length < 2) { res.innerHTML = '<p class="muted small center" style="padding:10px">Ketik minimal 2 karakter</p>'; return; }
-        try {
-          const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(10)));
-          res.innerHTML = snap.docs.filter(d => d.id !== STATE.uid).map(d => {
-            const u = d.data();
-            return `<div class="search-result" data-start-chat="${d.id}">${avatarHTML(u.displayName, u.photoURL, 'sm')}<div class="info"><strong>${esc(u.displayName)}${u.isVerified?BLUE_TICK_SVG:''}</strong><span>@${esc(u.username)}</span></div></div>`;
-          }).join('') || '<p class="muted small center" style="padding:10px">Tidak ditemukan</p>';
-          res.querySelectorAll('[data-start-chat]').forEach(el => {
-            el.onclick = () => { closeModal(); startChatWith(el.dataset.startChat); };
-          });
-        } catch(e) { res.innerHTML = '<p class="muted small center" style="padding:10px">Gagal mencari</p>'; }
-      }, 300);
+      t=setTimeout(async()=>{
+        const u=input.value.toLowerCase().trim();
+        if(u.length<2){results.innerHTML='';return;}
+        const snap=await getDocs(query(collection(db,'usernames'),limit(20)));
+        const matches=[];
+        snap.forEach(d=>{if(d.id.includes(u)&&d.id!==STATE.me.username)matches.push({username:d.id,uid:d.data().uid});});
+        results.innerHTML=matches.length?matches.slice(0,8).map(m=>`<div class="search-result" data-uid="${esc(m.uid)}"><div class="avatar sm">${esc(initialsFor(m.username))}</div><div class="info"><strong>@${esc(m.username)}</strong></div></div>`).join(''):'<p class="muted small">Tidak ditemukan</p>';
+        results.querySelectorAll('.search-result').forEach(el=>el.onclick=()=>{const uid=el.dataset.uid;closeModal();openChatWithUser(uid,'');});
+      },300);
     });
-    input.focus();
   });
 }
 
-function openNewGroupModal() {
-  showModal(`
-    <div class="modal-header"><h3>Grup Baru</h3></div>
-    <div class="modal-body">
-      <label class="field"><span>Nama Grup</span>
-        <input id="ng-name" class="input-wrap" style="padding:10px;width:100%" placeholder="Nama grup">
-      </label>
-      <label class="field"><span>Cari anggota</span>
-        <input id="ng-search" class="input-wrap" style="padding:10px;width:100%" placeholder="Username…">
-      </label>
-      <div id="ng-selected" style="display:flex;flex-wrap:wrap;gap:6px"></div>
-      <div id="ng-results"></div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn btn-soft" onclick="closeModal()">Batal</button>
-      <button class="btn btn-primary" id="ng-create">Buat Grup</button>
-    </div>
-  `, root => {
-    const selected = new Map();
-    const input = root.querySelector('#ng-search');
-    const res = root.querySelector('#ng-results');
-    const selBox = root.querySelector('#ng-selected');
-    let t;
-    const renderSel = () => {
-      selBox.innerHTML = Array.from(selected.values()).map(u => 
-        `<span class="alias-chip">${esc(u.displayName)} <b style="cursor:pointer;color:var(--danger)" data-rm="${u.uid}">×</b></span>`
-      ).join('');
-      selBox.querySelectorAll('[data-rm]').forEach(b => b.onclick = () => { selected.delete(b.dataset.rm); renderSel(); });
-    };
-    input.addEventListener('input', () => {
-      clearTimeout(t);
-      t = setTimeout(async () => {
-        const q = input.value.toLowerCase().trim();
-        if (q.length < 2) { res.innerHTML = ''; return; }
-        try {
-          const snap = await getDocs(query(collection(db, 'users'), where('username', '>=', q), where('username', '<=', q + '\uf8ff'), limit(8)));
-          res.innerHTML = snap.docs.filter(d => d.id !== STATE.uid && !selected.has(d.id)).map(d => {
-            const u = d.data();
-            return `<div class="search-result" data-pick="${d.id}">${avatarHTML(u.displayName,u.photoURL,'sm')}<div class="info"><strong>${esc(u.displayName)}</strong><span>@${esc(u.username)}</span></div></div>`;
-          }).join('') || '<p class="muted small center" style="padding:10px">Tidak ditemukan</p>';
-          res.querySelectorAll('[data-pick]').forEach(el => {
-            el.onclick = () => {
-              const u = snap.docs.find(d => d.id === el.dataset.pick)?.data();
-              if (u) { selected.set(el.dataset.pick, { uid: el.dataset.pick, ...u }); renderSel(); input.value = ''; res.innerHTML = ''; }
-            };
-          });
-        } catch(e) { res.innerHTML = ''; }
-      }, 300);
-    });
-    root.querySelector('#ng-create').onclick = async () => {
-      const name = root.querySelector('#ng-name').value.trim();
-      if (!name) return toast('Nama grup wajib');
-      if (selected.size === 0) return toast('Pilih minimal 1 anggota');
-      const members = [STATE.uid, ...Array.from(selected.keys())];
-      const memberNames = { [STATE.uid]: STATE.me.displayName };
-      const memberPhotos = { [STATE.uid]: STATE.me.photoURL || '' };
-      const memberUsernames = { [STATE.uid]: STATE.me.username };
-      selected.forEach(u => {
-        memberNames[u.uid] = u.displayName;
-        memberPhotos[u.uid] = u.photoURL || '';
-        memberUsernames[u.uid] = u.username;
-      });
-      const btn = root.querySelector('#ng-create');
-      btn.disabled = true; btn.textContent = 'Membuat…';
-      try {
-        const ref = await addDoc(collection(db, 'chats'), {
-          type: 'group', name, members,
-          memberNames, memberPhotos, memberUsernames,
-          createdBy: STATE.uid, admins: [],
-          onlyAdminsCanChat: false, whoCanAddMembers: 'everyone',
-          unread: {}, createdAt: serverTimestamp(), updatedAt: serverTimestamp(),
-          lastMessage: { text: 'Grup dibuat', senderId: STATE.uid, senderName: STATE.me.displayName, createdAt: serverTimestamp() }
-        });
-        await addDoc(collection(db, 'chats', ref.id, 'messages'), {
-          type: 'system', text: `${STATE.me.displayName} membuat grup`, createdAt: serverTimestamp()
-        });
-        toast('Grup dibuat');
-        closeModal();
-        await new Promise(r => setTimeout(r, 500));
-        const fresh = await getDoc(ref);
-        if (fresh.exists()) proceedOpenChat(ref.id, { id: ref.id, ...fresh.data() });
-      } catch(e) {
-        toast('Gagal: ' + e.message);
-        btn.disabled = false; btn.textContent = 'Buat Grup';
-      }
-    };
+/* ============================================================
+   EVENT BINDINGS
+   ============================================================ */
+function bindUI(){
+  // Auth tabs
+  $$('[data-auth]').forEach(btn=>btn.addEventListener('click',()=>{
+    $$('[data-auth]').forEach(b=>b.classList.toggle('active',b===btn));
+    const isLogin=btn.dataset.auth==='login';
+    $('#form-login').classList.toggle('hidden',!isLogin);
+    $('#form-register').classList.toggle('hidden',isLogin);
+  }));
+
+  // Login
+  $('#form-login').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=$('#btn-login');btn.disabled=true;btn.textContent='Memuat…';
+    try{await loginUser($('#login-user').value,$('#login-pass').value);}
+    catch(err){toast('Login gagal: '+err.message);}
+    finally{btn.disabled=false;btn.textContent='Masuk';}
   });
+
+  // Register
+  $('#form-register').addEventListener('submit',async e=>{
+    e.preventDefault();
+    const btn=$('#btn-register');btn.disabled=true;btn.textContent='Memuat…';
+    try{await registerUser($('#reg-name').value,$('#reg-user').value,$('#reg-pass').value);}
+    catch(err){toast('Daftar gagal: '+err.message);}
+    finally{btn.disabled=false;btn.textContent='Buat Akun';}
+  });
+
+  // Tabs
+  $$('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>{
+    const tab=btn.dataset.tab;
+    $$('.nav-btn').forEach(b=>b.classList.toggle('active',b===btn));
+    $$('.tab-panel').forEach(p=>p.classList.toggle('active',p.id==='tab-'+tab));
+    const fab=$('#fab');if(fab)fab.style.display=(tab==='chats')?'':'none';
+  }));
+
+  // Theme
+  $('#toggle-dark-mode')?.addEventListener('change',e=>setTheme(e.target.checked?'dark':'light'));
+  $$('[data-accent-choice]').forEach(btn=>btn.addEventListener('click',()=>applyAccent(btn.dataset.accentChoice)));
+
+  // Top bar actions
+  $('#btn-switch-account')?.addEventListener('click',()=>{if(confirm('Keluar dari akun ini?'))signOut(auth);});
+  $('#btn-select-mode')?.addEventListener('click',()=>{
+    STATE.isSelectMode=!STATE.isSelectMode;
+    $('#search-container').classList.toggle('hidden',STATE.isSelectMode);
+    $('#select-container').classList.toggle('hidden',!STATE.isSelectMode);
+    $('#content').classList.toggle('select-mode-active',STATE.isSelectMode);
+    if(!STATE.isSelectMode)STATE.selectedChats.clear();
+    renderChatList();
+  });
+  $('#btn-cancel-select')?.addEventListener('click',()=>{
+    STATE.isSelectMode=false;STATE.selectedChats.clear();
+    $('#search-container').classList.remove('hidden');
+    $('#select-container').classList.add('hidden');
+    $('#content').classList.remove('select-mode-active');
+    renderChatList();
+  });
+  $('#btn-select-all')?.addEventListener('click',()=>{
+    STATE.chats.forEach(c=>STATE.selectedChats.add(c.id));renderChatList();
+  });
+  $('#btn-delete-selected')?.addEventListener('click',async()=>{
+    if(!STATE.selectedChats.size)return;
+    if(!confirm(`Hapus ${STATE.selectedChats.size} chat?`))return;
+    try{
+      await updateDoc(doc(db,'users',STATE.uid),{hiddenChats:arrayUnion(...STATE.selectedChats)});
+      STATE.selectedChats.clear();STATE.isSelectMode=false;
+      $('#search-container').classList.remove('hidden');
+      $('#select-container').classList.add('hidden');
+      $('#content').classList.remove('select-mode-active');
+      toast('Chat dihapus');
+    }catch(e){toast('Gagal: '+e.message);}
+  });
+
+  // Search
+  $('#search-input')?.addEventListener('input',renderChatList);
+
+  // FAB
+  $('#fab')?.addEventListener('click',openNewChatModal);
+
+  // Chat
+  $('#chat-back')?.addEventListener('click',closeChat);
+  $('#chat-header')?.addEventListener('click',e=>{
+    if(e.target.closest('button'))return;
+    if(!STATE.currentChat)return;
+    toast('Info chat: '+(STATE.currentChat.name||''));
+  });
+  $('#composer')?.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const input=$('#chat-input');
+    const text=input.value.trim();
+    if(!text)return;
+    input.value='';
+    await sendMessage(text);
+  });
+  $('#btn-attach')?.addEventListener('click',()=>$('#chat-media-input').click());
+  $('#chat-media-input')?.addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    try{const url=await uploadToCloudinary(file);await sendMessage('',{mediaURL:url,mediaType:file.type.startsWith('video/')?'video':'image'});}
+    catch(err){toast('Upload gagal: '+err.message);}
+    e.target.value='';
+  });
+
+  // Status add
+  document.addEventListener('click',e=>{
+    const btn=e.target.closest('#status-add');
+    if(btn && !STATE.statuses.some(s=>s.userId===STATE.uid)){/* handled in strip */}
+  });
+  $('#status-media-input')?.addEventListener('change',e=>{
+    const file=e.target.files[0];if(!file)return;
+    openStatusEditor(file);
+    e.target.value='';
+  });
+
+  // Profile
+  $('#btn-edit-profile')?.addEventListener('click',openEditProfile);
+  $('#btn-change-photo')?.addEventListener('click',()=>$('#photo-input').click());
+  $('#photo-input')?.addEventListener('change',async e=>{
+    const file=e.target.files[0];if(!file)return;
+    try{
+      const url=await uploadToCloudinary(file);
+      await updateDoc(doc(db,'users',STATE.uid),{photoURL:url});
+      STATE.me.photoURL=url;updateProfileUI();toast('Foto diperbarui');
+    }catch(err){toast('Gagal: '+err.message);}
+    e.target.value='';
+  });
+  $('#priv-who')?.addEventListener('change',async e=>{
+    try{await updateDoc(doc(db,'users',STATE.uid),{'privacy.whoCanMessage':e.target.value});toast('Privasi diperbarui');}
+    catch(err){toast('Gagal: '+err.message);}
+  });
+  $('#btn-enable-notif')?.addEventListener('click',setupFCM);
+  $('#btn-logout')?.addEventListener('click',()=>{if(confirm('Keluar?'))signOut(auth);});
+  $('#btn-blocked-list')?.addEventListener('click',()=>{
+    showModal(`<div class="modal-header"><h3>Daftar Diblokir</h3></div><div class="modal-body"><p class="muted small">Belum ada pengguna diblokir.</p></div><div class="modal-footer"><button class="btn btn-soft" id="bl-cancel">Tutup</button></div>`,root=>{root.querySelector('#bl-cancel').onclick=closeModal;});
+  });
+
+  // Social
+  $('#social-add-media')?.addEventListener('click',()=>$('#social-media-input').click());
+  $('#social-media-input')?.addEventListener('change',e=>{
+    const file=e.target.files[0];if(!file)return;
+    socialSelectedFile=file;
+    $('#social-media-label').textContent=file.name;
+    e.target.value='';
+  });
+  $('#social-publish')?.addEventListener('click',openSocialComposer);
+  $('#social-my-profile')?.addEventListener('click',()=>openSocialProfile(STATE.uid));
 }
+
+bindUI();
 </script>
 </body>
 </html>
